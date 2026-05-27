@@ -82,7 +82,18 @@ function RaceCard({ race, id, active, onClick }) {
         <div style={{ display:"flex", alignItems:"center", gap:6, marginBottom:2 }}>
           {live && <span style={{ fontSize:9, fontWeight:700, letterSpacing:1.5, color:"#fff", background:id.color, padding:"2px 7px", borderRadius:4 }}>LIVE</span>}
           {done && race._hasResults && <span style={{ fontSize:9, fontWeight:600, color:id.textColor, background:id.bg, padding:"2px 6px", borderRadius:4 }}>RÉSULTATS ↓</span>}
-          {race.type === 'sprint' && (   <span style={{ fontSize:9, fontWeight:700, color:"#FF6B00", background:"#FFF0E0", padding:"2px 6px", borderRadius:4, letterSpacing:.5 }}>SPRINT</span> )} {race.type !== 'sprint' && race.round && (   <span style={{ fontSize:10, color:"#AAAAAA", fontWeight:600 }}>R{race.round}</span> )}
+          {race.type === 'sprint' && (
+            <span style={{ fontSize:9, fontWeight:700, color:'#FF6B00', background:'#FFF0E0', padding:'2px 6px', borderRadius:4, letterSpacing:.5 }}>SPRINT</span>
+          )}
+          {race.type === 'sprint_weekend' && race.series_id === 'MotoGP' && (
+            <span style={{ fontSize:9, fontWeight:600, color:'#888', background:'#F2F2F2', padding:'2px 6px', borderRadius:4, letterSpacing:.5 }}>+ SPRINT SAM.</span>
+          )}
+          {race.type === 'sprint_weekend' && race.series_id === 'F1' && (
+            <span style={{ fontSize:9, fontWeight:700, color:'#E8002D', background:'#FFF0F2', padding:'2px 6px', borderRadius:4, letterSpacing:.5 }}>SPRINT WE</span>
+          )}
+          {(race.type !== 'sprint' && race.type !== 'sprint_weekend') && race.round && (
+            <span style={{ fontSize:10, color:'#AAAAAA', fontWeight:600 }}>R{race.round}</span>
+          )}
         </div>
         <div style={{ fontSize:14, fontWeight:700, color: done ? "#999" : "#111", whiteSpace:"nowrap", overflow:"hidden", textOverflow:"ellipsis", fontFamily:"'Barlow Condensed', sans-serif" }}>
           {race.name}
