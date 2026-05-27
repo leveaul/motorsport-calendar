@@ -1,0 +1,46 @@
+name: Execute SQL on Supabase
+
+on:
+  push:
+    paths:
+      - 'sql/pending/*.sql'
+
+jobs:
+  execute-sql:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Execute new SQL files
+        run: |
+          FILES=$(git diff --name-only HEAD~1 HEAD -- 'sql/pending/*.sql')
+          echo "Files to execute: $FILES"
+          for FILE in $FILES; do
+            [ -f "$FILE" ] || continue
+            echo "--- Executing: $FILE ---"
+            JSON_SQL=$(python3 -c "import json; print(json.dumps(open('$FILE').read()))")
+            RESPONSE=$(curl -s -X POST "${{ secrets.SUPABASE_URL }}/functions/v1/execute-sql" \
+              -H "Authorization: Bearer ${{ secrets.SUPABASE_SERVICE_KEY }}" \
+              -H "Content-Type: application/json" \
+              -H "x-secret: motorsport2026" \
+              -d "{\"sql\": $JSON_SQL}")
+            echo "Response: $RESPONSE"
+            echo "$RESPONSE" | grep -q '"ok"' && echo "SUCCESS" || (echo "FAILED" && exit 1)
+          done
+
+      - name: Archive executed SQL
+        run: |
+          git config user.email "bot@motorsport.app"
+          git config user.name "Motorsport Bot"
+          FILES=$(git diff --name-only HEAD~1 HEAD -- 'sql/pending/*.sql')
+          mkdir -p sql/done
+          CHANGED=0
+          for FILE in $FILES; do
+            [ -f "$FILE" ] && git mv "$FILE" "sql/done/$(basename $FILE)" && CHANGED=1
+          done
+          [ $CHANGED -eq 1 ] && git commit -m "chore: archive executed SQL [skip ci]" && git push || echo "Nothing to archive"
