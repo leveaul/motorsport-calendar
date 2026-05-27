@@ -44,57 +44,32 @@ function Flag({ country, size=20 }) {
 
 // ── Circuit track SVGs (paths dessinés à la main pour chaque circuit) ────
 const TRACK_SVGS = {
-  // Monaco — tracé caractéristique en épingle
-  monaco: `<path d="M35 115 L35 95 Q35 80 42 72 L55 60 Q65 52 78 50 L100 48 Q115 48 128 55 L148 68 Q160 78 160 92 L158 108 Q154 120 142 126 L118 132 Q100 135 82 130 L60 122 Q42 118 35 115Z" stroke="COLOR" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`,
-
-  // Silverstone — forme caractéristique papillon
-  silverstone: `<path d="M25 95 L28 72 Q32 58 48 50 L72 42 Q88 38 105 40 L128 46 Q148 54 158 68 L164 85 Q165 100 158 114 L142 126 Q122 134 100 134 L75 132 Q52 126 38 114 L27 102 Q24 98 25 95Z" stroke="COLOR" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`,
-
-  // Monza — ovale avec chicanes
-  monza: `<path d="M30 88 L30 52 Q30 36 46 32 L154 32 Q170 36 170 52 L170 88 Q170 108 154 112 L132 115 L132 90 L68 90 L68 115 L46 112 Q30 108 30 88Z" stroke="COLOR" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`,
-
-  // Spa — forme longue avec Eau Rouge
-  spa: `<path d="M22 118 L22 82 Q24 62 42 52 L68 38 Q88 30 110 36 L145 48 Q168 60 170 80 L168 104 Q162 124 142 130 L105 136 L98 108 L75 108 L68 136 L48 130 Q28 122 22 118Z" stroke="COLOR" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`,
-
-  // Suzuka — figure en 8 caractéristique
-  suzuka: `<path d="M28 105 L28 68 Q30 50 48 42 L82 34 Q98 32 112 40 L130 54 Q144 68 138 84 L122 94 Q106 102 90 94 L76 82 Q68 70 74 58 L90 48" stroke="COLOR" stroke-width="4.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-           <path d="M138 84 L152 100 Q160 115 152 128 L130 136 Q106 142 84 136 L58 126 Q36 116 28 105" stroke="COLOR" stroke-width="4.5" fill="none" stroke-linecap="round"/>`,
-
-  // Le Mans Sarthe — long circuit avec Mulsanne
-  lemans: `<path d="M18 128 L18 88 Q20 65 38 55 L68 44 Q90 38 115 40 L152 50 Q172 62 174 80 L170 100 L140 100 L140 80 L115 80 L115 100 L85 100 L85 80 L60 80 L60 128 Q40 132 18 128Z" stroke="COLOR" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`,
-
-  // Catalunya
-  catalunya: `<path d="M30 108 L30 78 Q32 60 50 52 L88 42 Q110 38 132 46 L158 60 Q172 74 170 94 L164 116 Q156 132 136 137 L94 140 Q62 138 46 126 L32 114 Q28 112 30 108Z" stroke="COLOR" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`,
-
-  // Jerez
-  jerez: `<path d="M35 112 L35 80 Q37 62 55 55 L92 44 Q115 40 138 50 L160 65 Q172 80 168 100 L160 122 Q148 138 125 141 L82 142 Q55 140 42 126 L35 112Z" stroke="COLOR" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`,
-
-  // Mugello
-  mugello: `<path d="M28 112 L28 75 Q30 55 52 46 L88 36 Q112 30 138 40 L162 58 Q175 75 172 98 L164 120 Q152 138 128 142 L84 144 Q52 142 38 126 L28 112Z" stroke="COLOR" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`,
-
-  // Buriram Thailand
-  buriram: `<path d="M30 105 L30 70 Q32 52 52 45 L95 38 Q120 36 140 46 L162 62 Q172 78 168 98 L158 120 Q146 135 122 138 L80 140 Q52 138 38 124 L30 105Z" stroke="COLOR" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`,
-
-  // Albert Park
-  albertpark: `<path d="M32 100 L32 72 Q34 55 52 48 L90 42 Q112 40 130 50 L158 66 Q172 80 168 98 L160 120 Q148 135 124 138 L82 140 Q54 138 40 124 L32 100Z" stroke="COLOR" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`,
-
-  // Red Bull Ring
-  redbullring: `<path d="M60 130 L30 105 Q22 88 28 68 L45 48 Q62 35 85 35 L130 38 Q155 44 168 65 L172 88 Q170 108 155 120 L130 130 L60 130Z" stroke="COLOR" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`,
-
-  // Yas Marina
-  yasmarina: `<path d="M25 100 L28 72 Q32 54 50 45 L88 36 Q115 32 140 42 L164 58 Q176 76 172 98 L160 122 Q144 138 118 142 L78 144 Q48 140 34 122 L25 100Z" stroke="COLOR" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`,
-
-  // Imola
-  imola: `<path d="M32 108 L32 78 Q34 60 54 52 L92 42 Q116 38 140 48 L162 64 Q174 80 170 100 L162 122 Q150 138 128 142 L86 144 Q56 140 42 126 L32 108Z" stroke="COLOR" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`,
-
-  // Circuit Paul Ricard
-  paulricard: `<path d="M25 108 L25 75 Q27 55 48 46 L88 36 Q115 32 142 42 L166 60 Q178 78 174 100 L166 124 Q152 140 128 144 L82 146 Q50 142 36 126 L25 108Z" stroke="COLOR" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`,
-
-  // Tracé générique
-  default: `<path d="M30 108 Q28 80 48 64 L88 50 Q118 42 148 58 L170 80 Q178 102 165 122 L138 136 Q106 144 76 136 L48 122 Q28 114 30 108Z" stroke="COLOR" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`,
+  monaco: `<path d="M 100,140 L 60,140 L 40,125 L 38,105 L 45,90 L 55,82 L 75,78 L 90,72 L 95,60 L 88,50 L 100,38 L 118,35 L 140,42 L 155,55 L 160,72 L 155,90 L 145,102 L 130,110 L 115,115 L 100,140 Z" stroke="COLOR" stroke-width="4.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M 88,50 L 78,45 L 72,52 L 80,60 L 90,72" stroke="COLOR" stroke-width="4.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`,
+  silverstone: `<path d="M 30,100 L 32,80 L 42,65 L 58,55 L 78,50 L 100,48 L 122,50 L 142,58 L 158,70 L 164,85 L 162,100 L 155,115 L 140,125 L 120,130 L 100,132 L 80,130 L 62,122 L 46,112 L 34,104 L 30,100 Z" stroke="COLOR" stroke-width="4.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M 100,48 L 102,35 L 115,30 L 128,35 L 130,48" stroke="COLOR" stroke-width="4" fill="none" stroke-linecap="round"/>`,
+  monza: `<path d="M 30,95 L 30,55 Q 30,35 50,32 L 150,32 Q 170,35 170,55 L 170,95 Q 170,115 150,118 L 50,118 Q 30,115 30,95 Z" stroke="COLOR" stroke-width="4.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M 90,32 L 85,50 L 75,55 L 85,60 L 90,78" stroke="COLOR" stroke-width="4" fill="none" stroke-linecap="round"/><path d="M 125,32 L 120,50 L 112,55 L 122,60 L 125,78" stroke="COLOR" stroke-width="4" fill="none" stroke-linecap="round"/>`,
+  spa: `<path d="M 25,120 L 25,85 L 35,65 L 55,48 L 80,38 L 108,35 L 135,42 L 158,58 L 168,78 L 165,100 L 155,118 L 135,128 L 108,134 L 80,132 L 55,124 L 35,118 L 25,120" stroke="COLOR" stroke-width="4.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M 55,48 L 68,62 L 80,70 L 78,85 L 68,90 L 78,98" stroke="COLOR" stroke-width="4" fill="none" stroke-linecap="round"/>`,
+  suzuka: `<path d="M 30,108 L 30,72 L 38,55 L 52,44 L 72,38 L 92,36 L 110,40 L 126,52 L 135,68 L 130,84 L 118,94 L 100,100 L 84,94 L 72,82 L 72,68 L 80,56 L 94,48" stroke="COLOR" stroke-width="4.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M 135,68 L 148,80 L 155,96 L 150,112 L 136,122 L 115,128 L 90,130 L 66,124 L 48,114 L 35,108 L 30,108" stroke="COLOR" stroke-width="4.5" fill="none" stroke-linecap="round"/>`,
+  lemans: `<path d="M 22,130 L 22,95 L 28,72 L 42,55 L 65,44 L 95,38 L 125,38 L 155,44 L 172,58 L 175,78 L 168,96 L 148,108 L 148,90 L 108,90 L 108,108 L 85,115 L 65,120 L 42,128 L 22,130" stroke="COLOR" stroke-width="4.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`,
+  paulricard: `<path d="M 28,112 L 28,78 L 35,60 L 52,46 L 78,38 L 108,35 L 138,40 L 160,55 L 170,75 L 168,98 L 158,118 L 138,130 L 108,135 L 78,132 L 50,122 L 32,115 L 28,112" stroke="COLOR" stroke-width="4.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`,
+  catalunya: `<path d="M 32,108 L 32,80 L 40,62 L 58,50 L 82,42 L 108,40 L 135,46 L 155,60 L 165,80 L 162,100 L 152,118 L 132,130 L 105,135 L 78,132 L 52,122 L 36,112 L 32,108" stroke="COLOR" stroke-width="4.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`,
+  jerez: `<path d="M 38,112 L 38,80 L 46,62 L 62,50 L 85,44 L 108,42 L 132,48 L 152,62 L 162,80 L 160,100 L 150,118 L 130,130 L 105,135 L 78,132 L 55,122 L 42,115 L 38,112" stroke="COLOR" stroke-width="4.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`,
+  mugello: `<path d="M 30,112 L 30,78 L 38,58 L 55,44 L 80,36 L 108,34 L 135,40 L 158,55 L 168,75 L 166,98 L 155,118 L 132,132 L 102,138 L 72,134 L 48,122 L 34,115 L 30,112" stroke="COLOR" stroke-width="4.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M 108,34 L 110,50 L 125,54 L 110,58" stroke="COLOR" stroke-width="3.5" fill="none" stroke-linecap="round"/>`,
+  buriram: `<path d="M 32,108 L 32,72 L 40,54 L 58,44 L 85,38 L 112,36 L 138,42 L 158,56 L 168,76 L 165,98 L 154,118 L 132,132 L 102,138 L 72,134 L 48,122 L 36,112 L 32,108" stroke="COLOR" stroke-width="4.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`,
+  albertpark: `<path d="M 35,105 L 35,75 L 42,58 L 58,46 L 80,40 L 105,38 L 130,44 L 152,58 L 162,78 L 160,100 L 150,118 L 128,130 L 100,135 L 72,130 L 50,120 L 38,110 L 35,105" stroke="COLOR" stroke-width="4.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`,
+  redbullring: `<path d="M 58,132 L 30,108 L 28,85 L 38,65 L 55,50 L 80,40 L 108,38 L 135,45 L 155,62 L 162,85 L 158,108 L 142,125 L 115,133 L 88,135 L 65,133 L 58,132" stroke="COLOR" stroke-width="4.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`,
+  imola: `<path d="M 35,112 L 35,80 L 42,62 L 58,48 L 82,40 L 108,38 L 135,44 L 155,60 L 164,80 L 160,102 L 148,120 L 126,132 L 98,136 L 70,132 L 48,120 L 38,114 L 35,112" stroke="COLOR" stroke-width="4.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M 82,40 L 80,56 L 92,60 L 80,68" stroke="COLOR" stroke-width="3.5" fill="none" stroke-linecap="round"/>`,
+  yasmarina: `<path d="M 28,105 L 30,75 L 40,55 L 58,42 L 85,36 L 115,36 L 142,44 L 162,60 L 170,80 L 166,102 L 152,120 L 128,132 L 98,136 L 68,130 L 45,118 L 32,110 L 28,105" stroke="COLOR" stroke-width="4.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M 142,44 L 155,35 L 165,42 L 162,60" stroke="COLOR" stroke-width="3.5" fill="none" stroke-linecap="round"/>`,
+  cota: `<path d="M 35,115 L 32,88 L 38,68 L 55,52 L 78,42 L 105,40 L 130,46 L 152,62 L 162,82 L 158,105 L 144,122 L 120,132 L 92,135 L 65,128 L 45,118 L 35,115" stroke="COLOR" stroke-width="4.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M 105,40 L 108,25 L 120,22 L 125,35" stroke="COLOR" stroke-width="3.5" fill="none" stroke-linecap="round"/>`,
+  baku: `<path d="M 25,115 L 25,85 L 32,62 L 48,46 L 72,36 L 102,32 L 135,36 L 162,52 L 172,75 L 168,100 L 152,120 L 125,132 L 95,136 L 65,130 L 40,118 L 25,115" stroke="COLOR" stroke-width="4.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`,
+  hungaroring: `<path d="M 32,108 L 32,75 L 40,56 L 58,44 L 82,38 L 108,36 L 135,42 L 155,58 L 166,78 L 163,100 L 152,120 L 128,132 L 100,136 L 72,132 L 48,120 L 36,112 L 32,108" stroke="COLOR" stroke-width="4.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`,
+  zandvoort: `<path d="M 45,118 L 30,100 L 30,72 L 40,54 L 58,42 L 85,36 L 115,38 L 140,48 L 158,65 L 165,88 L 160,110 L 145,126 L 118,135 L 88,135 L 62,128 L 48,120 L 45,118" stroke="COLOR" stroke-width="4.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`,
+  marinabay: `<path d="M 28,115 L 28,82 L 38,62 L 55,48 L 80,40 L 105,38 L 132,44 L 155,60 L 165,82 L 162,105 L 148,122 L 122,132 L 95,135 L 65,128 L 42,118 L 28,115" stroke="COLOR" stroke-width="4.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`,
+  losail: `<path d="M 30,110 L 30,75 L 38,56 L 55,42 L 80,36 L 108,34 L 135,40 L 155,55 L 165,75 L 163,98 L 152,118 L 128,130 L 100,135 L 72,130 L 48,120 L 35,113 L 30,110" stroke="COLOR" stroke-width="4.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`,
+  gillesvilleneuve: `<path d="M 55,130 L 30,108 L 30,78 L 40,58 L 58,44 L 85,36 L 125,36 L 152,48 L 165,68 L 162,95 L 148,118 L 120,132 L 55,130" stroke="COLOR" stroke-width="4.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M 85,36 L 88,55 L 100,58 L 88,65" stroke="COLOR" stroke-width="3.5" fill="none" stroke-linecap="round"/>`,
+  interlagos: `<path d="M 42,120 L 28,102 L 28,72 L 38,52 L 58,40 L 88,35 L 118,38 L 145,52 L 162,72 L 162,95 L 148,115 L 122,130 L 90,135 L 62,128 L 42,120" stroke="COLOR" stroke-width="4.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`,
+  default: `<path d="M 30,110 L 30,80 L 40,62 L 58,50 L 82,42 L 108,40 L 135,46 L 155,62 L 164,82 L 160,105 L 148,122 L 122,132 L 95,136 L 65,128 L 45,118 L 30,110" stroke="COLOR" stroke-width="4.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`,
 };
 
-// Associer un circuit à son tracé SVG
 function getTrackKey(circuit) {
   if (!circuit) return "default";
   const c = circuit.toLowerCase();
@@ -103,17 +78,24 @@ function getTrackKey(circuit) {
   if (c.includes("monza")) return "monza";
   if (c.includes("spa")) return "spa";
   if (c.includes("suzuka")) return "suzuka";
-  if (c.includes("sarthe") || (c.includes("mans") && c.includes("24"))) return "lemans";
-  if (c.includes("bugatti") || (c.includes("mans") && c.includes("bugatti"))) return "paulricard";
-  if (c.includes("paul ricard") || c.includes("castellet")) return "paulricard";
+  if (c.includes("sarthe") || (c.includes("mans") && !c.includes("bugatti"))) return "lemans";
+  if (c.includes("bugatti") || c.includes("castellet") || c.includes("paul ricard")) return "paulricard";
   if (c.includes("catalunya") || c.includes("barcelona")) return "catalunya";
   if (c.includes("jerez")) return "jerez";
   if (c.includes("mugello")) return "mugello";
   if (c.includes("buriram") || c.includes("chang")) return "buriram";
   if (c.includes("albert park")) return "albertpark";
   if (c.includes("red bull ring") || c.includes("spielberg")) return "redbullring";
-  if (c.includes("yas marina")) return "yasmarina";
   if (c.includes("imola")) return "imola";
+  if (c.includes("yas marina")) return "yasmarina";
+  if (c.includes("americas") || c.includes("cota")) return "cota";
+  if (c.includes("baku") || c.includes("azerbaïdjan") || c.includes("azerbaijan")) return "baku";
+  if (c.includes("hungaroring") || c.includes("budapest")) return "hungaroring";
+  if (c.includes("zandvoort")) return "zandvoort";
+  if (c.includes("marina bay") || c.includes("singapore")) return "marinabay";
+  if (c.includes("lusail") || c.includes("losail") || c.includes("qatar")) return "losail";
+  if (c.includes("gilles villeneuve") || c.includes("montreal") || c.includes("montréal")) return "gillesvilleneuve";
+  if (c.includes("interlagos") || c.includes("são paulo") || c.includes("sao paulo")) return "interlagos";
   return "default";
 }
 
