@@ -200,26 +200,41 @@ function getTrackKey(circuit) {
 function TrackSVG({ circuit, color, size=140 }) {
   const key = getTrackKey(circuit);
   const imgUrl = key ? TRACK_IMAGES[key] : null;
-  const [error, setError] = useState(false);
-  
-  if (imgUrl && !error) {
-    return (
-      <div style={{ width:size, height:size*0.75, display:"flex", alignItems:"center", justifyContent:"center" }}>
-        <img 
+  const [status, setStatus] = useState("loading"); // loading | ok | error
+
+  useEffect(() => { setStatus("loading"); }, [circuit]);
+
+  if (!imgUrl) return (
+    <div style={{ width:size, height:size*0.75, display:"flex", alignItems:"center", justifyContent:"center" }}>
+      <div style={{ fontSize:10, color:"#CCC", textAlign:"center" }}>{circuit || "Circuit"}</div>
+    </div>
+  );
+
+  return (
+    <div style={{ width:size, height:size*0.75, display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", gap:6 }}>
+      {status !== "error" && (
+        <img
           src={imgUrl}
           alt={circuit}
-          onError={() => setError(true)}
-          style={{ maxWidth:"100%", maxHeight:"100%", objectFit:"contain", opacity:0.85 }}
+          onLoad={() => setStatus("ok")}
+          onError={() => setStatus("error")}
+          style={{ maxWidth:"100%", maxHeight:"100%", objectFit:"contain", display: status==="error" ? "none" : "block" }}
+          crossOrigin="anonymous"
         />
-      </div>
-    );
-  }
-  // Fallback : nom du circuit
-  return (
-    <div style={{ width:size, height:size*0.75, display:"flex", alignItems:"center", justifyContent:"center" }}>
-      <div style={{ fontSize:10, color:"#CCC", textAlign:"center", padding:8, fontFamily:"'Barlow Condensed',sans-serif" }}>
-        {circuit || "Circuit"}
-      </div>
+      )}
+      {status === "error" && (
+        <a
+          href={imgUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ display:"flex", flexDirection:"column", alignItems:"center", gap:4, textDecoration:"none" }}
+        >
+          <div style={{ fontSize:28 }}>🏁</div>
+          <div style={{ fontSize:10, fontWeight:700, color:color, border:`1px solid ${color}`, borderRadius:6, padding:"3px 8px", textAlign:"center" }}>
+            Voir le tracé ↗
+          </div>
+        </a>
+      )}
     </div>
   );
 }
