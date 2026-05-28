@@ -43,37 +43,32 @@ function Flag({ country, size=20 }) {
 }
 
 // -- Circuit track SVGs (paths dessinés à la main pour chaque circuit) ----
-// -- Vraies images de circuits depuis Wikimedia Commons --------------------
+
 const TRACK_IMAGES = {
-  // -- Hébergées dans le repo (CDN jsDelivr, sans restriction CORS) --------─
   monaco:       "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/monaco.webp",
+  silverstone:  "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/silverstone.webp",
   monza:        "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/monza.webp",
+  spa:          "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/spa.webp",
   suzuka:       "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/suzuka.webp",
   albertpark:   "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/albertpark.webp",
   redbullring:  "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/redbullring.webp",
-  zandvoort:    "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/zandvoort.webp",
-  imola:        "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/imola.webp",
-  baku:         "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/baku.webp",
-  marinabay:    "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/marinabay.webp",
-  montreal:     "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/montreal.webp",
-  jeddah:       "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/jeddah.webp",
-  shanghai:     "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/shanghai.webp",
-  mexicocity:   "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/mexicocity.webp",
-
-  // -- À ajouter après upload (run push_tracks.py) --------------------------─
-  silverstone:  "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/silverstone.webp",
-  spa:          "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/spa.webp",
   barcelona:    "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/barcelona.webp",
+  zandvoort:    "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/zandvoort.webp",
   hungaroring:  "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/hungaroring.webp",
+  imola:        "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/imola.webp",
   yasmarina:    "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/yasmarina.webp",
   cota:         "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/cota.webp",
+  baku:         "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/baku.webp",
   losail:       "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/losail.webp",
+  marinabay:    "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/marinabay.webp",
+  montreal:     "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/montreal.webp",
   interlagos:   "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/interlagos.webp",
+  jeddah:       "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/jeddah.webp",
   miami:        "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/miami.webp",
   lasvegas:     "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/lasvegas.webp",
+  shanghai:     "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/shanghai.webp",
   bahrain:      "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/bahrain.webp",
-
-  // -- MotoGP / WEC / ELMS / GTWCE ------------------------------------------
+  mexicocity:   "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/mexicocity.webp",
   mugello:      "https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/Mugello_Circuit.svg/320px-Mugello_Circuit.svg.png",
   jerez:        "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Circuito_de_Jerez_track_map.svg/320px-Circuito_de_Jerez_track_map.svg.png",
   buriram:      "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Chang_International_Circuit_track_map.svg/320px-Chang_International_Circuit_track_map.svg.png",
@@ -82,167 +77,6 @@ const TRACK_IMAGES = {
   portimao:     "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Algarve_International_Circuit_track_map.svg/320px-Algarve_International_Circuit_track_map.svg.png",
   nurburgring:  "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/N%C3%BCrburgring_Grand_Prix_Strecke.svg/320px-N%C3%BCrburgring_Grand_Prix_Strecke.svg.png",
 };
-
-mport { useState, useEffect } from "react";
-
-const SUPABASE_URL = "https://qgdcutklhgnlcrxuvgkn.supabase.co";
-const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFnZGN1dGtsaGdubGNyeHV2Z2tuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk4NzQ0NjAsImV4cCI6MjA5NTQ1MDQ2MH0.ltV5jlQfoF4OS6078lwwRAV-q-IDN7biLzHzM1tkUI8";
-const H = { "apikey": SUPABASE_KEY, "Authorization": `Bearer ${SUPABASE_KEY}` };
-async function sb(path) {
-  const r = await fetch(`${SUPABASE_URL}/rest/v1/${path}`, { headers: H });
-  if (!r.ok) throw new Error(await r.text());
-  return r.json();
-}
-
-// -- Series identity ------------------------------------------------------─
-const SERIES_ID = {
-  F1:    { label:"Formula 1",    color:"#E8002D", bg:"#FFF0F2", text:"#B0001F", icon:"🏎️", heroEmoji:"🏎️" },
-  MotoGP:{ label:"MotoGP",       color:"#D50032", bg:"#FFF0F1", text:"#A50027", icon:"🏍️", heroEmoji:"🏍️" },
-  WEC:   { label:"FIA WEC",      color:"#0066CC", bg:"#EFF6FF", text:"#004A9E", icon:"⏱️", heroEmoji:"⏱️" },
-  ELMS:  { label:"ELMS",         color:"#00833E", bg:"#EDFAF3", text:"#006030", icon:"🏁", heroEmoji:"🏁" },
-  IMSA:  { label:"IMSA",         color:"#0033A0", bg:"#EEF2FF", text:"#002280", icon:"🏆", heroEmoji:"🏆" },
-  GTWCE: { label:"GT WC Europe", color:"#FF6600", bg:"#FFF4EE", text:"#CC4400", icon:"🏆", heroEmoji:"🏆" },
-};
-
-// -- Country → flag image (flagcdn.com) ----------------------------------─
-const COUNTRY_CODES = {
-  "Australie":"au","Chine":"cn","Japon":"jp","États-Unis":"us","Canada":"ca",
-  "Monaco":"mc","Espagne":"es","Autriche":"at","Angleterre":"gb","Grande-Bretagne":"gb",
-  "Belgique":"be","Hongrie":"hu","Pays-Bas":"nl","Italie":"it","Azerbaïdjan":"az",
-  "Singapour":"sg","Mexique":"mx","Brésil":"br","Qatar":"qa","Abu Dhabi":"ae",
-  "Bahreïn":"bh","Thaïlande":"th","Indonésie":"id","Malaisie":"my","France":"fr",
-  "Portugal":"pt","Allemagne":"de","Rép. Tchèque":"cz","Argentine":"ar",
-};
-
-function Flag({ country, size=20 }) {
-  const code = COUNTRY_CODES[country];
-  if (!code) return <span style={{ fontSize: size*0.7, lineHeight:1 }}>🏁</span>;
-  return (
-    <img
-      src={`https://flagcdn.com/w${size*2}/${code}.png`}
-      alt={country}
-      style={{ width: size*1.4, height: size, objectFit:"cover", borderRadius:2, display:"block" }}
-      onError={e => { e.target.style.display="none"; }}
-    />
-  );
-}
-
-// -- Circuit track SVGs (paths dessinés à la main pour chaque circuit) ----
-// -- Vraies images de circuits depuis Wikimedia Commons --------------------
-const TRACK_IMAGES = {
-  // -- F1 : images officielles media.formula1.com --------------------------
-  monaco:       "https://media.formula1.com/image/upload/c_fit,h_704/q_auto/v1740000001/common/f1/2026/track/2026trackmontecarlodetailed.webp",
-  silverstone:  "https://media.formula1.com/image/upload/c_fit,h_704/q_auto/v1740000001/common/f1/2026/track/2026tracksilvestonedetailed.webp",
-  monza:        "https://media.formula1.com/image/upload/c_fit,h_704/q_auto/v1740000001/common/f1/2026/track/2026trackmonzadetailed.webp",
-  spa:          "https://media.formula1.com/image/upload/c_fit,h_704/q_auto/v1740000001/common/f1/2026/track/2026trackspadetailed.webp",
-  suzuka:       "https://media.formula1.com/image/upload/c_fit,h_704/q_auto/v1740000001/common/f1/2026/track/2026tracksuzukadetailed.webp",
-  albertpark:   "https://media.formula1.com/image/upload/c_fit,h_704/q_auto/v1740000001/common/f1/2026/track/2026trackmelbournedetailed.webp",
-  redbullring:  "https://media.formula1.com/image/upload/c_fit,h_704/q_auto/v1740000001/common/f1/2026/track/2026trackspielbergdetailed.webp",
-  barcelona:    "https://media.formula1.com/image/upload/c_fit,h_704/q_auto/v1740000001/common/f1/2026/track/2026trackbarcelonadetailed.webp",
-  zandvoort:    "https://media.formula1.com/image/upload/c_fit,h_704/q_auto/v1740000001/common/f1/2026/track/2026trackzandvoortdetailed.webp",
-  hungaroring:  "https://media.formula1.com/image/upload/c_fit,h_704/q_auto/v1740000001/common/f1/2026/track/2026trackbudapestdetailed.webp",
-  imola:        "https://media.formula1.com/image/upload/c_fit,h_704/q_auto/v1740000001/common/f1/2026/track/2026trackimoladetailed.webp",
-  yasmarina:    "https://media.formula1.com/image/upload/c_fit,h_704/q_auto/v1740000001/common/f1/2026/track/2026trackabudhabildetailed.webp",
-  cota:         "https://media.formula1.com/image/upload/c_fit,h_704/q_auto/v1740000001/common/f1/2026/track/2026trackaustinadetailed.webp",
-  baku:         "https://media.formula1.com/image/upload/c_fit,h_704/q_auto/v1740000001/common/f1/2026/track/2026trackbakudetailed.webp",
-  losail:       "https://media.formula1.com/image/upload/c_fit,h_704/q_auto/v1740000001/common/f1/2026/track/2026tracklosaildetailed.webp",
-  marinabay:    "https://media.formula1.com/image/upload/c_fit,h_704/q_auto/v1740000001/common/f1/2026/track/2026tracksingaporedetailed.webp",
-  montreal:     "https://media.formula1.com/image/upload/c_fit,h_704/q_auto/v1740000001/common/f1/2026/track/2026trackmontrealdetailed.webp",
-  interlagos:   "https://media.formula1.com/image/upload/c_fit,h_704/q_auto/v1740000001/common/f1/2026/track/2026tracksaopaulodetailed.webp",
-  jeddah:       "https://media.formula1.com/image/upload/c_fit,h_704/q_auto/v1740000001/common/f1/2026/track/2026trackjeddahdetailed.webp",
-  miami:        "https://media.formula1.com/image/upload/c_fit,h_704/q_auto/v1740000001/common/f1/2026/track/2026trackmiamiddetailed.webp",
-  lasvegas:     "https://media.formula1.com/image/upload/c_fit,h_704/q_auto/v1740000001/common/f1/2026/track/2026tracklasvegas2detailed.webp",
-  shanghai:     "https://media.formula1.com/image/upload/c_fit,h_704/q_auto/v1740000001/common/f1/2026/track/2026trackshanghaidetailed.webp",
-  bahrain:      "https://media.formula1.com/image/upload/c_fit,h_704/q_auto/v1740000001/common/f1/2026/track/2026trackbahraindetailed.webp",
-  mexicocity:   "https://media.formula1.com/image/upload/c_fit,h_704/q_auto/v1740000001/common/f1/2026/track/2026trackmexicocitydetailed.webp",
-
-  // -- MotoGP / WEC / ELMS / GTWCE : Wikimedia thumbnail PNG --------------
-  mugello:      "https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/Mugello_Circuit.svg/320px-Mugello_Circuit.svg.png",
-  jerez:        "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Circuito_de_Jerez_track_map.svg/320px-Circuito_de_Jerez_track_map.svg.png",
-  buriram:      "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Chang_International_Circuit_track_map.svg/320px-Chang_International_Circuit_track_map.svg.png",
-  lemans:       "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Le_mans_circuit_2006.svg/320px-Le_mans_circuit_2006.svg.png",
-  paulricard:   "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Paul_Ricard_Circuit.svg/320px-Paul_Ricard_Circuit.svg.png",
-  portimao:     "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Algarve_International_Circuit_track_map.svg/320px-Algarve_International_Circuit_track_map.svg.png",
-  nurburgring:  "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/N%C3%BCrburgring_Grand_Prix_Strecke.svg/320px-N%C3%BCrburgring_Grand_Prix_Strecke.svg.png",
-};
-
-ort { useState, useEffect } from "react";
-
-const SUPABASE_URL = "https://qgdcutklhgnlcrxuvgkn.supabase.co";
-const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFnZGN1dGtsaGdubGNyeHV2Z2tuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk4NzQ0NjAsImV4cCI6MjA5NTQ1MDQ2MH0.ltV5jlQfoF4OS6078lwwRAV-q-IDN7biLzHzM1tkUI8";
-const H = { "apikey": SUPABASE_KEY, "Authorization": `Bearer ${SUPABASE_KEY}` };
-async function sb(path) {
-  const r = await fetch(`${SUPABASE_URL}/rest/v1/${path}`, { headers: H });
-  if (!r.ok) throw new Error(await r.text());
-  return r.json();
-}
-
-// -- Series identity ------------------------------------------------------─
-const SERIES_ID = {
-  F1:    { label:"Formula 1",    color:"#E8002D", bg:"#FFF0F2", text:"#B0001F", icon:"🏎️", heroEmoji:"🏎️" },
-  MotoGP:{ label:"MotoGP",       color:"#D50032", bg:"#FFF0F1", text:"#A50027", icon:"🏍️", heroEmoji:"🏍️" },
-  WEC:   { label:"FIA WEC",      color:"#0066CC", bg:"#EFF6FF", text:"#004A9E", icon:"⏱️", heroEmoji:"⏱️" },
-  ELMS:  { label:"ELMS",         color:"#00833E", bg:"#EDFAF3", text:"#006030", icon:"🏁", heroEmoji:"🏁" },
-  IMSA:  { label:"IMSA",         color:"#0033A0", bg:"#EEF2FF", text:"#002280", icon:"🏆", heroEmoji:"🏆" },
-  GTWCE: { label:"GT WC Europe", color:"#FF6600", bg:"#FFF4EE", text:"#CC4400", icon:"🏆", heroEmoji:"🏆" },
-};
-
-// -- Country → flag image (flagcdn.com) ----------------------------------─
-const COUNTRY_CODES = {
-  "Australie":"au","Chine":"cn","Japon":"jp","États-Unis":"us","Canada":"ca",
-  "Monaco":"mc","Espagne":"es","Autriche":"at","Angleterre":"gb","Grande-Bretagne":"gb",
-  "Belgique":"be","Hongrie":"hu","Pays-Bas":"nl","Italie":"it","Azerbaïdjan":"az",
-  "Singapour":"sg","Mexique":"mx","Brésil":"br","Qatar":"qa","Abu Dhabi":"ae",
-  "Bahreïn":"bh","Thaïlande":"th","Indonésie":"id","Malaisie":"my","France":"fr",
-  "Portugal":"pt","Allemagne":"de","Rép. Tchèque":"cz","Argentine":"ar",
-};
-
-function Flag({ country, size=20 }) {
-  const code = COUNTRY_CODES[country];
-  if (!code) return <span style={{ fontSize: size*0.7, lineHeight:1 }}>🏁</span>;
-  return (
-    <img
-      src={`https://flagcdn.com/w${size*2}/${code}.png`}
-      alt={country}
-      style={{ width: size*1.4, height: size, objectFit:"cover", borderRadius:2, display:"block" }}
-      onError={e => { e.target.style.display="none"; }}
-    />
-  );
-}
-
-// -- Circuit track SVGs (paths dessinés à la main pour chaque circuit) ----
-// -- Vraies images de circuits depuis Wikimedia Commons --------------------
-const TRACK_IMAGES = {
-  monaco:       "https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Monte_Carlo_Formula_1_track_map.svg/320px-Monte_Carlo_Formula_1_track_map.svg.png",
-  monza:        "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Monza_track_map.svg/320px-Monza_track_map.svg.png",
-  silverstone:  "https://upload.wikimedia.org/wikipedia/commons/a/a3/Silverstone_Circuit_2010.svg",
-  spa:          "https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Spa-Francorchamps_of_Belgium.svg/320px-Spa-Francorchamps_of_Belgium.svg.png",
-  suzuka:       "https://upload.wikimedia.org/wikipedia/commons/c/c3/Suzuka_circuit_map.svg",
-  albertpark:   "https://upload.wikimedia.org/wikipedia/commons/0/04/Albert_Park_circuit_map.svg",
-  redbullring:  "https://upload.wikimedia.org/wikipedia/commons/7/72/Red_Bull_Ring.svg",
-  barcelona:    "https://upload.wikimedia.org/wikipedia/commons/2/2e/Circuit_de_Barcelona_Catalunya.svg",
-  imola:        "https://upload.wikimedia.org/wikipedia/commons/2/22/Autodromo_Enzo_e_Dino_Ferrari_1995.svg",
-  zandvoort:    "https://upload.wikimedia.org/wikipedia/commons/0/06/Zandvoort_circuit_2020.svg",
-  hungaroring:  "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Hungaroring.svg/320px-Hungaroring.svg.png",
-  yasmarina:    "https://upload.wikimedia.org/wikipedia/commons/e/e8/Yas_Marina_Circuit.svg",
-  cota:         "https://upload.wikimedia.org/wikipedia/commons/0/09/Circuit_of_the_Americas_track_map.svg",
-  baku:         "https://upload.wikimedia.org/wikipedia/commons/1/1f/Baku_Formula_1_track_map.svg",
-  losail:       "https://upload.wikimedia.org/wikipedia/commons/1/17/Losail_International_Circuit_track_map.svg",
-  marinabay:    "https://upload.wikimedia.org/wikipedia/commons/0/0f/Singapore_F1_circuit_map.svg",
-  montreal:     "https://upload.wikimedia.org/wikipedia/commons/0/0b/Circuit_Gilles_Villeneuve.svg",
-  interlagos:   "https://upload.wikimedia.org/wikipedia/commons/f/f6/Aut%C3%B3dromo_Jos%C3%A9_Carlos_Pace.svg",
-  paulricard:   "https://upload.wikimedia.org/wikipedia/commons/d/d0/Paul_Ricard_Circuit.svg",
-  mugello:      "https://upload.wikimedia.org/wikipedia/commons/6/68/Mugello_Circuit.svg",
-  jerez:        "https://upload.wikimedia.org/wikipedia/commons/c/c8/Circuito_de_Jerez_track_map.svg",
-  buriram:      "https://upload.wikimedia.org/wikipedia/commons/d/d3/Chang_International_Circuit_track_map.svg",
-  lemans:       "https://upload.wikimedia.org/wikipedia/commons/7/7b/Le_mans_circuit_2006.svg",
-  jeddah:       "https://upload.wikimedia.org/wikipedia/commons/3/3a/Jeddah_Corniche_Circuit.svg",
-  miami:        "https://upload.wikimedia.org/wikipedia/commons/7/7f/Miami_International_Autodrome_track_map.svg",
-  lasvegas:     "https://upload.wikimedia.org/wikipedia/commons/6/62/Las_Vegas_Street_Circuit_Track_Map.svg",
-  portimao:     "https://upload.wikimedia.org/wikipedia/commons/6/65/Algarve_International_Circuit_track_map.svg",
-  nurburgring:  "https://upload.wikimedia.org/wikipedia/commons/e/e7/N%C3%BCrburgring_Grand_Prix_Strecke.svg",
-};
-
 
 function getTrackKey(circuit) {
   if (!circuit) return null;
