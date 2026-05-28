@@ -45,33 +45,36 @@ function Flag({ country, size=20 }) {
 // ── Circuit track SVGs (paths dessinés à la main pour chaque circuit) ────
 // ── Vraies images de circuits depuis Wikimedia Commons ────────────────────
 const TRACK_IMAGES = {
-  monaco:        "https://en.wikipedia.org/wiki/Special:FilePath/Monte_Carlo_Formula_1_track_map.svg?width=300",
-  monza:         "https://en.wikipedia.org/wiki/Special:FilePath/Monza_track_map.svg?width=300",
-  silverstone:   "https://en.wikipedia.org/wiki/Special:FilePath/Silverstone_Circuit_2010.svg?width=300",
-  spa:           "https://en.wikipedia.org/wiki/Special:FilePath/Spa-Francorchamps_of_Belgium.svg?width=300",
-  suzuka:        "https://en.wikipedia.org/wiki/Special:FilePath/Suzuka_circuit_map.svg?width=300",
-  albertpark:    "https://en.wikipedia.org/wiki/Special:FilePath/Albert_Park_circuit_map.svg?width=300",
-  redbullring:   "https://en.wikipedia.org/wiki/Special:FilePath/Red_Bull_Ring.svg?width=300",
-  barcelona:     "https://en.wikipedia.org/wiki/Special:FilePath/Circuit_de_Barcelona_Catalunya.svg?width=300",
-  imola:         "https://en.wikipedia.org/wiki/Special:FilePath/Autodromo_Enzo_e_Dino_Ferrari_1995.svg?width=300",
-  zandvoort:     "https://en.wikipedia.org/wiki/Special:FilePath/Zandvoort_circuit_2020.svg?width=300",
-  hungaroring:   "https://en.wikipedia.org/wiki/Special:FilePath/Hungaroring.svg?width=300",
-  yasmarina:     "https://en.wikipedia.org/wiki/Special:FilePath/Yas_Marina_Circuit.svg?width=300",
-  cota:          "https://en.wikipedia.org/wiki/Special:FilePath/Circuit_of_the_Americas_track_map.svg?width=300",
-  baku:          "https://en.wikipedia.org/wiki/Special:FilePath/Baku_Formula_1_track_map.svg?width=300",
-  losail:        "https://en.wikipedia.org/wiki/Special:FilePath/Losail_International_Circuit_track_map.svg?width=300",
-  marinabay:     "https://en.wikipedia.org/wiki/Special:FilePath/Singapore_F1_circuit_map.svg?width=300",
-  montreal:      "https://en.wikipedia.org/wiki/Special:FilePath/Circuit_Gilles_Villeneuve.svg?width=300",
-  interlagos:    "https://en.wikipedia.org/wiki/Special:FilePath/Autódromo_José_Carlos_Pace.svg?width=300",
-  paulricard:    "https://en.wikipedia.org/wiki/Special:FilePath/Paul_Ricard_Circuit.svg?width=300",
-  mugello:       "https://en.wikipedia.org/wiki/Special:FilePath/Mugello_Circuit.svg?width=300",
-  jerez:         "https://en.wikipedia.org/wiki/Special:FilePath/Circuito_de_Jerez_track_map.svg?width=300",
-  buriram:       "https://en.wikipedia.org/wiki/Special:FilePath/Chang_International_Circuit_track_map.svg?width=300",
-  lemans:        "https://en.wikipedia.org/wiki/Special:FilePath/Le_mans_circuit_2006.svg?width=300",
-  jeddah:        "https://en.wikipedia.org/wiki/Special:FilePath/Jeddah_Corniche_Circuit.svg?width=300",
-  miami:         "https://en.wikipedia.org/wiki/Special:FilePath/Miami_International_Autodrome_track_map.svg?width=300",
-  lasvegas:      "https://en.wikipedia.org/wiki/Special:FilePath/Las_Vegas_Street_Circuit_Track_Map.svg?width=300",
+  monaco:       "https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Monte_Carlo_Formula_1_track_map.svg/320px-Monte_Carlo_Formula_1_track_map.svg.png",
+  monza:        "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Monza_track_map.svg/320px-Monza_track_map.svg.png",
+  silverstone:  "https://upload.wikimedia.org/wikipedia/commons/a/a3/Silverstone_Circuit_2010.svg",
+  spa:          "https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Spa-Francorchamps_of_Belgium.svg/320px-Spa-Francorchamps_of_Belgium.svg.png",
+  suzuka:       "https://upload.wikimedia.org/wikipedia/commons/c/c3/Suzuka_circuit_map.svg",
+  albertpark:   "https://upload.wikimedia.org/wikipedia/commons/0/04/Albert_Park_circuit_map.svg",
+  redbullring:  "https://upload.wikimedia.org/wikipedia/commons/7/72/Red_Bull_Ring.svg",
+  barcelona:    "https://upload.wikimedia.org/wikipedia/commons/2/2e/Circuit_de_Barcelona_Catalunya.svg",
+  imola:        "https://upload.wikimedia.org/wikipedia/commons/2/22/Autodromo_Enzo_e_Dino_Ferrari_1995.svg",
+  zandvoort:    "https://upload.wikimedia.org/wikipedia/commons/0/06/Zandvoort_circuit_2020.svg",
+  hungaroring:  "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Hungaroring.svg/320px-Hungaroring.svg.png",
+  yasmarina:    "https://upload.wikimedia.org/wikipedia/commons/e/e8/Yas_Marina_Circuit.svg",
+  cota:         "https://upload.wikimedia.org/wikipedia/commons/0/09/Circuit_of_the_Americas_track_map.svg",
+  baku:         "https://upload.wikimedia.org/wikipedia/commons/1/1f/Baku_Formula_1_track_map.svg",
+  losail:       "https://upload.wikimedia.org/wikipedia/commons/1/17/Losail_International_Circuit_track_map.svg",
+  marinabay:    "https://upload.wikimedia.org/wikipedia/commons/0/0f/Singapore_F1_circuit_map.svg",
+  montreal:     "https://upload.wikimedia.org/wikipedia/commons/0/0b/Circuit_Gilles_Villeneuve.svg",
+  interlagos:   "https://upload.wikimedia.org/wikipedia/commons/f/f6/Aut%C3%B3dromo_Jos%C3%A9_Carlos_Pace.svg",
+  paulricard:   "https://upload.wikimedia.org/wikipedia/commons/d/d0/Paul_Ricard_Circuit.svg",
+  mugello:      "https://upload.wikimedia.org/wikipedia/commons/6/68/Mugello_Circuit.svg",
+  jerez:        "https://upload.wikimedia.org/wikipedia/commons/c/c8/Circuito_de_Jerez_track_map.svg",
+  buriram:      "https://upload.wikimedia.org/wikipedia/commons/d/d3/Chang_International_Circuit_track_map.svg",
+  lemans:       "https://upload.wikimedia.org/wikipedia/commons/7/7b/Le_mans_circuit_2006.svg",
+  jeddah:       "https://upload.wikimedia.org/wikipedia/commons/3/3a/Jeddah_Corniche_Circuit.svg",
+  miami:        "https://upload.wikimedia.org/wikipedia/commons/7/7f/Miami_International_Autodrome_track_map.svg",
+  lasvegas:     "https://upload.wikimedia.org/wikipedia/commons/6/62/Las_Vegas_Street_Circuit_Track_Map.svg",
+  portimao:     "https://upload.wikimedia.org/wikipedia/commons/6/65/Algarve_International_Circuit_track_map.svg",
+  nurburgring:  "https://upload.wikimedia.org/wikipedia/commons/e/e7/N%C3%BCrburgring_Grand_Prix_Strecke.svg",
 };
+
 
 function getTrackKey(circuit) {
   if (!circuit) return null;
@@ -103,6 +106,8 @@ function getTrackKey(circuit) {
   if (c.includes("jeddah") || c.includes("corniche")) return "jeddah";
   if (c.includes("miami")) return "miami";
   if (c.includes("las vegas")) return "lasvegas";
+  if (c.includes("portimão") || c.includes("portimao") || c.includes("algarve")) return "portimao";
+  if (c.includes("nürburgring") || c.includes("nurburgring") || c.includes("nürburg")) return "nurburgring";
   return null;
 }
 
@@ -136,22 +141,35 @@ function TrackSVG({ circuit, color, size=140 }) {
 
 // ── Circuit info ──────────────────────────────────────────────────────────
 const CIRCUIT_INFO = {
-  monaco:       { lap:"3.337 km", turns:19, record:"1:12.909 – Hamilton (2021)", first:"F1: 1950" },
-  silverstone:  { lap:"5.891 km", turns:18, record:"1:27.097 – Hamilton (2020)", first:"F1: 1950" },
-  monza:        { lap:"5.793 km", turns:11, record:"1:21.046 – Barrichello (2004)", first:"F1: 1950" },
-  spa:          { lap:"7.004 km", turns:20, record:"1:41.252 – Bottas (2018)", first:"F1: 1950" },
-  suzuka:       { lap:"5.807 km", turns:18, record:"1:30.983 – Hamilton (2019)", first:"F1: 1987" },
-  lemans:       { lap:"13.626 km", turns:38, record:"3:14.791 – Kobayashi (2017)", first:"24H: 1923" },
-  paulricard:   { lap:"5.771 km", turns:15, record:"1:32.740 – Hamilton (2018)", first:"F1: 1971 · MotoGP: 1999" },
-  catalunya:    { lap:"4.657 km", turns:16, record:"1:16.166 – Hamilton (2021)", first:"F1: 1991 · MotoGP: 1992" },
-  jerez:        { lap:"4.423 km", turns:13, record:"1:36.825 – Marquez (2014)", first:"MotoGP: 1992" },
-  mugello:      { lap:"5.245 km", turns:15, record:"1:45.996 – Marquez (2019)", first:"MotoGP: 1994" },
-  buriram:      { lap:"4.554 km", turns:12, record:"1:30.630 – Mir (2019)", first:"MotoGP: 2018" },
-  albertpark:   { lap:"5.278 km", turns:16, record:"1:20.235 – Bottas (2019)", first:"F1: 1996" },
-  redbullring:  { lap:"4.318 km", turns:10, record:"1:05.619 – Hamilton (2020)", first:"F1: 1970" },
-  yasmarina:    { lap:"5.281 km", turns:16, record:"1:26.103 – Verstappen (2021)", first:"F1: 2009" },
-  imola:        { lap:"4.909 km", turns:19, record:"1:15.484 – Hamilton (2020)", first:"F1: 1980 · WEC: 2022" },
-  default:      { lap:"—", turns:"—", record:"—", first:"—" },
+  monaco:          { lap:"3.337 km", turns:19, record:"1:12.909 – Hamilton (2021)",        first:"F1: 1950" },
+  monza:           { lap:"5.793 km", turns:11, record:"1:19.119 – Leclerc (2019)",          first:"F1: 1950 · WEC/GTWCE: régulier" },
+  silverstone:     { lap:"5.891 km", turns:18, record:"1:27.097 – Hamilton (2020)",         first:"F1: 1950" },
+  spa:             { lap:"7.004 km", turns:19, record:"1:41.252 – Bottas (2018)",            first:"F1: 1950 · WEC/GTWCE: régulier" },
+  suzuka:          { lap:"5.807 km", turns:18, record:"1:30.983 – Hamilton (2019)",         first:"F1: 1987" },
+  albertpark:      { lap:"5.278 km", turns:16, record:"1:19.813 – Leclerc (2022)",          first:"F1: 1996" },
+  redbullring:     { lap:"4.318 km", turns:10, record:"1:05.619 – Hamilton (2020)",         first:"F1: 1970 (Österreichring)" },
+  barcelona:       { lap:"4.657 km", turns:16, record:"1:16.330 – Verstappen (2023)",       first:"F1: 1991 · MotoGP: 1992" },
+  zandvoort:       { lap:"4.259 km", turns:14, record:"1:11.097 – Verstappen (2021)",       first:"F1: 1952–1985, retour 2021" },
+  hungaroring:     { lap:"4.381 km", turns:14, record:"1:16.627 – Hamilton (2020)",         first:"F1: 1986" },
+  imola:           { lap:"4.909 km", turns:19, record:"1:15.484 – Hamilton (2020)",         first:"F1: 1980 · WEC: 2022" },
+  yasmarina:       { lap:"5.281 km", turns:16, record:"1:26.103 – Verstappen (2021)",       first:"F1: 2009" },
+  cota:            { lap:"5.513 km", turns:20, record:"1:36.169 – Hamilton (2012)",         first:"F1: 2012" },
+  baku:            { lap:"6.003 km", turns:20, record:"1:43.009 – Leclerc (2019)",          first:"F1: 2017 (Formule E: 2015)" },
+  losail:          { lap:"5.380 km", turns:16, record:"1:24.319 – Hamilton (2021)",         first:"F1: 2021 · MotoGP: 2004" },
+  marinabay:       { lap:"4.940 km", turns:19, record:"1:35.867 – Leclerc (2023)",          first:"F1: 2008" },
+  montreal:        { lap:"4.361 km", turns:14, record:"1:13.078 – Vettel (2019)",           first:"F1: 1978" },
+  interlagos:      { lap:"4.309 km", turns:15, record:"1:10.540 – Verstappen (2023)",       first:"F1: 1973" },
+  paulricard:      { lap:"5.771 km", turns:15, record:"1:32.740 – Hamilton (2018)",         first:"F1: 1971 · MotoGP: 1999" },
+  mugello:         { lap:"5.245 km", turns:15, record:"1:45.996 – Marquez (2019)",          first:"MotoGP: 1994 · F1: 2020 (exc.)" },
+  jerez:           { lap:"4.423 km", turns:13, record:"1:36.825 – Marquez (2014)",          first:"MotoGP: 1992" },
+  buriram:         { lap:"4.554 km", turns:12, record:"1:30.630 – Mir (2019)",              first:"MotoGP: 2018" },
+  lemans:          { lap:"13.626 km",turns:38, record:"3:14.791 – Kobayashi (2017)",        first:"24H Le Mans: 1923" },
+  jeddah:          { lap:"6.174 km", turns:27, record:"1:30.734 – Leclerc (2022)",          first:"F1: 2021" },
+  miami:           { lap:"5.412 km", turns:19, record:"1:29.708 – Verstappen (2023)",       first:"F1: 2022" },
+  lasvegas:        { lap:"6.201 km", turns:17, record:"1:35.490 – Leclerc (2023)",          first:"F1: 2023" },
+  portimao:        { lap:"4.653 km", turns:15, record:"1:19.912 – Hamilton (2020)",         first:"F1: 2020–2021 · MotoGP: 2020" },
+  nurburgring:     { lap:"5.148 km", turns:15, record:"1:24.475 – Bottas (2020)",           first:"F1: 1951 · GTWCE: régulier" },
+  default:         { lap:"—", turns:"—", record:"—", first:"—" },
 };
 
 // ── Helpers ───────────────────────────────────────────────────────────────
