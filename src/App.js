@@ -9,7 +9,7 @@ async function sb(path) {
   return r.json();
 }
 
-// ── Series identity ───────────────────────────────────────────────────────
+// -- Series identity ------------------------------------------------------─
 const SERIES_ID = {
   F1:    { label:"Formula 1",    color:"#E8002D", bg:"#FFF0F2", text:"#B0001F", icon:"🏎️", heroEmoji:"🏎️" },
   MotoGP:{ label:"MotoGP",       color:"#D50032", bg:"#FFF0F1", text:"#A50027", icon:"🏍️", heroEmoji:"🏍️" },
@@ -19,7 +19,7 @@ const SERIES_ID = {
   GTWCE: { label:"GT WC Europe", color:"#FF6600", bg:"#FFF4EE", text:"#CC4400", icon:"🏆", heroEmoji:"🏆" },
 };
 
-// ── Country → flag image (flagcdn.com) ───────────────────────────────────
+// -- Country → flag image (flagcdn.com) ----------------------------------─
 const COUNTRY_CODES = {
   "Australie":"au","Chine":"cn","Japon":"jp","États-Unis":"us","Canada":"ca",
   "Monaco":"mc","Espagne":"es","Autriche":"at","Angleterre":"gb","Grande-Bretagne":"gb",
@@ -42,10 +42,10 @@ function Flag({ country, size=20 }) {
   );
 }
 
-// ── Circuit track SVGs (paths dessinés à la main pour chaque circuit) ────
-// ── Vraies images de circuits depuis Wikimedia Commons ────────────────────
+// -- Circuit track SVGs (paths dessinés à la main pour chaque circuit) ----
+// -- Vraies images de circuits depuis Wikimedia Commons --------------------
 const TRACK_IMAGES = {
-  // ── F1 — hébergées dans le repo GitHub (jsDelivr CDN, pas de CORS) ──────
+  // -- F1 — hébergées dans le repo GitHub (jsDelivr CDN, pas de CORS) ------
   monaco:       "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/monaco.webp",
   silverstone:  "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/silverstone.webp",
   monza:        "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/monza.webp",
@@ -71,7 +71,7 @@ const TRACK_IMAGES = {
   bahrain:      "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/bahrain.webp",
   mexicocity:   "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/mexicocity.webp",
 
-  // ── MotoGP / WEC / GTWCE / ELMS — Wikimedia thumbnail PNG ───────────────
+  // -- MotoGP / WEC / GTWCE / ELMS — Wikimedia thumbnail PNG --------------─
   mugello:      "https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/Mugello_Circuit.svg/320px-Mugello_Circuit.svg.png",
   jerez:        "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Circuito_de_Jerez_track_map.svg/320px-Circuito_de_Jerez_track_map.svg.png",
   buriram:      "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Chang_International_Circuit_track_map.svg/320px-Chang_International_Circuit_track_map.svg.png",
@@ -92,7 +92,7 @@ async function sb(path) {
   return r.json();
 }
 
-// ── Series identity ───────────────────────────────────────────────────────
+// -- Series identity ------------------------------------------------------─
 const SERIES_ID = {
   F1:    { label:"Formula 1",    color:"#E8002D", bg:"#FFF0F2", text:"#B0001F", icon:"🏎️", heroEmoji:"🏎️" },
   MotoGP:{ label:"MotoGP",       color:"#D50032", bg:"#FFF0F1", text:"#A50027", icon:"🏍️", heroEmoji:"🏍️" },
@@ -102,7 +102,7 @@ const SERIES_ID = {
   GTWCE: { label:"GT WC Europe", color:"#FF6600", bg:"#FFF4EE", text:"#CC4400", icon:"🏆", heroEmoji:"🏆" },
 };
 
-// ── Country → flag image (flagcdn.com) ───────────────────────────────────
+// -- Country → flag image (flagcdn.com) ----------------------------------─
 const COUNTRY_CODES = {
   "Australie":"au","Chine":"cn","Japon":"jp","États-Unis":"us","Canada":"ca",
   "Monaco":"mc","Espagne":"es","Autriche":"at","Angleterre":"gb","Grande-Bretagne":"gb",
@@ -125,10 +125,10 @@ function Flag({ country, size=20 }) {
   );
 }
 
-// ── Circuit track SVGs (paths dessinés à la main pour chaque circuit) ────
-// ── Vraies images de circuits depuis Wikimedia Commons ────────────────────
+// -- Circuit track SVGs (paths dessinés à la main pour chaque circuit) ----
+// -- Vraies images de circuits depuis Wikimedia Commons --------------------
 const TRACK_IMAGES = {
-  // ── Hébergées dans le repo (CDN jsDelivr, sans restriction CORS) ─────────
+  // -- Hébergées dans le repo (CDN jsDelivr, sans restriction CORS) --------─
   monaco:       "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/monaco.webp",
   monza:        "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/monza.webp",
   suzuka:       "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/suzuka.webp",
@@ -143,7 +143,7 @@ const TRACK_IMAGES = {
   shanghai:     "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/shanghai.webp",
   mexicocity:   "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/mexicocity.webp",
 
-  // ── À ajouter après upload (run push_tracks.py) ───────────────────────────
+  // -- À ajouter après upload (run push_tracks.py) --------------------------─
   silverstone:  "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/silverstone.webp",
   spa:          "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/spa.webp",
   barcelona:    "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/barcelona.webp",
@@ -156,7 +156,7 @@ const TRACK_IMAGES = {
   lasvegas:     "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/lasvegas.webp",
   bahrain:      "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/bahrain.webp",
 
-  // ── MotoGP / WEC / ELMS / GTWCE ──────────────────────────────────────────
+  // -- MotoGP / WEC / ELMS / GTWCE ------------------------------------------
   mugello:      "https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/Mugello_Circuit.svg/320px-Mugello_Circuit.svg.png",
   jerez:        "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Circuito_de_Jerez_track_map.svg/320px-Circuito_de_Jerez_track_map.svg.png",
   buriram:      "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Chang_International_Circuit_track_map.svg/320px-Chang_International_Circuit_track_map.svg.png",
@@ -164,7 +164,6 @@ const TRACK_IMAGES = {
   paulricard:   "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Paul_Ricard_Circuit.svg/320px-Paul_Ricard_Circuit.svg.png",
   portimao:     "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Algarve_International_Circuit_track_map.svg/320px-Algarve_International_Circuit_track_map.svg.png",
   nurburgring:  "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/N%C3%BCrburgring_Grand_Prix_Strecke.svg/320px-N%C3%BCrburgring_Grand_Prix_Strecke.svg.png",
-  hungaroring_wiki: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Hungaroring.svg/320px-Hungaroring.svg.png",
 };
 
 mport { useState, useEffect } from "react";
@@ -178,7 +177,7 @@ async function sb(path) {
   return r.json();
 }
 
-// ── Series identity ───────────────────────────────────────────────────────
+// -- Series identity ------------------------------------------------------─
 const SERIES_ID = {
   F1:    { label:"Formula 1",    color:"#E8002D", bg:"#FFF0F2", text:"#B0001F", icon:"🏎️", heroEmoji:"🏎️" },
   MotoGP:{ label:"MotoGP",       color:"#D50032", bg:"#FFF0F1", text:"#A50027", icon:"🏍️", heroEmoji:"🏍️" },
@@ -188,7 +187,7 @@ const SERIES_ID = {
   GTWCE: { label:"GT WC Europe", color:"#FF6600", bg:"#FFF4EE", text:"#CC4400", icon:"🏆", heroEmoji:"🏆" },
 };
 
-// ── Country → flag image (flagcdn.com) ───────────────────────────────────
+// -- Country → flag image (flagcdn.com) ----------------------------------─
 const COUNTRY_CODES = {
   "Australie":"au","Chine":"cn","Japon":"jp","États-Unis":"us","Canada":"ca",
   "Monaco":"mc","Espagne":"es","Autriche":"at","Angleterre":"gb","Grande-Bretagne":"gb",
@@ -211,10 +210,10 @@ function Flag({ country, size=20 }) {
   );
 }
 
-// ── Circuit track SVGs (paths dessinés à la main pour chaque circuit) ────
-// ── Vraies images de circuits depuis Wikimedia Commons ────────────────────
+// -- Circuit track SVGs (paths dessinés à la main pour chaque circuit) ----
+// -- Vraies images de circuits depuis Wikimedia Commons --------------------
 const TRACK_IMAGES = {
-  // ── F1 : images officielles media.formula1.com ──────────────────────────
+  // -- F1 : images officielles media.formula1.com --------------------------
   monaco:       "https://media.formula1.com/image/upload/c_fit,h_704/q_auto/v1740000001/common/f1/2026/track/2026trackmontecarlodetailed.webp",
   silverstone:  "https://media.formula1.com/image/upload/c_fit,h_704/q_auto/v1740000001/common/f1/2026/track/2026tracksilvestonedetailed.webp",
   monza:        "https://media.formula1.com/image/upload/c_fit,h_704/q_auto/v1740000001/common/f1/2026/track/2026trackmonzadetailed.webp",
@@ -240,7 +239,7 @@ const TRACK_IMAGES = {
   bahrain:      "https://media.formula1.com/image/upload/c_fit,h_704/q_auto/v1740000001/common/f1/2026/track/2026trackbahraindetailed.webp",
   mexicocity:   "https://media.formula1.com/image/upload/c_fit,h_704/q_auto/v1740000001/common/f1/2026/track/2026trackmexicocitydetailed.webp",
 
-  // ── MotoGP / WEC / ELMS / GTWCE : Wikimedia thumbnail PNG ──────────────
+  // -- MotoGP / WEC / ELMS / GTWCE : Wikimedia thumbnail PNG --------------
   mugello:      "https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/Mugello_Circuit.svg/320px-Mugello_Circuit.svg.png",
   jerez:        "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Circuito_de_Jerez_track_map.svg/320px-Circuito_de_Jerez_track_map.svg.png",
   buriram:      "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Chang_International_Circuit_track_map.svg/320px-Chang_International_Circuit_track_map.svg.png",
@@ -261,7 +260,7 @@ async function sb(path) {
   return r.json();
 }
 
-// ── Series identity ───────────────────────────────────────────────────────
+// -- Series identity ------------------------------------------------------─
 const SERIES_ID = {
   F1:    { label:"Formula 1",    color:"#E8002D", bg:"#FFF0F2", text:"#B0001F", icon:"🏎️", heroEmoji:"🏎️" },
   MotoGP:{ label:"MotoGP",       color:"#D50032", bg:"#FFF0F1", text:"#A50027", icon:"🏍️", heroEmoji:"🏍️" },
@@ -271,7 +270,7 @@ const SERIES_ID = {
   GTWCE: { label:"GT WC Europe", color:"#FF6600", bg:"#FFF4EE", text:"#CC4400", icon:"🏆", heroEmoji:"🏆" },
 };
 
-// ── Country → flag image (flagcdn.com) ───────────────────────────────────
+// -- Country → flag image (flagcdn.com) ----------------------------------─
 const COUNTRY_CODES = {
   "Australie":"au","Chine":"cn","Japon":"jp","États-Unis":"us","Canada":"ca",
   "Monaco":"mc","Espagne":"es","Autriche":"at","Angleterre":"gb","Grande-Bretagne":"gb",
@@ -294,8 +293,8 @@ function Flag({ country, size=20 }) {
   );
 }
 
-// ── Circuit track SVGs (paths dessinés à la main pour chaque circuit) ────
-// ── Vraies images de circuits depuis Wikimedia Commons ────────────────────
+// -- Circuit track SVGs (paths dessinés à la main pour chaque circuit) ----
+// -- Vraies images de circuits depuis Wikimedia Commons --------------------
 const TRACK_IMAGES = {
   monaco:       "https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Monte_Carlo_Formula_1_track_map.svg/320px-Monte_Carlo_Formula_1_track_map.svg.png",
   monza:        "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Monza_track_map.svg/320px-Monza_track_map.svg.png",
@@ -409,7 +408,7 @@ function TrackSVG({ circuit, color, size=140 }) {
 }
 
 
-// ── Circuit info ──────────────────────────────────────────────────────────
+// -- Circuit info ----------------------------------------------------------
 const CIRCUIT_INFO = {
   monaco:          { lap:"3.337 km", turns:19, record:"1:12.909 – Hamilton (2021)",        first:"F1: 1950" },
   monza:           { lap:"5.793 km", turns:11, record:"1:19.119 – Leclerc (2019)",          first:"F1: 1950 · WEC/GTWCE: régulier" },
@@ -442,7 +441,7 @@ const CIRCUIT_INFO = {
   default:         { lap:"—", turns:"—", record:"—", first:"—" },
 };
 
-// ── Helpers ───────────────────────────────────────────────────────────────
+// -- Helpers --------------------------------------------------------------─
 const MONTHS_FR = ["Jan","Fév","Mar","Avr","Mai","Jun","Jul","Aoû","Sep","Oct","Nov","Déc"];
 function fmtDate(d) { if (!d) return ""; const x = new Date(d+"T12:00:00"); return `${x.getDate()} ${MONTHS_FR[x.getMonth()]}`; }
 function fmtRange(s, e) {
@@ -465,7 +464,7 @@ function Spinner({ color }) {
   </div>;
 }
 
-// ── Circuit Detail Panel ──────────────────────────────────────────────────
+// -- Circuit Detail Panel --------------------------------------------------
 function CircuitPanel({ race, id, onClose }) {
   const [results, setResults] = useState([]);
   const [loadingR, setLoadingR] = useState(true);
@@ -560,7 +559,7 @@ function CircuitPanel({ race, id, onClose }) {
   );
 }
 
-// ── Standings ─────────────────────────────────────────────────────────────
+// -- Standings ------------------------------------------------------------─
 function StandingsPanel({ seriesId, id }) {
   const [tab, setTab] = useState("driver");
   const [data, setData] = useState([]);
@@ -604,7 +603,7 @@ function StandingsPanel({ seriesId, id }) {
   );
 }
 
-// ── Race Card ─────────────────────────────────────────────────────────────
+// -- Race Card ------------------------------------------------------------─
 function RaceCard({ race, id, active, onClick }) {
   const today = new Date().toISOString().slice(0,10);
   const done = race.status==="done";
@@ -655,7 +654,7 @@ function RaceCard({ race, id, active, onClick }) {
   );
 }
 
-// ── App ───────────────────────────────────────────────────────────────────
+// -- App ------------------------------------------------------------------─
 export default function App() {
   const [series, setSeries] = useState([]);
   const [active, setActive] = useState("F1");
