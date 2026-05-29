@@ -463,8 +463,12 @@ function HomeDashboard({ series, onSelect, id }) {
 
   return (
     <div style={{ animation:"slideUp .3s ease" }}>
-      <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(280px,1fr))", gap:16 }}>
-        {series.map(s => {
+      <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(320px,1fr))", gap:16 }}>
+        {[...series].sort((a, b) => {
+          const da = data[a.id]?.next?.date_start || '9999';
+          const db = data[b.id]?.next?.date_start || '9999';
+          return da.localeCompare(db);
+        }).map(s => {
           const sid = SERIES_ID[s.id] || {};
           const d = data[s.id];
           const next = d?.next;
@@ -485,20 +489,20 @@ function HomeDashboard({ series, onSelect, id }) {
                 <div style={{ display:"flex", alignItems:"center", gap:8 }}>
                   <span style={{ fontSize:20 }}>{sid.icon}</span>
                   <div>
-                    <div style={{ fontSize:16, fontWeight:900, color:"#111" }}>{sid.label}</div>
+                    <div style={{ fontSize:20, fontWeight:900, color:"#111" }}>{sid.label}</div>
                     <div style={{ fontSize:10, fontWeight:700, letterSpacing:1, color:"#BBB" }}>2026</div>
                   </div>
                 </div>
                 {days !== null && (
                   <div style={{ textAlign:"right" }}>
-                    <div style={{ fontSize:22, fontWeight:900, color:sid.color, lineHeight:1 }}>{days}</div>
+                    <div style={{ fontSize:30, fontWeight:900, color:sid.color, lineHeight:1 }}>{days}</div>
                     <div style={{ fontSize:8, color:"#CCC", letterSpacing:1.5, fontWeight:600 }}>JOURS</div>
                   </div>
                 )}
               </div>
 
               {/* Tracé */}
-              <div style={{ height:110, background:"#FAFAFA", display:"flex", alignItems:"center", justifyContent:"center", borderTop:"0.5px solid #F0F0F0", borderBottom:"0.5px solid #F0F0F0", overflow:"hidden" }}>
+              <div style={{ height:150, background:"#FAFAFA", display:"flex", alignItems:"center", justifyContent:"center", borderTop:"0.5px solid #F0F0F0", borderBottom:"0.5px solid #F0F0F0", overflow:"hidden" }}>
                 {imgUrl
                   ? <img src={imgUrl} alt={next?.circuit} style={{ width:"100%", height:"100%", objectFit:"contain" }} onError={e => e.target.style.display='none'}/>
                   : <div style={{ fontSize:32, opacity:.1 }}>🏁</div>
@@ -510,7 +514,7 @@ function HomeDashboard({ series, onSelect, id }) {
                 {next ? (
                   <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start" }}>
                     <div style={{ minWidth:0 }}>
-                      <div style={{ fontSize:13, fontWeight:800, color:"#111", overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap" }}>{next.name}</div>
+                      <div style={{ fontSize:16, fontWeight:800, color:"#111", overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap" }}>{next.name}</div>
                       <div style={{ fontSize:10, color:"#BBB", marginTop:1, display:"flex", alignItems:"center", gap:5 }}>
                         <Flag country={next.country} size={12}/>
                         {fmtRange(next.date_start, next.date_end)}
@@ -532,8 +536,8 @@ function HomeDashboard({ series, onSelect, id }) {
                     <div style={{ width:20, height:20, borderRadius:6, background: i===0?sid.color:i===1?"#C0C0C0":"#CD7F32", display:"flex", alignItems:"center", justifyContent:"center", fontSize:10, fontWeight:800, color:"#fff", flexShrink:0 }}>
                       {i+1}
                     </div>
-                    <div style={{ flex:1, fontSize:12, fontWeight:700, color:"#222", overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap" }}>{r.name}</div>
-                    <div style={{ fontSize:13, fontWeight:900, color:sid.color, flexShrink:0 }}>{r.points}</div>
+                    <div style={{ flex:1, fontSize:14, fontWeight:700, color:"#222", overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap" }}>{r.name}</div>
+                    <div style={{ fontSize:16, fontWeight:900, color:sid.color, flexShrink:0 }}>{r.points}</div>
                   </div>
                 ))}
               </div>
@@ -586,6 +590,7 @@ export default function App() {
         @keyframes slideUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
         *{box-sizing:border-box}
         button{font-family:inherit}
+        html{font-size:112.5%}
         body{background:#F2F2F0}
         .inner{width:100%;max-width:1400px;margin:0 auto;padding:0 24px}
         .tiles{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
@@ -598,13 +603,13 @@ export default function App() {
         .tile.next-race{border:2px solid var(--sc,#E8002D)}
         .tile-top{padding:12px 14px 8px;display:flex;justify-content:space-between;align-items:flex-start}
         .tile-date{background:#F5F5F5;border-radius:8px;padding:5px 10px;text-align:center;min-width:44px}
-        .tile-day{font-size:22px;font-weight:900;line-height:1;color:var(--sc,#E8002D)}
+        .tile-day{font-size:26px;font-weight:900;line-height:1;color:var(--sc,#E8002D)}
         .tile-day.past{color:#CCC}
         .tile-month{font-size:9px;font-weight:700;letter-spacing:1px;color:#BBB;text-transform:uppercase}
-        .tile-track{height:120px;background:#FAFAFA;display:flex;align-items:center;justify-content:center;overflow:hidden;border-top:0.5px solid #F0F0F0;border-bottom:0.5px solid #F0F0F0}
+        .tile-track{height:140px;background:#FAFAFA;display:flex;align-items:center;justify-content:center;overflow:hidden;border-top:0.5px solid #F0F0F0;border-bottom:0.5px solid #F0F0F0}
         .tile-track img{width:100%;height:100%;object-fit:contain}
         .tile-foot{padding:10px 14px 13px}
-        .tile-name{font-size:15px;font-weight:800;color:#111;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+        .tile-name{font-size:16px;font-weight:800;color:#111;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
         .tile-name.past{color:#AAA}
         .tile-circuit{font-size:11px;color:#BBB;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-top:1px}
         .tile-badges{display:flex;gap:4px;margin-top:8px;flex-wrap:wrap;align-items:center}
@@ -613,7 +618,7 @@ export default function App() {
         .b-sprint{background:#FFF0E0;color:#CC4400}
         .b-days{background:#F0F0F0;color:#888}
         .b-next{color:#fff}
-        .stab{padding:10px 18px;border:none;border-bottom:3px solid transparent;background:transparent;font-family:inherit;font-size:13px;font-weight:600;color:#BBB;cursor:pointer;white-space:nowrap;transition:all .15s;display:flex;align-items:center;gap:5px}
+        .stab{padding:10px 18px;border:none;border-bottom:3px solid transparent;background:transparent;font-family:inherit;font-size:15px;font-weight:600;color:#BBB;cursor:pointer;white-space:nowrap;transition:all .15s;display:flex;align-items:center;gap:5px}
         .stab.active{font-weight:800;border-bottom-color:var(--sc)}
         .stab:hover:not(.active){color:#555}
         .fbtn{padding:7px 18px;border-radius:20px;border:0.5px solid #DDD;background:#fff;font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;color:#888;transition:all .15s}
