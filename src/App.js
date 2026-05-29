@@ -100,6 +100,14 @@ function getTrackKey(circuit, seriesId) {
   if (!circuit) return null;
   const c = circuit.toLowerCase();
 
+  // WEC / ELMS / GTWCE / IMSA — tracés et stats spécifiques endurance
+  if (seriesId === "WEC" || seriesId === "ELMS" || seriesId === "GTWCE" || seriesId === "IMSA") {
+    if (c.includes("spa")) return "wec_spa";
+    if (c.includes("imola")) return "wec_imola";
+    if (c.includes("sarthe") || (c.includes("mans") && !c.includes("bugatti"))) return "wec_lemans";
+    // Autres circuits WEC → fallback sur F1 ci-dessous (même tracé)
+  }
+
   // MotoGP — utiliser les SVGs officiels motogp.com
   if (seriesId === "MotoGP") {
     if (c.includes("buriram") || c.includes("chang")) return "motogp_tha";
@@ -231,7 +239,7 @@ const CIRCUIT_INFO = {
   motogp_val:   { lap:"4.005 km", turns:14, record:"1:28.809 - Bezzecchi/Aprilia (2025)",  first:"MotoGP: 1999" },
 
   // ── WEC ─────────────────────────────────────────────────────────────────
-  wec_spa:      { lap:"7.004 km", turns:19, record:"2:01.649 - Kobayashi/Toyota (2024)", first:"WEC: 2012" },
+  wec_spa:      { lap:"7.004 km", turns:19, record:"2:01.649 - Kobayashi/Toyota GR010 (2024)", first:"WEC: 2012" },
   wec_imola:    { lap:"4.909 km", turns:19, record:"1:53.224 - Hartley/Toyota (2022)",   first:"WEC: 2022" },
   wec_lemans:   { lap:"13.626 km",turns:38, record:"3:14.791 - Kobayashi/Toyota (2017)", first:"24H: 1923" },
 
