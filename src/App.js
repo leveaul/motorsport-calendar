@@ -151,42 +151,6 @@ function getTrackKey(circuit, seriesId) {
 
 
 
-function getTrackKey(circuit) {
-  if (!circuit) return null;
-  const c = circuit.toLowerCase();
-  if (c.includes("monaco")) return "monaco";
-  if (c.includes("monza")) return "monza";
-  if (c.includes("silverstone")) return "silverstone";
-  if (c.includes("spa")) return "spa";
-  if (c.includes("suzuka")) return "suzuka";
-  if (c.includes("albert park")) return "albertpark";
-  if (c.includes("red bull ring") || c.includes("spielberg")) return "redbullring";
-  if (c.includes("catalunya") || c.includes("barcelona")) return "barcelona";
-  if (c.includes("zandvoort")) return "zandvoort";
-  if (c.includes("hungaroring") || c.includes("budapest")) return "hungaroring";
-  if (c.includes("imola")) return "imola";
-  if (c.includes("yas marina")) return "yasmarina";
-  if (c.includes("americas") || c.includes("cota") || c.includes("austin")) return "cota";
-  if (c.includes("baku") || c.includes("azerbaijan")) return "baku";
-  if (c.includes("lusail") || c.includes("losail") || c.includes("qatar")) return "losail";
-  if (c.includes("marina bay") || c.includes("singapore")) return "marinabay";
-  if (c.includes("gilles villeneuve") || c.includes("montreal") || c.includes("montréal")) return "montreal";
-  if (c.includes("interlagos") || c.includes("são paulo") || c.includes("sao paulo")) return "interlagos";
-  if (c.includes("jeddah") || c.includes("corniche")) return "jeddah";
-  if (c.includes("miami")) return "miami";
-  if (c.includes("las vegas")) return "lasvegas";
-  if (c.includes("shanghai") || c.includes("chine")) return "shanghai";
-  if (c.includes("bahrain") || c.includes("bahrein") || c.includes("sakhir")) return "bahrain";
-  if (c.includes("hermanos") || c.includes("mexico")) return "mexicocity";
-  if (c.includes("mugello")) return "mugello";
-  if (c.includes("jerez")) return "jerez";
-  if (c.includes("buriram") || c.includes("chang")) return "buriram";
-  if (c.includes("sarthe") || (c.includes("mans") && !c.includes("bugatti"))) return "lemans";
-  if (c.includes("paul ricard") || c.includes("castellet") || c.includes("bugatti")) return "paulricard";
-  if (c.includes("portimao") || c.includes("portimão") || c.includes("algarve")) return "portimao";
-  if (c.includes("nurburgring") || c.includes("nürburgring")) return "nurburgring";
-  return null;
-}
 
 function TrackSVG({ circuit, color, size=140, seriesId='' }) {
   const key = getTrackKey(circuit, seriesId);
