@@ -485,48 +485,61 @@ export default function App() {
         @keyframes slideDown{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
         *{box-sizing:border-box} button{font-family:inherit}
         body{background:#F4F4F4}
-        .app-inner{width:100%;max-width:640px;margin:0 auto;padding:0 16px}
+
+        /* ── Layout ── */
+        .app-inner{width:100%;max-width:680px;margin:0 auto;padding:0 16px}
+
         @media(min-width:900px){
-          .app-inner{max-width:1100px;padding:0 40px}
+          .app-inner{max-width:1200px;padding:0 48px}
           .race-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
           .circuit-panel-inner{grid-template-columns:1fr 1fr !important}
           .track-img-wrap{height:220px !important}
+
+          /* Header plus grand */
+          .header-title{font-size:32px !important}
+          .header-sub{font-size:14px !important}
+          .series-tab{font-size:15px !important;padding:10px 20px !important}
+          .tab-btn{font-size:13px !important;padding:8px 0 !important}
+
+          /* Cards courses */
+          .race-name{font-size:18px !important}
+          .race-circuit{font-size:13px !important}
+          .race-day{font-size:24px !important}
+          .race-month{font-size:11px !important}
+          .days-left{font-size:28px !important}
+
+          /* Circuit panel */
+          .panel-title{font-size:22px !important}
+          .panel-sub{font-size:13px !important}
+          .info-label{font-size:10px !important}
+          .info-value{font-size:15px !important}
+          .info-emoji{font-size:17px !important}
+          .result-driver{font-size:16px !important}
+          .result-team{font-size:12px !important}
+          .result-pts{font-size:16px !important}
+          .section-lbl{font-size:12px !important}
+
+          /* Next race banner */
+          .next-name{font-size:26px !important}
+          .next-sub{font-size:14px !important}
+          .next-days{font-size:56px !important}
+
+          /* Standings */
+          .standings-name{font-size:18px !important}
+          .standings-pos{font-size:24px !important}
+          .standings-pts{font-size:28px !important}
+          .standings-nat{font-size:13px !important}
         }
+
         @media(min-width:1400px){
-          .app-inner{max-width:1300px}
+          .app-inner{max-width:1400px;padding:0 60px}
           .track-img-wrap{height:280px !important}
-        }
-        @media(min-width:900px){
-          /* Scale up toutes les polices sur PC */
-          .app-inner .race-name    { font-size:18px !important }
-          .app-inner .race-circuit { font-size:13px !important }
-          .app-inner .race-day     { font-size:22px !important }
-          .app-inner .race-month   { font-size:11px !important }
-          .app-inner .days-left    { font-size:26px !important }
-          .app-inner .badge        { font-size:11px !important; padding: 3px 8px !important }
-          .app-inner .round-num    { font-size:12px !important }
-          .app-inner .info-label   { font-size:10px !important }
-          .app-inner .info-value   { font-size:14px !important }
-          .app-inner .info-emoji   { font-size:16px !important }
-          .app-inner .panel-title  { font-size:20px !important }
-          .app-inner .panel-sub    { font-size:13px !important }
-          .app-inner .result-driver{ font-size:16px !important }
-          .app-inner .result-team  { font-size:12px !important }
-          .app-inner .result-pts   { font-size:15px !important }
-          .app-inner .result-gap   { font-size:11px !important }
-          .app-inner .section-lbl  { font-size:11px !important }
-          .app-inner .next-name    { font-size:22px !important }
-          .app-inner .next-sub     { font-size:13px !important }
-          .app-inner .next-days    { font-size:52px !important }
-          .app-inner .progress-lbl { font-size:11px !important }
-          .app-inner .tab-btn      { font-size:13px !important }
-          .app-inner .series-tab   { font-size:14px !important }
-          .app-inner .header-title { font-size:28px !important }
-          .app-inner .header-sub   { font-size:13px !important }
-          .app-inner .standings-pos{ font-size:22px !important }
-          .app-inner .standings-name{ font-size:17px !important }
-          .app-inner .standings-nat{ font-size:13px !important }
-          .app-inner .standings-pts{ font-size:26px !important }
+          .header-title{font-size:38px !important}
+          .series-tab{font-size:16px !important;padding:12px 24px !important}
+          .race-name{font-size:20px !important}
+          .race-day{font-size:28px !important}
+          .next-days{font-size:64px !important}
+          .panel-title{font-size:26px !important}
         }
       `}</style>
       <div style={{ position:"sticky", top:0, zIndex:20, background:"#fff", borderBottom:"1.5px solid #EFEFEF" }}>
@@ -540,7 +553,7 @@ export default function App() {
             </div>
           </div>
           <div style={{ display:"flex", marginTop:10, overflowX:"auto", scrollbarWidth:"none", borderBottom:"1.5px solid #F0F0F0" }}>
-            {series.map(s=>{ const sid=SERIES_ID[s.id]||{}; const isA=active===s.id; return <button key={s.id} onClick={()=>setActive(s.id)} className="series-tab" style={{ padding:"7px 13px", border:"none", borderBottom:`3px solid ${isA?sid.color:"transparent"}`, background:"transparent", color:isA?sid.color:"#CCC", fontSize:11, fontWeight:isA?800:600, letterSpacing:.5, cursor:"pointer", whiteSpace:"nowrap", transition:"all .15s" }}>{sid.icon} {s.id}</button>; })}
+            {series.map(s=>{ const sid=SERIES_ID[s.id]||{}; const isA=active===s.id; return <button key={s.id} onClick={()=>setActive(s.id)} className="series-tab" className="series-tab" style={{ padding:"8px 16px", border:"none", borderBottom:`3px solid ${isA?sid.color:"transparent"}`, background:"transparent", color:isA?sid.color:"#CCC", fontSize:12, fontWeight:isA?800:600, letterSpacing:.5, cursor:"pointer", whiteSpace:"nowrap", transition:"all .15s" }}>{sid.icon} {s.id}</button>; })}
           </div>
         </div>
       </div>
