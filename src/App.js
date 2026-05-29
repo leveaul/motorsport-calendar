@@ -590,7 +590,7 @@ export default function App() {
         @keyframes slideUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
         *{box-sizing:border-box}
         button{font-family:inherit}
-        html{font-size:112.5%}
+        html{font-size:125%}
         body{background:#F2F2F0}
         .inner{width:100%;max-width:1400px;margin:0 auto;padding:0 24px}
         .tiles{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
