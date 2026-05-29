@@ -256,7 +256,7 @@ function Spinner({ color }) {
 function CircuitPanel({ race, id, onClose }) {
   const [results, setResults] = useState([]);
   const [loadingR, setLoadingR] = useState(true);
-  const key = getTrackKey(race.circuit);
+  const key = getTrackKey(race.circuit, race.series_id);
   const info = CIRCUIT_INFO[key] || CIRCUIT_INFO.default;
   const MEDALS = ["🥇","🥈","🥉"];
 
