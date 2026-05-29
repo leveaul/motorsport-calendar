@@ -36,6 +36,7 @@ function Flag({ country, size=20 }) {
 }
 
 const TRACK_IMAGES = {
+  // ── F1 (images officielles formula1.com via GitHub CDN) ──────────────────
   monaco:       "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/monaco.webp",
   silverstone:  "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/silverstone.webp",
   monza:        "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/monza.webp",
@@ -60,14 +61,95 @@ const TRACK_IMAGES = {
   shanghai:     "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/shanghai.webp",
   bahrain:      "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/bahrain.webp",
   mexicocity:   "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/mexicocity.webp",
-  mugello:      "https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/Mugello_Circuit.svg/320px-Mugello_Circuit.svg.png",
-  jerez:        "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Circuito_de_Jerez_track_map.svg/320px-Circuito_de_Jerez_track_map.svg.png",
-  buriram:      "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Chang_International_Circuit_track_map.svg/320px-Chang_International_Circuit_track_map.svg.png",
-  lemans:       "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Le_mans_circuit_2006.svg/320px-Le_mans_circuit_2006.svg.png",
-  paulricard:   "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Paul_Ricard_Circuit.svg/320px-Paul_Ricard_Circuit.svg.png",
-  portimao:     "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Algarve_International_Circuit_track_map.svg/320px-Algarve_International_Circuit_track_map.svg.png",
-  nurburgring:  "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/N%25C3%25BCrburgring_Grand_Prix_Strecke.svg/320px-N%25C3%25BCrburgring_Grand_Prix_Strecke.svg.png",
+
+  // ── MotoGP (SVGs officiels motogp.com via GitHub CDN) ────────────────────
+  motogp_tha:   "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/motogp_tha.svg",
+  motogp_bra:   "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/motogp_bra.svg",
+  motogp_usa:   "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/motogp_usa.svg",
+  motogp_spa:   "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/motogp_spa.svg",
+  motogp_fra:   "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/motogp_fra.svg",
+  motogp_cat:   "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/motogp_cat.svg",
+  motogp_ita:   "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/motogp_ita.svg",
+  motogp_hun:   "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/motogp_hun.svg",
+  motogp_cze:   "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/motogp_cze.svg",
+  motogp_nld:   "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/motogp_nld.svg",
+  motogp_ger:   "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/motogp_ger.svg",
+  motogp_gbr:   "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/motogp_gbr.svg",
+  motogp_ara:   "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/motogp_ara.svg",
+  motogp_rsm:   "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/motogp_rsm.svg",
+  motogp_aut:   "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/motogp_aut.svg",
+  motogp_jpn:   "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/motogp_jpn.svg",
+  motogp_ina:   "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/motogp_ina.svg",
+  motogp_aus:   "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/motogp_aus.svg",
+  motogp_mal:   "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/motogp_mal.svg",
+  motogp_qat:   "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/motogp_qat.svg",
+  motogp_por:   "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/motogp_por.svg",
+  motogp_val:   "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/motogp_val.svg",
 };
+
+function getTrackKey(circuit, seriesId) {
+  if (!circuit) return null;
+  const c = circuit.toLowerCase();
+
+  // MotoGP — utiliser les SVGs officiels motogp.com
+  if (seriesId === "MotoGP") {
+    if (c.includes("buriram") || c.includes("chang")) return "motogp_tha";
+    if (c.includes("goiania") || c.includes("senna") || c.includes("brasil")) return "motogp_bra";
+    if (c.includes("americas") || c.includes("cota") || c.includes("austin")) return "motogp_usa";
+    if (c.includes("jerez") || c.includes("angel nieto")) return "motogp_spa";
+    if (c.includes("bugatti") || c.includes("mans")) return "motogp_fra";
+    if (c.includes("catalunya") || c.includes("barcelona")) return "motogp_cat";
+    if (c.includes("mugello")) return "motogp_ita";
+    if (c.includes("balaton")) return "motogp_hun";
+    if (c.includes("brno") || c.includes("automotodrom")) return "motogp_cze";
+    if (c.includes("assen")) return "motogp_nld";
+    if (c.includes("sachsenring")) return "motogp_ger";
+    if (c.includes("silverstone")) return "motogp_gbr";
+    if (c.includes("aragon") || c.includes("motorland")) return "motogp_ara";
+    if (c.includes("misano") || c.includes("simoncelli")) return "motogp_rsm";
+    if (c.includes("red bull ring") || c.includes("spielberg")) return "motogp_aut";
+    if (c.includes("motegi")) return "motogp_jpn";
+    if (c.includes("mandalika") || c.includes("pertamina")) return "motogp_ina";
+    if (c.includes("phillip island")) return "motogp_aus";
+    if (c.includes("sepang") || c.includes("petronas")) return "motogp_mal";
+    if (c.includes("lusail") || c.includes("losail")) return "motogp_qat";
+    if (c.includes("algarve") || c.includes("portimao") || c.includes("portimão")) return "motogp_por";
+    if (c.includes("valencia") || c.includes("tormo")) return "motogp_val";
+    return null;
+  }
+
+  // F1 / WEC / ELMS / GTWCE — images officielles F1
+  if (c.includes("monaco")) return "monaco";
+  if (c.includes("monza")) return "monza";
+  if (c.includes("silverstone")) return "silverstone";
+  if (c.includes("spa")) return "spa";
+  if (c.includes("suzuka")) return "suzuka";
+  if (c.includes("albert park")) return "albertpark";
+  if (c.includes("red bull ring") || c.includes("spielberg")) return "redbullring";
+  if (c.includes("catalunya") || c.includes("barcelona")) return "barcelona";
+  if (c.includes("zandvoort")) return "zandvoort";
+  if (c.includes("hungaroring") || c.includes("budapest")) return "hungaroring";
+  if (c.includes("imola")) return "imola";
+  if (c.includes("yas marina")) return "yasmarina";
+  if (c.includes("americas") || c.includes("cota") || c.includes("austin")) return "cota";
+  if (c.includes("baku") || c.includes("azerbaijan")) return "baku";
+  if (c.includes("lusail") || c.includes("losail")) return "losail";
+  if (c.includes("marina bay") || c.includes("singapore")) return "marinabay";
+  if (c.includes("gilles villeneuve") || c.includes("montreal") || c.includes("montréal")) return "montreal";
+  if (c.includes("interlagos") || c.includes("são paulo") || c.includes("sao paulo")) return "interlagos";
+  if (c.includes("jeddah") || c.includes("corniche")) return "jeddah";
+  if (c.includes("miami")) return "miami";
+  if (c.includes("las vegas")) return "lasvegas";
+  if (c.includes("shanghai") || c.includes("chine")) return "shanghai";
+  if (c.includes("bahrain") || c.includes("sakhir")) return "bahrain";
+  if (c.includes("hermanos") || c.includes("mexico")) return "mexicocity";
+  if (c.includes("paul ricard") || c.includes("castellet")) return null;
+  if (c.includes("portimao") || c.includes("algarve")) return null;
+  if (c.includes("nurburgring") || c.includes("nürburgring")) return null;
+  return null;
+}
+
+
 
 function getTrackKey(circuit) {
   if (!circuit) return null;
@@ -106,8 +188,8 @@ function getTrackKey(circuit) {
   return null;
 }
 
-function TrackSVG({ circuit, color, size=140 }) {
-  const key = getTrackKey(circuit);
+function TrackSVG({ circuit, color, size=140, seriesId='' }) {
+  const key = getTrackKey(circuit, seriesId);
   const imgUrl = key ? TRACK_IMAGES[key] : null;
   const [error, setError] = useState(false);
   useEffect(() => { setError(false); }, [circuit]);
@@ -209,7 +291,7 @@ function CircuitPanel({ race, id, onClose }) {
       <div style={{ padding:"12px 16px", display:"grid", gridTemplateColumns:"1fr 1fr", gap:10 }}>
         <div style={{ background:"#fff", borderRadius:10, border:`1px solid ${id.color}15`, padding:12, display:"flex", flexDirection:"column", alignItems:"center" }}>
           <div style={{ fontSize:9, color:"#BBB", letterSpacing:1.5, marginBottom:6, fontWeight:700 }}>TRACE</div>
-          <TrackSVG circuit={race.circuit} color={id.color} size={130}/>
+          <TrackSVG circuit={race.circuit} color={id.color} size={130} seriesId={race.series_id}/>
         </div>
         <div style={{ display:"flex", flexDirection:"column", gap:6 }}>
           {[["📏","Longueur",info.lap],["↩️","Virages",info.turns !== "--" ? `${info.turns}` : "--"],["⏱️","Record",info.record],["📅","Date",fmtRange(race.date_start,race.date_end)],["🗓️","Au calendrier",info.first]].map(([emoji,label,val]) => (
