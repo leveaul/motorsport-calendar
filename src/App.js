@@ -445,9 +445,111 @@ function RaceCard({ race, id, active, onClick }) {
   );
 }
 
+function HomeDashboard({ series, onSelect, id }) {
+  const today = new Date().toISOString().slice(0,10);
+  const [data, setData] = useState({});   // { seriesId: { next, top3 } }
+
+  useEffect(() => {
+    series.forEach(s => {
+      // Prochain event
+      Promise.all([
+        sb(`races?series_id=eq.${s.id}&date_start=gte.${today}&type=neq.sprint&order=date_start.asc&limit=1`),
+        sb(`standings?series_id=eq.${s.id}&type=eq.driver&season=eq.2026&order=position.asc&limit=3`)
+      ]).then(([races, standing]) => {
+        setData(prev => ({ ...prev, [s.id]: { next: races[0] || null, top3: standing } }));
+      }).catch(() => {});
+    });
+  }, [series]);
+
+  return (
+    <div style={{ animation:"slideUp .3s ease" }}>
+      <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(280px,1fr))", gap:16 }}>
+        {series.map(s => {
+          const sid = SERIES_ID[s.id] || {};
+          const d = data[s.id];
+          const next = d?.next;
+          const top3 = d?.top3 || [];
+          const key = next ? getTrackKey(next.circuit, s.id, next.circuit_key) : null;
+          const imgUrl = key ? TRACK_IMAGES[key] : null;
+          const days = next ? daysUntil(next.date_start) : null;
+
+          return (
+            <div key={s.id}
+              onClick={() => onSelect(s.id)}
+              style={{ background:"#fff", border:`0.5px solid #E8E8E8`, borderRadius:16, overflow:"hidden", cursor:"pointer", transition:"border-color .15s", borderTop:`3px solid ${sid.color}` }}
+              onMouseEnter={e => e.currentTarget.style.borderColor = sid.color}
+              onMouseLeave={e => e.currentTarget.style.borderColor = '#E8E8E8'}
+            >
+              {/* Header série */}
+              <div style={{ padding:"14px 16px 10px", display:"flex", justifyContent:"space-between", alignItems:"center" }}>
+                <div style={{ display:"flex", alignItems:"center", gap:8 }}>
+                  <span style={{ fontSize:20 }}>{sid.icon}</span>
+                  <div>
+                    <div style={{ fontSize:16, fontWeight:900, color:"#111" }}>{sid.label}</div>
+                    <div style={{ fontSize:10, fontWeight:700, letterSpacing:1, color:"#BBB" }}>2026</div>
+                  </div>
+                </div>
+                {days !== null && (
+                  <div style={{ textAlign:"right" }}>
+                    <div style={{ fontSize:22, fontWeight:900, color:sid.color, lineHeight:1 }}>{days}</div>
+                    <div style={{ fontSize:8, color:"#CCC", letterSpacing:1.5, fontWeight:600 }}>JOURS</div>
+                  </div>
+                )}
+              </div>
+
+              {/* Tracé */}
+              <div style={{ height:110, background:"#FAFAFA", display:"flex", alignItems:"center", justifyContent:"center", borderTop:"0.5px solid #F0F0F0", borderBottom:"0.5px solid #F0F0F0", overflow:"hidden" }}>
+                {imgUrl
+                  ? <img src={imgUrl} alt={next?.circuit} style={{ width:"100%", height:"100%", objectFit:"contain" }} onError={e => e.target.style.display='none'}/>
+                  : <div style={{ fontSize:32, opacity:.1 }}>🏁</div>
+                }
+              </div>
+
+              {/* Prochain event */}
+              <div style={{ padding:"10px 16px 12px", borderBottom:"0.5px solid #F5F5F5" }}>
+                {next ? (
+                  <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start" }}>
+                    <div style={{ minWidth:0 }}>
+                      <div style={{ fontSize:13, fontWeight:800, color:"#111", overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap" }}>{next.name}</div>
+                      <div style={{ fontSize:10, color:"#BBB", marginTop:1, display:"flex", alignItems:"center", gap:5 }}>
+                        <Flag country={next.country} size={12}/>
+                        {fmtRange(next.date_start, next.date_end)}
+                      </div>
+                    </div>
+                    {days === 0 && <span style={{ fontSize:10, fontWeight:700, color:"#fff", background:sid.color, padding:"3px 8px", borderRadius:20 }}>AUJ.</span>}
+                  </div>
+                ) : (
+                  <div style={{ fontSize:12, color:"#DDD", textAlign:"center" }}>Saison terminée</div>
+                )}
+              </div>
+
+              {/* Top 3 classement */}
+              <div style={{ padding:"10px 16px 14px" }}>
+                <div style={{ fontSize:8, fontWeight:700, letterSpacing:1.5, color:"#CCC", marginBottom:8 }}>CLASSEMENT</div>
+                {top3.length === 0 && <div style={{ fontSize:11, color:"#DDD", textAlign:"center" }}>—</div>}
+                {top3.map((r, i) => (
+                  <div key={i} style={{ display:"flex", alignItems:"center", gap:8, marginBottom: i<2 ? 6 : 0 }}>
+                    <div style={{ width:20, height:20, borderRadius:6, background: i===0?sid.color:i===1?"#C0C0C0":"#CD7F32", display:"flex", alignItems:"center", justifyContent:"center", fontSize:10, fontWeight:800, color:"#fff", flexShrink:0 }}>
+                      {i+1}
+                    </div>
+                    <div style={{ flex:1, fontSize:12, fontWeight:700, color:"#222", overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap" }}>{r.name}</div>
+                    <div style={{ fontSize:13, fontWeight:900, color:sid.color, flexShrink:0 }}>{r.points}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+
 export default function App() {
   const [series, setSeries] = useState([]);
   const [active, setActive] = useState("F1");
+  const [view, setView] = useState("home"); // 'home' | 'series'
   const [races, setRaces] = useState([]);
   const [filter, setFilter] = useState("upcoming");
   const [loading, setLoading] = useState(true);
@@ -536,13 +638,17 @@ export default function App() {
               <div style={{ fontSize:9, fontWeight:700, letterSpacing:3, color:"#BBB" }}>CALENDRIER</div>
               <div style={{ fontSize:22, fontWeight:900, color:"#111" }}>MOTORSPORT <span style={{ color:id.color }}>2026</span></div>
             </div>
+            <button className="stab" style={{ '--sc':'#666', color: view==='home'?'#444':'#BBB', borderBottomColor: view==='home'?'#444':'transparent', fontWeight: view==='home'?800:600 }}
+              onClick={() => setView('home')}>
+              🏠 Accueil
+            </button>
             {series.map(s => {
               const sid = SERIES_ID[s.id] || {};
               const isA = active === s.id;
               return (
                 <button key={s.id} className={`stab${isA?' active':''}`}
                   style={{ '--sc': sid.color, color: isA ? sid.color : '#BBB' }}
-                  onClick={() => setActive(s.id)}>
+                  onClick={() => { setActive(s.id); setView('series'); }}>
                   {sid.icon} {s.id}
                 </button>
               );
@@ -553,7 +659,14 @@ export default function App() {
 
       {/* ── CONTENU ── */}
       <div className="inner" style={{ paddingTop:24, paddingBottom:60 }}>
-        {loading && <Spinner color={id.color}/>}
+        {/* ── HOME DASHBOARD ── */}
+        {view === 'home' && (
+          <HomeDashboard series={series} onSelect={sid => { setActive(sid); setView('series'); }} id={id}/>
+        )}
+
+        {/* ── VUE SÉRIE ── */}
+        {view === 'series' && loading && <Spinner color={id.color}/>}
+        {view === 'series' && !loading && <>
 
         {/* Banner prochaine course */}
         {!loading && next && (
@@ -662,6 +775,9 @@ export default function App() {
             })}
           </div>
         )}
+
+        </>
+        }{/* ── FIN VUE SÉRIE ── */}
 
         {/* Footer */}
         {!loading && (
