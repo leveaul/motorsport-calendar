@@ -98,6 +98,7 @@ const TRACK_IMAGES = {
 
   // ── ELMS / GTWCE / IMSA — à compléter ───────────────────────────────────
 
+};
 
 
 function getTrackKey(circuit, seriesId, circuitKey) {
