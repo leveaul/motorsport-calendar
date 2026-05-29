@@ -259,7 +259,7 @@ function CircuitPanel({ race, id, onClose }) {
         </div>
         <button onClick={onClose} style={{ background:"rgba(255,255,255,.2)", border:"none", color:"#fff", width:26, height:26, borderRadius:6, cursor:"pointer", fontSize:13 }}>X</button>
       </div>
-      <div style={{ padding:"12px 16px", display:"grid", gridTemplateColumns:"1fr 1fr", gap:10 }}>
+      <div style={{ padding:"12px 16px", display:"grid", gridTemplateColumns:"1fr 1fr", gap:10 }} className="circuit-panel-grid">
         <div style={{ background:"#fff", borderRadius:10, border:`1px solid ${id.color}15`, padding:12, display:"flex", flexDirection:"column", alignItems:"center" }}>
           <div style={{ fontSize:9, color:"#BBB", letterSpacing:1.5, marginBottom:6, fontWeight:700 }}>TRACE</div>
           <TrackSVG circuit={race.circuit} color={id.color} size={130} seriesId={race.series_id}/>
@@ -425,9 +425,27 @@ export default function App() {
 
   return (
     <div style={{ minHeight:"100vh", background:"#F4F4F4", fontFamily:"'Barlow Condensed','Arial Narrow',sans-serif", paddingBottom:60 }}>
-      <style>{`@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&display=swap');@keyframes spin{to{transform:rotate(360deg)}}@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}@keyframes slideUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}@keyframes slideDown{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}*{box-sizing:border-box}button{font-family:inherit}`}</style>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&display=swap');
+        @keyframes spin{to{transform:rotate(360deg)}}
+        @keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+        @keyframes slideUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+        @keyframes slideDown{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+        *{box-sizing:border-box} button{font-family:inherit}
+        body{background:#F4F4F4}
+        .app-shell{display:flex;flex-direction:column;min-height:100vh}
+        .app-inner{width:100%;max-width:780px;margin:0 auto;padding:0 20px}
+        @media(min-width:900px){
+          .app-inner{max-width:960px;padding:0 40px}
+          .race-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+          .circuit-panel-grid{grid-template-columns:1fr 1fr}
+        }
+        @media(min-width:1200px){
+          .app-inner{max-width:1100px}
+        }
+      `}</style>
       <div style={{ position:"sticky", top:0, zIndex:20, background:"#fff", borderBottom:"1.5px solid #EFEFEF" }}>
-        <div style={{ maxWidth:600, margin:"0 auto", padding:"0 16px" }}>
+        <div className="app-inner" style={{ maxWidth:"unset" }}>
           <div style={{ height:4, background:id.color, margin:"0 -16px" }}/>
           <div style={{ padding:"10px 0 0", display:"flex", alignItems:"center", position:"relative", overflow:"hidden" }}>
             <div style={{ position:"absolute", right:-5, top:-8, fontSize:72, opacity:.07, userSelect:"none" }}>{id.heroEmoji}</div>
@@ -441,7 +459,7 @@ export default function App() {
           </div>
         </div>
       </div>
-      <div style={{ maxWidth:600, margin:"0 auto", padding:"0 14px" }}>
+      <div className="app-inner">
         {next&&!loading&&(
           <div style={{ margin:"14px 0 10px", background:`linear-gradient(135deg,${id.color},${id.color}CC)`, borderRadius:14, padding:"14px 16px", display:"flex", justifyContent:"space-between", alignItems:"center", boxShadow:`0 4px 20px ${id.color}30`, animation:"slideUp .3s ease", position:"relative", overflow:"hidden" }}>
             <div style={{ position:"absolute", right:14, top:"50%", transform:"translateY(-50%)", opacity:.15 }}><Flag country={next.country} size={60}/></div>
@@ -478,7 +496,7 @@ export default function App() {
         {loading&&<Spinner color={id.color}/>}
         {!loading&&filter==="standings"&&<div style={{ animation:"slideUp .25s ease" }}><StandingsPanel seriesId={active} id={id}/></div>}
         {!loading&&filter!=="standings"&&(
-          <div style={{ display:"flex", flexDirection:"column", gap:5, animation:"slideUp .25s ease" }}>
+          <div className="race-grid" style={{ display:"grid", gridTemplateColumns:"1fr", gap:5, animation:"slideUp .25s ease" }}>
             {displayed.length===0&&<div style={{ textAlign:"center", color:"#CCC", fontSize:13, padding:40 }}>Aucune course</div>}
             {displayed.map(race=>(
               <div key={race.id}>
