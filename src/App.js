@@ -489,13 +489,13 @@ function HomeDashboard({ series, onSelect, id }) {
                 <div style={{ display:"flex", alignItems:"center", gap:8 }}>
                   <span style={{ fontSize:20 }}>{sid.icon}</span>
                   <div>
-                    <div style={{ fontSize:20, fontWeight:900, color:"#111" }}>{sid.label}</div>
+                    <div style={{ fontSize:24, fontWeight:900, color:"#111" }}>{sid.label}</div>
                     <div style={{ fontSize:10, fontWeight:700, letterSpacing:1, color:"#BBB" }}>2026</div>
                   </div>
                 </div>
                 {days !== null && (
                   <div style={{ textAlign:"right" }}>
-                    <div style={{ fontSize:30, fontWeight:900, color:sid.color, lineHeight:1 }}>{days}</div>
+                    <div style={{ fontSize:38, fontWeight:900, color:sid.color, lineHeight:1 }}>{days}</div>
                     <div style={{ fontSize:8, color:"#CCC", letterSpacing:1.5, fontWeight:600 }}>JOURS</div>
                   </div>
                 )}
@@ -514,7 +514,7 @@ function HomeDashboard({ series, onSelect, id }) {
                 {next ? (
                   <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start" }}>
                     <div style={{ minWidth:0 }}>
-                      <div style={{ fontSize:16, fontWeight:800, color:"#111", overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap" }}>{next.name}</div>
+                      <div style={{ fontSize:20, fontWeight:800, color:"#111", overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap" }}>{next.name}</div>
                       <div style={{ fontSize:10, color:"#BBB", marginTop:1, display:"flex", alignItems:"center", gap:5 }}>
                         <Flag country={next.country} size={12}/>
                         {fmtRange(next.date_start, next.date_end)}
@@ -536,8 +536,8 @@ function HomeDashboard({ series, onSelect, id }) {
                     <div style={{ width:20, height:20, borderRadius:6, background: i===0?sid.color:i===1?"#C0C0C0":"#CD7F32", display:"flex", alignItems:"center", justifyContent:"center", fontSize:10, fontWeight:800, color:"#fff", flexShrink:0 }}>
                       {i+1}
                     </div>
-                    <div style={{ flex:1, fontSize:14, fontWeight:700, color:"#222", overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap" }}>{r.name}</div>
-                    <div style={{ fontSize:16, fontWeight:900, color:sid.color, flexShrink:0 }}>{r.points}</div>
+                    <div style={{ flex:1, fontSize:16, fontWeight:700, color:"#222", overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap" }}>{r.name}</div>
+                    <div style={{ fontSize:18, fontWeight:900, color:sid.color, flexShrink:0 }}>{r.points}</div>
                   </div>
                 ))}
               </div>
@@ -590,7 +590,6 @@ export default function App() {
         @keyframes slideUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
         *{box-sizing:border-box}
         button{font-family:inherit}
-        html{font-size:125%}
         body{background:#F2F2F0}
         .inner{width:100%;max-width:1400px;margin:0 auto;padding:0 24px}
         .tiles{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
@@ -603,25 +602,25 @@ export default function App() {
         .tile.next-race{border:2px solid var(--sc,#E8002D)}
         .tile-top{padding:12px 14px 8px;display:flex;justify-content:space-between;align-items:flex-start}
         .tile-date{background:#F5F5F5;border-radius:8px;padding:5px 10px;text-align:center;min-width:44px}
-        .tile-day{font-size:26px;font-weight:900;line-height:1;color:var(--sc,#E8002D)}
+        .tile-day{font-size:32px;font-weight:900;line-height:1;color:var(--sc,#E8002D)}
         .tile-day.past{color:#CCC}
-        .tile-month{font-size:9px;font-weight:700;letter-spacing:1px;color:#BBB;text-transform:uppercase}
-        .tile-track{height:140px;background:#FAFAFA;display:flex;align-items:center;justify-content:center;overflow:hidden;border-top:0.5px solid #F0F0F0;border-bottom:0.5px solid #F0F0F0}
+        .tile-month{font-size:11px;font-weight:700;letter-spacing:1px;color:#BBB;text-transform:uppercase}
+        .tile-track{height:160px;background:#FAFAFA;display:flex;align-items:center;justify-content:center;overflow:hidden;border-top:0.5px solid #F0F0F0;border-bottom:0.5px solid #F0F0F0}
         .tile-track img{width:100%;height:100%;object-fit:contain}
         .tile-foot{padding:10px 14px 13px}
-        .tile-name{font-size:16px;font-weight:800;color:#111;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+        .tile-name{font-size:19px;font-weight:800;color:#111;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
         .tile-name.past{color:#AAA}
-        .tile-circuit{font-size:11px;color:#BBB;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-top:1px}
+        .tile-circuit{font-size:13px;color:#BBB;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-top:1px}
         .tile-badges{display:flex;gap:4px;margin-top:8px;flex-wrap:wrap;align-items:center}
-        .badge{font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px}
+        .badge{font-size:12px;font-weight:700;padding:3px 8px;border-radius:20px}
         .b-res{background:#FEF0F2;color:#B0001F}
         .b-sprint{background:#FFF0E0;color:#CC4400}
         .b-days{background:#F0F0F0;color:#888}
         .b-next{color:#fff}
-        .stab{padding:10px 18px;border:none;border-bottom:3px solid transparent;background:transparent;font-family:inherit;font-size:15px;font-weight:600;color:#BBB;cursor:pointer;white-space:nowrap;transition:all .15s;display:flex;align-items:center;gap:5px}
+        .stab{padding:12px 22px;border:none;border-bottom:3px solid transparent;background:transparent;font-family:inherit;font-size:17px;font-weight:600;color:#BBB;cursor:pointer;white-space:nowrap;transition:all .15s;display:flex;align-items:center;gap:5px}
         .stab.active{font-weight:800;border-bottom-color:var(--sc)}
         .stab:hover:not(.active){color:#555}
-        .fbtn{padding:7px 18px;border-radius:20px;border:0.5px solid #DDD;background:#fff;font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;color:#888;transition:all .15s}
+        .fbtn{padding:9px 20px;border-radius:20px;border:0.5px solid #DDD;background:#fff;font-family:inherit;font-size:14px;font-weight:600;cursor:pointer;color:#888;transition:all .15s}
         .fbtn.active{color:#fff;border-color:var(--sc)}
         @media(min-width:900px){
           .inner{padding:0 40px}
@@ -641,7 +640,7 @@ export default function App() {
           <div style={{ display:"flex", alignItems:"flex-end", paddingTop:12, gap:4, overflowX:"auto", scrollbarWidth:"none" }}>
             <div style={{ marginRight:16, flexShrink:0, paddingBottom:12 }}>
               <div style={{ fontSize:9, fontWeight:700, letterSpacing:3, color:"#BBB" }}>CALENDRIER</div>
-              <div style={{ fontSize:22, fontWeight:900, color:"#111" }}>MOTORSPORT <span style={{ color:id.color }}>2026</span></div>
+              <div style={{ fontSize:26, fontWeight:900, color:"#111" }}>MOTORSPORT <span style={{ color:id.color }}>2026</span></div>
             </div>
             <button className="stab" style={{ '--sc':'#666', color: view==='home'?'#444':'#BBB', borderBottomColor: view==='home'?'#444':'transparent', fontWeight: view==='home'?800:600 }}
               onClick={() => setView('home')}>
@@ -678,7 +677,7 @@ export default function App() {
           <div style={{ background:`linear-gradient(135deg,${id.color},${id.color}CC)`, borderRadius:14, padding:"18px 28px", display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:20, animation:"slideUp .3s ease" }}>
             <div>
               <div style={{ fontSize:9, fontWeight:700, letterSpacing:3, color:"rgba(255,255,255,.55)", marginBottom:3 }}>PROCHAINE COURSE</div>
-              <div className="next-name" style={{ fontSize:26, fontWeight:900, color:"#fff" }}>{next.name}</div>
+              <div className="next-name" style={{ fontSize:32, fontWeight:900, color:"#fff" }}>{next.name}</div>
               <div style={{ fontSize:12, color:"rgba(255,255,255,.65)", marginTop:3, display:"flex", alignItems:"center", gap:6 }}>
                 <Flag country={next.country} size={14}/>
                 {fmtRange(next.date_start, next.date_end)}{next.circuit ? ` — ${next.circuit}` : ''}
@@ -688,7 +687,7 @@ export default function App() {
               {daysUntil(next.date_start) === 0
                 ? <div style={{ fontSize:18, fontWeight:900, color:"#fff" }}>AUJOURD'HUI !</div>
                 : <>
-                  <div className="next-days" style={{ fontSize:52, fontWeight:900, color:"#fff", lineHeight:1 }}>{daysUntil(next.date_start)}</div>
+                  <div className="next-days" style={{ fontSize:64, fontWeight:900, color:"#fff", lineHeight:1 }}>{daysUntil(next.date_start)}</div>
                   <div style={{ fontSize:9, color:"rgba(255,255,255,.5)", letterSpacing:2 }}>JOURS</div>
                 </>
               }
@@ -786,9 +785,9 @@ export default function App() {
 
         {/* Footer */}
         {!loading && (
-          <div style={{ marginTop:24, padding:"10px 16px", background:"#fff", borderRadius:10, border:"0.5px solid #EFEFEF", display:"flex", justifyContent:"space-between", alignItems:"center" }}>
-            <span style={{ fontSize:10, color:"#CCC", fontWeight:600, letterSpacing:1 }}>{races.length} COURSES — SUPABASE</span>
-            <span style={{ fontSize:10, fontWeight:800, color:id.color }}>{id.label.toUpperCase()} 2026</span>
+          <div style={{ marginTop:24, padding:"12px 20px", background:"#fff", borderRadius:10, border:"0.5px solid #EFEFEF", display:"flex", justifyContent:"space-between", alignItems:"center" }}>
+            <span style={{ fontSize:12, color:"#CCC", fontWeight:600, letterSpacing:1 }}>{races.length} COURSES · SUPABASE · 2026</span>
+            <span style={{ fontSize:12, fontWeight:800, color:"#BBB" }}>MOTORSPORT 2026</span>
           </div>
         )}
       </div>
