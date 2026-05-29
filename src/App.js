@@ -165,12 +165,12 @@ function TrackSVG({ circuit, color, size=140, seriesId='' }) {
   const [error, setError] = useState(false);
   useEffect(() => { setError(false); }, [circuit]);
   if (!imgUrl || error) return (
-    <div style={{ width:size, height:size*0.75, display:"flex", alignItems:"center", justifyContent:"center" }}>
+    <div style={{ width:"100%", height:"100%", display:"flex", alignItems:"center", justifyContent:"center" }}>
       <div style={{ fontSize:10, color:"#CCC", textAlign:"center" }}>{circuit || "Circuit"}</div>
     </div>
   );
   return (
-    <div style={{ width:size, height:size*0.75, display:"flex", alignItems:"center", justifyContent:"center" }}>
+    <div style={{ width:"100%", height:"100%", display:"flex", alignItems:"center", justifyContent:"center" }}>
       <img src={imgUrl} alt={circuit} onError={() => setError(true)}
         style={{ maxWidth:"100%", maxHeight:"100%", objectFit:"contain" }} />
     </div>
@@ -259,10 +259,12 @@ function CircuitPanel({ race, id, onClose }) {
         </div>
         <button onClick={onClose} style={{ background:"rgba(255,255,255,.2)", border:"none", color:"#fff", width:26, height:26, borderRadius:6, cursor:"pointer", fontSize:13 }}>X</button>
       </div>
-      <div style={{ padding:"12px 16px", display:"grid", gridTemplateColumns:"1fr 1fr", gap:10 }} className="circuit-panel-grid">
+      <div className="circuit-panel-inner" style={{ padding:"12px 16px", display:"grid", gridTemplateColumns:"1fr 1fr", gap:10 }}>
         <div style={{ background:"#fff", borderRadius:10, border:`1px solid ${id.color}15`, padding:12, display:"flex", flexDirection:"column", alignItems:"center" }}>
           <div style={{ fontSize:9, color:"#BBB", letterSpacing:1.5, marginBottom:6, fontWeight:700 }}>TRACE</div>
-          <TrackSVG circuit={race.circuit} color={id.color} size={130} seriesId={race.series_id}/>
+          <div className="track-img-wrap" style={{ width:"100%", height:180, display:"flex", alignItems:"center", justifyContent:"center" }}>
+            <TrackSVG circuit={race.circuit} color={id.color} size={160} seriesId={race.series_id}/>
+          </div>
         </div>
         <div style={{ display:"flex", flexDirection:"column", gap:6 }}>
           {[["📏","Longueur",info.lap],["↩️","Virages",info.turns !== "--" ? `${info.turns}` : "--"],["⏱️","Record",info.record],["📅","Date",fmtRange(race.date_start,race.date_end)],["🗓️","Au calendrier",info.first]].map(([emoji,label,val]) => (
@@ -433,15 +435,16 @@ export default function App() {
         @keyframes slideDown{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
         *{box-sizing:border-box} button{font-family:inherit}
         body{background:#F4F4F4}
-        .app-shell{display:flex;flex-direction:column;min-height:100vh}
-        .app-inner{width:100%;max-width:780px;margin:0 auto;padding:0 20px}
+        .app-inner{width:100%;max-width:640px;margin:0 auto;padding:0 16px}
         @media(min-width:900px){
-          .app-inner{max-width:960px;padding:0 40px}
+          .app-inner{max-width:1100px;padding:0 40px}
           .race-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-          .circuit-panel-grid{grid-template-columns:1fr 1fr}
+          .circuit-panel-inner{grid-template-columns:1fr 1fr !important}
+          .track-img-wrap{height:220px !important}
         }
-        @media(min-width:1200px){
-          .app-inner{max-width:1100px}
+        @media(min-width:1400px){
+          .app-inner{max-width:1300px}
+          .track-img-wrap{height:280px !important}
         }
       `}</style>
       <div style={{ position:"sticky", top:0, zIndex:20, background:"#fff", borderBottom:"1.5px solid #EFEFEF" }}>
