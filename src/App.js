@@ -87,14 +87,14 @@ const TRACK_IMAGES = {
   motogp_val:      "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/motogp/val.svg",
 
   // ── WEC (/public/tracks/wec/) ────────────────────────────────────────────
-  wec_losail:      "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/wec/losail.pdf",
-  wec_imola:       "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/wec/imola.pdf",
-  wec_spa:         "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/wec/spa.pdf",
-  wec_lemans:      "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/wec/lemans.pdf",
-  wec_saopaulo:    "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/wec/saopaulo.pdf",
-  wec_cota:        "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/wec/cota.pdf",
-  wec_fuji:        "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/wec/fuji.pdf",
-  wec_bahrain:     "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/wec/bahrain.pdf",
+  wec_losail:      "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/wec/losail.png",
+  wec_imola:       "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/wec/imola.png",
+  wec_spa:         "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/wec/spa.png",
+  wec_lemans:      "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/wec/lemans.png",
+  wec_saopaulo:    "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/wec/saopaulo.png",
+  wec_cota:        "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/wec/cota.png",
+  wec_fuji:        "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/wec/fuji.png",
+  wec_bahrain:     "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/wec/bahrain.png",
 
   // ── ELMS / GTWCE / IMSA — à compléter ───────────────────────────────────
 
@@ -183,25 +183,12 @@ function TrackSVG({ circuit, color, size=140, seriesId='', circuitKey=null }) {
   const imgUrl = key ? TRACK_IMAGES[key] : null;
   const [error, setError] = useState(false);
   useEffect(() => { setError(false); }, [circuit]);
-  const isPdf = imgUrl && imgUrl.endsWith('.pdf');
 
   if (!imgUrl || error) return (
     <div style={{ width:"100%", height:"100%", display:"flex", alignItems:"center", justifyContent:"center" }}>
       <div style={{ fontSize:10, color:"#CCC", textAlign:"center" }}>{circuit || "Circuit"}</div>
     </div>
   );
-
-  if (isPdf) return (
-    <div style={{ width:"100%", height:"100%", display:"flex", alignItems:"center", justifyContent:"center", overflow:"hidden" }}>
-      <embed
-        src={`${imgUrl}#toolbar=0&navpanes=0&scrollbar=0&view=FitH`}
-        type="application/pdf"
-        style={{ width:"100%", height:"100%", border:"none" }}
-        onError={() => setError(true)}
-      />
-    </div>
-  );
-
   return (
     <div style={{ width:"100%", height:"100%", display:"flex", alignItems:"center", justifyContent:"center" }}>
       <img src={imgUrl} alt={circuit} onError={() => setError(true)}
