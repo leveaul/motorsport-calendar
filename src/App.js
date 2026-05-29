@@ -138,10 +138,10 @@ function getTrackKey(circuit, seriesId, circuitKey) {
   // Priorité 3 : WEC / ELMS / GTWCE / IMSA
   if (seriesId === "WEC" || seriesId === "ELMS" || seriesId === "GTWCE" || seriesId === "IMSA") {
     if (c.includes("lusail") || c.includes("losail"))              return "wec_losail";
-    if (c.includes("imola"))                                        return "wec_imola";
+    if (c.includes("imola") || c.includes("dino ferrari"))           return "wec_imola";
     if (c.includes("spa"))                                          return "wec_spa";
     if (c.includes("sarthe") || (c.includes("mans") && !c.includes("bugatti"))) return "wec_lemans";
-    if (c.includes("interlagos") || c.includes("são paulo") || c.includes("sao paulo")) return "wec_saopaulo";
+    if (c.includes("interlagos") || c.includes("são paulo") || c.includes("sao paulo") || c.includes("goiania") || c.includes("goiânia") || c.includes("senna") || c.includes("ayrton")) return "wec_saopaulo";
     if (c.includes("americas") || c.includes("cota") || c.includes("austin")) return "wec_cota";
     if (c.includes("fuji"))                                         return "wec_fuji";
     if (c.includes("bahrain") || c.includes("sakhir"))             return "wec_bahrain";
@@ -192,7 +192,7 @@ function TrackSVG({ circuit, color, size=140, seriesId='', circuitKey=null }) {
   return (
     <div style={{ width:"100%", height:"100%", display:"flex", alignItems:"center", justifyContent:"center" }}>
       <img src={imgUrl} alt={circuit} onError={() => setError(true)}
-        style={{ maxWidth:"100%", maxHeight:"100%", objectFit:"contain" }} />
+        style={{ width:"100%", height:"100%", objectFit:"contain", display:"block" }} />
     </div>
   );
 }
@@ -310,9 +310,9 @@ function CircuitPanel({ race, id, onClose }) {
         <button onClick={onClose} style={{ background:"rgba(255,255,255,.2)", border:"none", color:"#fff", width:26, height:26, borderRadius:6, cursor:"pointer", fontSize:13 }}>X</button>
       </div>
       <div className="circuit-panel-inner" style={{ padding:"12px 16px", display:"grid", gridTemplateColumns:"1fr 1fr", gap:10 }}>
-        <div style={{ background:"#fff", borderRadius:10, border:`1px solid ${id.color}15`, padding:12, display:"flex", flexDirection:"column", alignItems:"center" }}>
+        <div style={{ background:"#fff", borderRadius:10, border:`1px solid ${id.color}15`, padding:12, display:"flex", flexDirection:"column", alignItems:"center", overflow:"hidden" }}>
           <div style={{ fontSize:9, color:"#BBB", letterSpacing:1.5, marginBottom:6, fontWeight:700 }}>TRACE</div>
-          <div className="track-img-wrap" style={{ width:"100%", height:180, display:"flex", alignItems:"center", justifyContent:"center" }}>
+          <div className="track-img-wrap" style={{ width:"100%", height:180, display:"flex", alignItems:"center", justifyContent:"center", overflow:"hidden" }}>
             <TrackSVG circuit={race.circuit} color={id.color} size={160} seriesId={race.series_id} circuitKey={race.circuit_key}/>
           </div>
         </div>
