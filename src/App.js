@@ -15,6 +15,7 @@ const SERIES_ID = {
   WEC:   { label:"FIA WEC",      color:"#0066CC", bg:"#EFF6FF", text:"#004A9E", icon:"⏱️", heroEmoji:"⏱️" },
   ELMS:  { label:"ELMS",         color:"#00833E", bg:"#EDFAF3", text:"#006030", icon:"🏁", heroEmoji:"🏁" },
   IMSA:  { label:"IMSA",         color:"#0033A0", bg:"#EEF2FF", text:"#002280", icon:"🏆", heroEmoji:"🏆" },
+  WRC:   { label:"WRC",            color:"#1A3C6E", bg:"#EEF2FF", text:"#0A1F40", icon:"🚗", heroEmoji:"🚗" },
   GTWCE: { label:"GT WC Europe", color:"#FF6600", bg:"#FFF4EE", text:"#CC4400", icon:"🏆", heroEmoji:"🏆" },
 };
 
@@ -199,29 +200,29 @@ function TrackSVG({ circuit, color, size=140, seriesId='', circuitKey=null }) {
 
 const CIRCUIT_INFO = {
   // ── F1 ───────────────────────────────────────────────────────────────────
-  f1_monaco:    { lap:"3.337 km", turns:19, record:"1:12.909 - Hamilton (2021)",         first:"F1: 1950" },
-  f1_monza:     { lap:"5.793 km", turns:11, record:"1:19.119 - Leclerc (2019)",           first:"F1: 1950" },
+  f1_monaco:    { lap:"3.337 km", turns:19, record:"1:12.909 - Hamilton (2021)",         first:"F1: 1950", laps:78 , laps:78 },
+  f1_monza:     { lap:"5.793 km", turns:11, record:"1:19.119 - Leclerc (2019)",           first:"F1: 1950", laps:53 , laps:53 },
   silverstone:  { lap:"5.891 km", turns:18, record:"1:27.097 - Verstappen (2020)",        first:"F1: 1950" },
   f1_spa:       { lap:"7.004 km", turns:19, record:"1:41.252 - Bottas (2018)",             first:"F1: 1950" },
-  f1_suzuka:    { lap:"5.807 km", turns:18, record:"1:30.983 - Hamilton (2019)",          first:"F1: 1987" },
+  f1_suzuka:    { lap:"5.807 km", turns:18, record:"1:30.983 - Hamilton (2019)",          first:"F1: 1987", laps:53 , laps:53 },
   albertpark:   { lap:"5.278 km", turns:16, record:"1:19.813 - Leclerc (2022)",           first:"F1: 1996" },
   redbullring:  { lap:"4.318 km", turns:10, record:"1:05.619 - Hamilton (2020)",          first:"F1: 1970" },
-  f1_barcelona:    { lap:"4.657 km", turns:16, record:"1:16.330 - Verstappen (2023)",        first:"F1: 1991" },
-  f1_zandvoort:    { lap:"4.259 km", turns:14, record:"1:11.097 - Verstappen (2021)",        first:"F1: 1952, retour 2021" },
+  f1_barcelona:    { lap:"4.657 km", turns:16, record:"1:16.330 - Verstappen (2023)",        first:"F1: 1991", laps:66 , laps:66 },
+  f1_zandvoort:    { lap:"4.259 km", turns:14, record:"1:11.097 - Verstappen (2021)",        first:"F1: 1952, retour 2021", laps:72 , laps:72 },
   hungaroring:  { lap:"4.381 km", turns:14, record:"1:16.627 - Hamilton (2020)",          first:"F1: 1986" },
-  f1_imola:     { lap:"4.909 km", turns:19, record:"1:15.484 - Hamilton (2020)",          first:"F1: 1980" },
-  f1_yasmarina:    { lap:"5.281 km", turns:16, record:"1:26.103 - Verstappen (2021)",        first:"F1: 2009" },
-  f1_cota:      { lap:"5.513 km", turns:20, record:"1:36.169 - Hamilton (2012)",          first:"F1: 2012" },
-  f1_baku:      { lap:"6.003 km", turns:20, record:"1:43.009 - Leclerc (2019)",           first:"F1: 2017" },
-  f1_losail:    { lap:"5.380 km", turns:16, record:"1:24.319 - Hamilton (2021)",          first:"F1: 2021" },
-  f1_marinabay:    { lap:"4.940 km", turns:19, record:"1:35.867 - Leclerc (2023)",           first:"F1: 2008" },
-  f1_montreal:    { lap:"4.361 km", turns:14, record:"1:13.078 - Vettel (2019)",            first:"F1: 1978" },
+  f1_imola:     { lap:"4.909 km", turns:19, record:"1:15.484 - Hamilton (2020)",          first:"F1: 1980", laps:63 , laps:63 },
+  f1_yasmarina:    { lap:"5.281 km", turns:16, record:"1:26.103 - Verstappen (2021)",        first:"F1: 2009", laps:58 , laps:58 },
+  f1_cota:      { lap:"5.513 km", turns:20, record:"1:36.169 - Hamilton (2012)",          first:"F1: 2012", laps:56 , laps:56 },
+  f1_baku:      { lap:"6.003 km", turns:20, record:"1:43.009 - Leclerc (2019)",           first:"F1: 2017", laps:51 , laps:51 },
+  f1_losail:    { lap:"5.380 km", turns:16, record:"1:24.319 - Hamilton (2021)",          first:"F1: 2021", laps:57 , laps:57 },
+  f1_marinabay:    { lap:"4.940 km", turns:19, record:"1:35.867 - Leclerc (2023)",           first:"F1: 2008", laps:62 , laps:62 },
+  f1_montreal:    { lap:"4.361 km", turns:14, record:"1:13.078 - Vettel (2019)",            first:"F1: 1978", laps:70 , laps:70 },
   interlagos:   { lap:"4.309 km", turns:15, record:"1:10.540 - Verstappen (2023)",        first:"F1: 1973" },
-  f1_jeddah:    { lap:"6.174 km", turns:27, record:"1:30.734 - Leclerc (2022)",           first:"F1: 2021" },
-  f1_miami:     { lap:"5.412 km", turns:19, record:"1:29.708 - Verstappen (2023)",        first:"F1: 2022" },
-  f1_lasvegas:    { lap:"6.201 km", turns:17, record:"1:35.490 - Leclerc (2023)",           first:"F1: 2023" },
-  f1_shanghai:    { lap:"5.451 km", turns:16, record:"1:32.238 - Schumacher (2004)",        first:"F1: 2004" },
-  f1_bahrain:    { lap:"5.412 km", turns:15, record:"1:31.447 - De la Rosa (2005)",        first:"F1: 2004" },
+  f1_jeddah:    { lap:"6.174 km", turns:27, record:"1:30.734 - Leclerc (2022)",           first:"F1: 2021", laps:50 , laps:50 },
+  f1_miami:     { lap:"5.412 km", turns:19, record:"1:29.708 - Verstappen (2023)",        first:"F1: 2022", laps:57 , laps:57 },
+  f1_lasvegas:    { lap:"6.201 km", turns:17, record:"1:35.490 - Leclerc (2023)",           first:"F1: 2023", laps:50 , laps:50 },
+  f1_shanghai:    { lap:"5.451 km", turns:16, record:"1:32.238 - Schumacher (2004)",        first:"F1: 2004", laps:56 , laps:56 },
+  f1_bahrain:    { lap:"5.412 km", turns:15, record:"1:31.447 - De la Rosa (2005)",        first:"F1: 2004", laps:57 , laps:57 },
   mexicocity:   { lap:"4.304 km", turns:17, record:"1:17.774 - Bottas (2021)",            first:"F1: 1963" },
 
   // ── MotoGP — records all-time au 17 mai 2026 (source: motorsporttickets.com) ──
@@ -298,7 +299,7 @@ function CircuitPanel({ race, id, onClose }) {
   }, [race.id]);
 
   return (
-    <div style={{ background:"#FAFAFA", border:`1.5px solid ${id.color}30`, borderTop:"none", borderRadius:"0 0 12px 12px", overflow:"hidden", animation:"slideDown .2s ease" }}>
+    <div style={{ background:"#FAFAFA", border:`1.5px solid ${id.color}30`, borderTop:"none", borderRadius:"0 0 12px 12px", overflow:"hidden", animation:"expandDown .25s cubic-bezier(.4,0,.2,1)" }}>
       <div style={{ background:`linear-gradient(135deg,${id.color},${id.color}BB)`, padding:"12px 16px", display:"flex", justifyContent:"space-between", alignItems:"flex-start" }}>
         <div style={{ display:"flex", alignItems:"center", gap:10 }}>
           <Flag country={race.country} size={24}/>
@@ -317,7 +318,7 @@ function CircuitPanel({ race, id, onClose }) {
           </div>
         </div>
         <div style={{ display:"flex", flexDirection:"column", gap:6 }}>
-          {[["📏","Longueur",info.lap],["↩️","Virages",info.turns !== "--" ? `${info.turns}` : "--"],["⏱️","Record",info.record],["📅","Date",fmtRange(race.date_start,race.date_end)],["🗓️","Au calendrier",info.first]].map(([emoji,label,val]) => (
+          {[["📏","Longueur",info.lap],["↩️","Virages",info.turns !== "--" ? `${info.turns}` : "--"],...(info.laps ? [["🔄","Tours",`${info.laps} tours`]] : []),["⏱️","Record",info.record],["📅","Date",fmtRange(race.date_start,race.date_end)],["🗓️","Au calendrier",info.first]].map(([emoji,label,val]) => (
             <div key={label} style={{ background:"#fff", borderRadius:8, border:"1px solid #F0F0F0", padding:"6px 9px", display:"flex", alignItems:"flex-start", gap:7 }}>
               <span style={{ fontSize:13, flexShrink:0, marginTop:1 }}>{emoji}</span>
               <div style={{ flex:1, minWidth:0 }}>
