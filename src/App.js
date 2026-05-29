@@ -476,113 +476,200 @@ export default function App() {
   const totalCount = races.filter(r=>r.type!=="sprint").length;
 
   return (
-    <div style={{ minHeight:"100vh", background:"#F4F4F4", fontFamily:"'Barlow Condensed','Arial Narrow',sans-serif", paddingBottom:60 }}>
+    <div style={{ minHeight:"100vh", background:"#F2F2F0", fontFamily:"'Barlow Condensed','Arial Narrow',sans-serif" }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&display=swap');
         @keyframes spin{to{transform:rotate(360deg)}}
         @keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
-        @keyframes slideUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-        @keyframes slideDown{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
-        *{box-sizing:border-box} button{font-family:inherit}
-        body{background:#F4F4F4}
-
-        .app-inner{width:100%;max-width:680px;margin:0 auto;padding:0 16px}
-
+        @keyframes slideUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+        *{box-sizing:border-box}
+        button{font-family:inherit}
+        body{background:#F2F2F0}
+        .inner{width:100%;max-width:1400px;margin:0 auto;padding:0 24px}
+        .tiles{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+        @media(min-width:700px){.tiles{grid-template-columns:repeat(3,1fr)}}
+        @media(min-width:1000px){.tiles{grid-template-columns:repeat(4,1fr)}}
+        @media(min-width:1300px){.tiles{grid-template-columns:repeat(5,1fr)}}
+        .tile{background:#fff;border:0.5px solid #E8E8E8;border-radius:14px;overflow:hidden;cursor:pointer;transition:border-color .15s}
+        .tile:hover{border-color:var(--sc,#E8002D)60}
+        .tile.done{opacity:.7}
+        .tile.next-race{border:2px solid var(--sc,#E8002D)}
+        .tile-top{padding:12px 14px 8px;display:flex;justify-content:space-between;align-items:flex-start}
+        .tile-date{background:#F5F5F5;border-radius:8px;padding:5px 10px;text-align:center;min-width:44px}
+        .tile-day{font-size:22px;font-weight:900;line-height:1;color:var(--sc,#E8002D)}
+        .tile-day.past{color:#CCC}
+        .tile-month{font-size:9px;font-weight:700;letter-spacing:1px;color:#BBB;text-transform:uppercase}
+        .tile-track{height:120px;background:#FAFAFA;display:flex;align-items:center;justify-content:center;overflow:hidden;border-top:0.5px solid #F0F0F0;border-bottom:0.5px solid #F0F0F0}
+        .tile-track img{width:100%;height:100%;object-fit:contain}
+        .tile-foot{padding:10px 14px 13px}
+        .tile-name{font-size:15px;font-weight:800;color:#111;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+        .tile-name.past{color:#AAA}
+        .tile-circuit{font-size:11px;color:#BBB;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-top:1px}
+        .tile-badges{display:flex;gap:4px;margin-top:8px;flex-wrap:wrap;align-items:center}
+        .badge{font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px}
+        .b-res{background:#FEF0F2;color:#B0001F}
+        .b-sprint{background:#FFF0E0;color:#CC4400}
+        .b-days{background:#F0F0F0;color:#888}
+        .b-next{color:#fff}
+        .stab{padding:10px 18px;border:none;border-bottom:3px solid transparent;background:transparent;font-family:inherit;font-size:13px;font-weight:600;color:#BBB;cursor:pointer;white-space:nowrap;transition:all .15s;display:flex;align-items:center;gap:5px}
+        .stab.active{font-weight:800;border-bottom-color:var(--sc)}
+        .stab:hover:not(.active){color:#555}
+        .fbtn{padding:7px 18px;border-radius:20px;border:0.5px solid #DDD;background:#fff;font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;color:#888;transition:all .15s}
+        .fbtn.active{color:#fff;border-color:var(--sc)}
         @media(min-width:900px){
-          .app-inner{max-width:1200px !important;margin:0 auto !important;padding:0 48px !important}
-          .race-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-          .circuit-panel-inner{grid-template-columns:1fr 1fr !important}
-          .track-img-wrap{height:240px !important}
-          .header-title{font-size:32px !important}
-          .series-tab{font-size:15px !important;padding:10px 20px !important;gap:6px !important}
-          .race-name{font-size:18px !important}
-          .race-circuit{font-size:13px !important}
-          .race-day{font-size:24px !important}
-          .panel-title{font-size:22px !important}
-          .panel-sub{font-size:13px !important}
-          .info-value{font-size:15px !important}
-          .result-driver{font-size:16px !important}
-          .next-name{font-size:26px !important}
-          .next-days{font-size:56px !important}
-          .standings-name{font-size:18px !important}
-          .standings-pts{font-size:28px !important}
-          .tab-btn{font-size:13px !important;padding:8px 0 !important}
-        }
-        @media(min-width:1400px){
-          .app-inner{max-width:1440px !important;padding:0 80px !important}
-          .track-img-wrap{height:280px !important}
-          .header-title{font-size:38px !important}
-          .series-tab{font-size:16px !important;padding:12px 24px !important}
-          .race-name{font-size:20px !important}
-          .next-days{font-size:64px !important}
+          .inner{padding:0 40px}
+          .tile-track{height:140px}
+          .tile-name{font-size:16px}
+          .tile-day{font-size:26px}
+          .stab{font-size:15px;padding:12px 22px}
+          .next-name{font-size:32px !important}
+          .next-days{font-size:60px !important}
         }
       `}</style>
-      <div style={{ position:"sticky", top:0, zIndex:20, background:"#fff", borderBottom:"1.5px solid #EFEFEF" }}>
-        <div className="app-inner" style={{ maxWidth:"unset" }}>
-          <div style={{ height:4, background:id.color, margin:"0 -16px" }}/>
-          <div style={{ padding:"10px 0 0", display:"flex", alignItems:"center", position:"relative", overflow:"hidden" }}>
-            <div style={{ position:"absolute", right:-5, top:-8, fontSize:72, opacity:.07, userSelect:"none" }}>{id.heroEmoji}</div>
-            <div>
-              <div style={{ fontSize:10, fontWeight:700, letterSpacing:3, color:"#BBB" }}>CALENDRIER</div>
-              <div className="header-title" style={{ fontSize:21, fontWeight:900, color:"#111" }}>MOTORSPORT <span style={{ color:id.color }}>2026</span></div>
+
+      {/* ── TOP BAR ── */}
+      <div style={{ background:"#fff", borderBottom:"0.5px solid #EFEFEF", position:"sticky", top:0, zIndex:20 }}>
+        <div className="inner">
+          <div style={{ height:4, background:id.color, margin:"0 -40px 0 -40px" }}/>
+          <div style={{ display:"flex", alignItems:"flex-end", paddingTop:12, gap:4, overflowX:"auto", scrollbarWidth:"none" }}>
+            <div style={{ marginRight:16, flexShrink:0, paddingBottom:12 }}>
+              <div style={{ fontSize:9, fontWeight:700, letterSpacing:3, color:"#BBB" }}>CALENDRIER</div>
+              <div style={{ fontSize:22, fontWeight:900, color:"#111" }}>MOTORSPORT <span style={{ color:id.color }}>2026</span></div>
             </div>
-          </div>
-          <div style={{ display:"flex", marginTop:10, overflowX:"auto", scrollbarWidth:"none", borderBottom:"1.5px solid #F0F0F0" }}>
-            {series.map(s=>{ const sid=SERIES_ID[s.id]||{}; const isA=active===s.id; return <button key={s.id} onClick={()=>setActive(s.id)} className="series-tab" className="series-tab" style={{ padding:"8px 16px", border:"none", borderBottom:`3px solid ${isA?sid.color:"transparent"}`, background:"transparent", color:isA?sid.color:"#CCC", fontSize:12, fontWeight:isA?800:600, letterSpacing:.5, cursor:"pointer", whiteSpace:"nowrap", transition:"all .15s" }}>{sid.icon} {s.id}</button>; })}
+            {series.map(s => {
+              const sid = SERIES_ID[s.id] || {};
+              const isA = active === s.id;
+              return (
+                <button key={s.id} className={`stab${isA?' active':''}`}
+                  style={{ '--sc': sid.color, color: isA ? sid.color : '#BBB' }}
+                  onClick={() => setActive(s.id)}>
+                  {sid.icon} {s.id}
+                </button>
+              );
+            })}
           </div>
         </div>
       </div>
-      <div className="app-inner">
-        {next&&!loading&&(
-          <div style={{ margin:"14px 0 10px", background:`linear-gradient(135deg,${id.color},${id.color}CC)`, borderRadius:14, padding:"14px 16px", display:"flex", justifyContent:"space-between", alignItems:"center", boxShadow:`0 4px 20px ${id.color}30`, animation:"slideUp .3s ease", position:"relative", overflow:"hidden" }}>
-            <div style={{ position:"absolute", right:14, top:"50%", transform:"translateY(-50%)", opacity:.15 }}><Flag country={next.country} size={60}/></div>
+
+      {/* ── CONTENU ── */}
+      <div className="inner" style={{ paddingTop:24, paddingBottom:60 }}>
+        {loading && <Spinner color={id.color}/>}
+
+        {/* Banner prochaine course */}
+        {!loading && next && (
+          <div style={{ background:`linear-gradient(135deg,${id.color},${id.color}CC)`, borderRadius:14, padding:"18px 28px", display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:20, animation:"slideUp .3s ease" }}>
             <div>
-              <div style={{ fontSize:8, fontWeight:700, letterSpacing:2.5, color:"rgba(255,255,255,.65)", marginBottom:3 }}>PROCHAINE COURSE</div>
-              <div className="next-name" style={{ fontSize:17, fontWeight:900, color:"#fff", fontFamily:"'Barlow Condensed',sans-serif" }}>{next.name}</div>
-              <div style={{ display:"flex", alignItems:"center", gap:6, marginTop:3 }}>
+              <div style={{ fontSize:9, fontWeight:700, letterSpacing:3, color:"rgba(255,255,255,.55)", marginBottom:3 }}>PROCHAINE COURSE</div>
+              <div className="next-name" style={{ fontSize:26, fontWeight:900, color:"#fff" }}>{next.name}</div>
+              <div style={{ fontSize:12, color:"rgba(255,255,255,.65)", marginTop:3, display:"flex", alignItems:"center", gap:6 }}>
                 <Flag country={next.country} size={14}/>
-                <span style={{ fontSize:10, color:"rgba(255,255,255,.65)" }}>{fmtRange(next.date_start,next.date_end)}{next.circuit?` - ${next.circuit}`:""}</span>
+                {fmtRange(next.date_start, next.date_end)}{next.circuit ? ` — ${next.circuit}` : ''}
               </div>
             </div>
-            <div style={{ textAlign:"right", zIndex:1 }}>
-              {dNext===0?<div style={{ fontSize:11, fontWeight:900, color:"#fff" }}>AUJOURD'HUI</div>
-                :<><div className="next-days" style={{ fontSize:40, fontWeight:900, color:"#fff", lineHeight:1, fontFamily:"'Barlow Condensed',sans-serif" }}>{dNext}</div><div style={{ fontSize:9, color:"rgba(255,255,255,.6)", letterSpacing:2, fontWeight:600 }}>JOURS</div></>}
+            <div style={{ textAlign:"right" }}>
+              {daysUntil(next.date_start) === 0
+                ? <div style={{ fontSize:18, fontWeight:900, color:"#fff" }}>AUJOURD'HUI !</div>
+                : <>
+                  <div className="next-days" style={{ fontSize:52, fontWeight:900, color:"#fff", lineHeight:1 }}>{daysUntil(next.date_start)}</div>
+                  <div style={{ fontSize:9, color:"rgba(255,255,255,.5)", letterSpacing:2 }}>JOURS</div>
+                </>
+              }
             </div>
           </div>
         )}
-        {!loading&&totalCount>0&&(
-          <div style={{ marginBottom:10 }}>
-            <div style={{ display:"flex", justifyContent:"space-between", marginBottom:3 }}>
-              <span style={{ fontSize:9, color:"#BBB", fontWeight:600 }}>SAISON 2026 - {doneCount}/{totalCount} GP</span>
-              <span style={{ fontSize:9, color:id.color, fontWeight:700 }}>{Math.round((doneCount/totalCount)*100)}%</span>
+
+        {/* Barre de progression saison */}
+        {!loading && totalCount > 0 && (
+          <div style={{ marginBottom:16 }}>
+            <div style={{ display:"flex", justifyContent:"space-between", marginBottom:4 }}>
+              <span style={{ fontSize:11, color:"#BBB", fontWeight:600 }}>SAISON 2026 — {doneCount}/{totalCount} GP</span>
+              <span style={{ fontSize:11, color:id.color, fontWeight:700 }}>{Math.round((doneCount/totalCount)*100)}%</span>
             </div>
             <div style={{ height:3, background:"#E8E8E8", borderRadius:2, overflow:"hidden" }}>
-              <div style={{ height:"100%", width:`${Math.round((doneCount/totalCount)*100)}%`, background:`linear-gradient(90deg,${id.color},${id.color}99)`, borderRadius:2, transition:"width .5s" }}/>
+              <div style={{ height:"100%", width:`${Math.round((doneCount/totalCount)*100)}%`, background:id.color, borderRadius:2, transition:"width .5s" }}/>
             </div>
           </div>
         )}
-        <div style={{ display:"flex", gap:4, marginBottom:10, padding:"4px", background:"#E8E8E8", borderRadius:10 }}>
-          {[["upcoming","A venir"],["all","Calendrier"],["results","Resultats"],["standings","Classement"]].map(([v,l])=>(
-            <button key={v} onClick={()=>setFilter(v)} className="tab-btn" style={{ flex:1, padding:"6px 0", borderRadius:7, border:"none", background:filter===v?"#fff":"transparent", color:filter===v?id.color:"#AAA", fontSize:10, fontWeight:filter===v?800:600, cursor:"pointer", boxShadow:filter===v?"0 1px 4px rgba(0,0,0,0.08)":"none", transition:"all .15s" }}>{l}</button>
-          ))}
-        </div>
-        {loading&&<Spinner color={id.color}/>}
-        {!loading&&filter==="standings"&&<div style={{ animation:"slideUp .25s ease" }}><StandingsPanel seriesId={active} id={id}/></div>}
-        {!loading&&filter!=="standings"&&(
-          <div className="race-grid" style={{ display:"grid", gridTemplateColumns:"1fr", gap:5, animation:"slideUp .25s ease" }}>
-            {displayed.length===0&&<div style={{ textAlign:"center", color:"#CCC", fontSize:13, padding:40 }}>Aucune course</div>}
-            {displayed.map(race=>(
-              <div key={race.id}>
-                <RaceCard race={race} id={id} active={selected?.id===race.id} onClick={r=>setSelected(selected?.id===r.id?null:r)}/>
-                {selected?.id===race.id&&<CircuitPanel race={race} id={id} onClose={()=>setSelected(null)}/>}
-              </div>
+
+        {/* Filtres */}
+        {!loading && (
+          <div style={{ display:"flex", gap:6, marginBottom:20 }}>
+            {[["upcoming","À venir"],["all","Calendrier"],["results","Résultats"],["standings","Classement"]].map(([v,l]) => (
+              <button key={v} className={`fbtn${filter===v?' active':''}`}
+                style={{ '--sc':id.color, background: filter===v ? id.color : '#fff' }}
+                onClick={() => setFilter(v)}>{l}</button>
             ))}
           </div>
         )}
-        {!loading&&<div style={{ marginTop:18, padding:"9px 12px", background:"#fff", borderRadius:10, border:"1.5px solid #EFEFEF", display:"flex", justifyContent:"space-between", alignItems:"center" }}>
-          <span style={{ fontSize:9, color:"#CCC", fontWeight:600, letterSpacing:1 }}>{races.length} COURSES - SUPABASE</span>
-          <span style={{ fontSize:9, fontWeight:800, color:id.color }}>{id.label.toUpperCase()} 2026</span>
-        </div>}
+
+        {/* Classement */}
+        {!loading && filter === "standings" && (
+          <div style={{ animation:"slideUp .25s ease" }}>
+            <StandingsPanel seriesId={active} id={id}/>
+          </div>
+        )}
+
+        {/* Tuiles */}
+        {!loading && filter !== "standings" && (
+          <div className="tiles" style={{ animation:"slideUp .25s ease" }}>
+            {displayed.length === 0 && (
+              <div style={{ gridColumn:"1/-1", textAlign:"center", color:"#CCC", padding:60, fontSize:16 }}>Aucune course</div>
+            )}
+            {displayed.map(race => {
+              const done = race.status === "done";
+              const live = race.status === "live";
+              const isNext = next?.id === race.id;
+              const days = daysUntil(race.date_start);
+              const key = getTrackKey(race.circuit, race.series_id, race.circuit_key);
+              const imgUrl = key ? TRACK_IMAGES[key] : null;
+              return (
+                <div key={race.id}>
+                  <div
+                    className={`tile${done?' done':''}${isNext?' next-race':''}`}
+                    style={{ '--sc': id.color }}
+                    onClick={() => setSelected(selected?.id === race.id ? null : race)}
+                  >
+                    <div className="tile-top">
+                      <div className="tile-date">
+                        <div className={`tile-day${done?' past':''}`}>{new Date(race.date_start+"T12:00:00").getDate()}</div>
+                        <div className="tile-month">{MONTHS_FR[new Date(race.date_start+"T12:00:00").getMonth()]}</div>
+                      </div>
+                      <Flag country={race.country} size={20}/>
+                    </div>
+                    <div className="tile-track">
+                      {imgUrl
+                        ? <img src={imgUrl} alt={race.circuit} onError={e => e.target.style.display='none'}/>
+                        : <div style={{ fontSize:36, opacity:.1 }}>🏁</div>
+                      }
+                    </div>
+                    <div className="tile-foot">
+                      <div className={`tile-name${done?' past':''}`}>{race.name}</div>
+                      <div className="tile-circuit">{race.circuit}</div>
+                      <div className="tile-badges">
+                        {live && <span className="badge" style={{ background:id.color, color:"#fff", animation:"pulse 1.4s infinite" }}>LIVE</span>}
+                        {isNext && <span className="badge b-next" style={{ background:id.color }}>Prochain</span>}
+                        {done && race._hasResults && <span className="badge b-res">Résultats</span>}
+                        {(race.type==="sprint"||race.type==="sprint_weekend") && <span className="badge b-sprint">Sprint</span>}
+                        {!done && !isNext && days !== null && days >= 0 && <span className="badge b-days">{days}j</span>}
+                      </div>
+                    </div>
+                  </div>
+                  {selected?.id === race.id && (
+                    <CircuitPanel race={race} id={id} onClose={() => setSelected(null)}/>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        )}
+
+        {/* Footer */}
+        {!loading && (
+          <div style={{ marginTop:24, padding:"10px 16px", background:"#fff", borderRadius:10, border:"0.5px solid #EFEFEF", display:"flex", justifyContent:"space-between", alignItems:"center" }}>
+            <span style={{ fontSize:10, color:"#CCC", fontWeight:600, letterSpacing:1 }}>{races.length} COURSES — SUPABASE</span>
+            <span style={{ fontSize:10, fontWeight:800, color:id.color }}>{id.label.toUpperCase()} 2026</span>
+          </div>
+        )}
       </div>
     </div>
   );
