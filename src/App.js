@@ -194,6 +194,8 @@ function TrackSVG({ circuit, color, size=140, seriesId='', circuitKey=null }) {
       <img src={imgUrl} alt={circuit} onError={() => setError(true)}
         style={{ width:"100%", height:"100%", objectFit:"contain", display:"block" }} />
     </div>
+      </div>
+    </div>
   );
 }
 
@@ -476,7 +478,27 @@ export default function App() {
   const totalCount = races.filter(r=>r.type!=="sprint").length;
 
   return (
-    <div style={{ minHeight:"100vh", background:"#F4F4F4", fontFamily:"'Barlow Condensed','Arial Narrow',sans-serif", paddingBottom:60 }}>
+    <div className="app-root" style={{ minHeight:"100vh", background:"#F4F4F4", fontFamily:"'Barlow Condensed','Arial Narrow',sans-serif" }}>
+
+      {/* ── Sidebar séries (PC uniquement) ── */}
+      <div className="series-sidebar" style={{ display:"none" }} ref={el => { if(el) el.style.display='flex'; }}>
+        <div className="sidebar-logo">
+          <div className="sub">CALENDRIER</div>
+          <div className="title">MOTO<span style={{ color:id.color }}>2026</span></div>
+        </div>
+        {series.map(s => {
+          const sid = SERIES_ID[s.id] || {};
+          const isA = active === s.id;
+          return (
+            <button key={s.id} className={`sidebar-tab${isA?' active':''}`}
+              style={{ '--sc':sid.color, '--sbg':sid.color+'12' }}
+              onClick={() => setActive(s.id)}>
+              <span className="tab-icon">{sid.icon}</span>
+              <span className="tab-label">{s.id}</span>
+            </button>
+          );
+        })}
+      </div>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&display=swap');
         @keyframes spin{to{transform:rotate(360deg)}}
@@ -486,63 +508,89 @@ export default function App() {
         *{box-sizing:border-box} button{font-family:inherit}
         body{background:#F4F4F4}
 
-        /* ── Layout ── */
+        /* ── Mobile: layout normal ── */
         .app-inner{width:100%;max-width:680px;margin:0 auto;padding:0 16px}
 
+        /* ── PC ≥900px: sidebar + contenu ── */
         @media(min-width:900px){
-          .app-inner{max-width:1200px;padding:0 48px}
+          .app-root{display:flex;min-height:100vh}
+
+          /* Sidebar séries à gauche */
+          .series-sidebar{
+            position:sticky;top:0;height:100vh;
+            width:180px;min-width:180px;
+            background:#fff;border-right:1.5px solid #EFEFEF;
+            display:flex;flex-direction:column;
+            padding:24px 0 24px;
+            gap:4px;flex-shrink:0;
+          }
+          .sidebar-logo{padding:0 20px 24px;border-bottom:1.5px solid #F0F0F0;margin-bottom:8px}
+          .sidebar-logo .sub{font-size:9px;font-weight:700;letter-spacing:3px;color:#BBB}
+          .sidebar-logo .title{font-size:22px;font-weight:900;color:#111;font-family:'Barlow Condensed',sans-serif}
+          .sidebar-tab{
+            display:flex;align-items:center;gap:10px;
+            padding:10px 20px;border:none;background:transparent;
+            font-family:inherit;font-size:13px;font-weight:600;
+            color:#AAA;cursor:pointer;text-align:left;
+            border-left:3px solid transparent;transition:all .15s;
+            white-space:nowrap;
+          }
+          .sidebar-tab.active{color:var(--sc);font-weight:800;background:var(--sbg);border-left-color:var(--sc)}
+          .sidebar-tab:hover:not(.active){color:#555;background:#F8F8F8}
+          .sidebar-tab .tab-icon{font-size:16px}
+          .sidebar-tab .tab-label{font-size:14px}
+
+          /* Header sticky en haut du contenu (pas de barre de tabs) */
+          .content-header{
+            position:sticky;top:0;z-index:20;
+            background:#fff;border-bottom:1.5px solid #EFEFEF;
+            padding:16px 48px;
+          }
+          .content-header .series-name{font-size:28px;font-weight:900;color:#111;font-family:'Barlow Condensed',sans-serif}
+          .content-header .series-sub{font-size:11px;font-weight:700;letter-spacing:2px;color:#BBB}
+
+          /* Masquer le header mobile sticky et les tabs horizontaux */
+          .header-mobile{display:none !important}
+
+          /* Zone de contenu */
+          .app-inner{max-width:100%;padding:0 48px;flex:1;min-width:0}
+
+          /* Grille 2 colonnes */
           .race-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
           .circuit-panel-inner{grid-template-columns:1fr 1fr !important}
-          .track-img-wrap{height:220px !important}
+          .track-img-wrap{height:240px !important}
 
-          /* Header plus grand */
-          .header-title{font-size:32px !important}
-          .header-sub{font-size:14px !important}
-          .series-tab{font-size:15px !important;padding:10px 20px !important}
-          .tab-btn{font-size:13px !important;padding:8px 0 !important}
-
-          /* Cards courses */
+          /* Fonts PC */
           .race-name{font-size:18px !important}
           .race-circuit{font-size:13px !important}
           .race-day{font-size:24px !important}
           .race-month{font-size:11px !important}
           .days-left{font-size:28px !important}
-
-          /* Circuit panel */
           .panel-title{font-size:22px !important}
           .panel-sub{font-size:13px !important}
           .info-label{font-size:10px !important}
           .info-value{font-size:15px !important}
-          .info-emoji{font-size:17px !important}
           .result-driver{font-size:16px !important}
-          .result-team{font-size:12px !important}
-          .result-pts{font-size:16px !important}
-          .section-lbl{font-size:12px !important}
-
-          /* Next race banner */
           .next-name{font-size:26px !important}
-          .next-sub{font-size:14px !important}
           .next-days{font-size:56px !important}
-
-          /* Standings */
           .standings-name{font-size:18px !important}
-          .standings-pos{font-size:24px !important}
           .standings-pts{font-size:28px !important}
-          .standings-nat{font-size:13px !important}
+          .tab-btn{font-size:13px !important}
         }
 
         @media(min-width:1400px){
-          .app-inner{max-width:1400px;padding:0 60px}
+          .series-sidebar{width:220px;min-width:220px}
+          .sidebar-tab{font-size:15px !important;padding:12px 24px}
+          .sidebar-tab .tab-label{font-size:16px}
+          .app-inner{padding:0 60px}
           .track-img-wrap{height:280px !important}
-          .header-title{font-size:38px !important}
-          .series-tab{font-size:16px !important;padding:12px 24px !important}
           .race-name{font-size:20px !important}
-          .race-day{font-size:28px !important}
           .next-days{font-size:64px !important}
           .panel-title{font-size:26px !important}
+          .content-header .series-name{font-size:34px}
         }
       `}</style>
-      <div style={{ position:"sticky", top:0, zIndex:20, background:"#fff", borderBottom:"1.5px solid #EFEFEF" }}>
+      <div className="header-mobile" style={{ position:"sticky", top:0, zIndex:20, background:"#fff", borderBottom:"1.5px solid #EFEFEF" }}>
         <div className="app-inner" style={{ maxWidth:"unset" }}>
           <div style={{ height:4, background:id.color, margin:"0 -16px" }}/>
           <div style={{ padding:"10px 0 0", display:"flex", alignItems:"center", position:"relative", overflow:"hidden" }}>
