@@ -97,45 +97,6 @@ const TRACK_IMAGES = {
   wec_bahrain:     "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/wec/bahrain.pdf",
 
   // ── ELMS / GTWCE / IMSA — à compléter ───────────────────────────────────
-};
-
-mport { useState, useEffect } from "react";
-
-const SUPABASE_URL = "https://qgdcutklhgnlcrxuvgkn.supabase.co";
-const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFnZGN1dGtsaGdubGNyeHV2Z2tuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk4NzQ0NjAsImV4cCI6MjA5NTQ1MDQ2MH0.ltV5jlQfoF4OS6078lwwRAV-q-IDN7biLzHzM1tkUI8";
-const H = { "apikey": SUPABASE_KEY, "Authorization": `Bearer ${SUPABASE_KEY}` };
-async function sb(path) {
-  const r = await fetch(`${SUPABASE_URL}/rest/v1/${path}`, { headers: H });
-  if (!r.ok) throw new Error(await r.text());
-  return r.json();
-}
-
-const SERIES_ID = {
-  F1:    { label:"Formula 1",    color:"#E8002D", bg:"#FFF0F2", text:"#B0001F", icon:"🏎️", heroEmoji:"🏎️" },
-  MotoGP:{ label:"MotoGP",       color:"#D50032", bg:"#FFF0F1", text:"#A50027", icon:"🏍️", heroEmoji:"🏍️" },
-  WEC:   { label:"FIA WEC",      color:"#0066CC", bg:"#EFF6FF", text:"#004A9E", icon:"⏱️", heroEmoji:"⏱️" },
-  ELMS:  { label:"ELMS",         color:"#00833E", bg:"#EDFAF3", text:"#006030", icon:"🏁", heroEmoji:"🏁" },
-  IMSA:  { label:"IMSA",         color:"#0033A0", bg:"#EEF2FF", text:"#002280", icon:"🏆", heroEmoji:"🏆" },
-  GTWCE: { label:"GT WC Europe", color:"#FF6600", bg:"#FFF4EE", text:"#CC4400", icon:"🏆", heroEmoji:"🏆" },
-};
-
-const COUNTRY_CODES = {
-  "Australie":"au","Chine":"cn","Japon":"jp","Etats-Unis":"us","États-Unis":"us","Canada":"ca",
-  "Monaco":"mc","Espagne":"es","Autriche":"at","Angleterre":"gb","Grande-Bretagne":"gb",
-  "Belgique":"be","Hongrie":"hu","Pays-Bas":"nl","Italie":"it","Azerbaïdjan":"az",
-  "Singapour":"sg","Mexique":"mx","Brésil":"br","Qatar":"qa","Abu Dhabi":"ae",
-  "Bahreïn":"bh","Thaïlande":"th","Indonésie":"id","Malaisie":"my","France":"fr",
-  "Portugal":"pt","Allemagne":"de","Arabie Saoudite":"sa","Grande Bretagne":"gb",
-};
-
-function Flag({ country, size=20 }) {
-  const code = COUNTRY_CODES[country];
-  if (!code) return null;
-  return <img src={`https://flagcdn.com/w${size*2}/${code}.png`} alt={country}
-    style={{ width:size*1.4, height:size, objectFit:"cover", borderRadius:2, display:"block" }}
-    onError={e => e.target.style.display="none"} />;
-}
-
 const TRACK_IMAGES = {
   // ── F1 (/public/tracks/f1/) ──────────────────────────────────────────────
   f1_monaco:    "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/f1/monaco.webp",
