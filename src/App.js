@@ -253,8 +253,8 @@ function CircuitPanel({ race, id, onClose }) {
         <div style={{ display:"flex", alignItems:"center", gap:10 }}>
           <Flag country={race.country} size={24}/>
           <div>
-            <div style={{ fontSize:16, fontWeight:900, color:"#fff", fontFamily:"'Barlow Condensed',sans-serif" }}>{race.name}</div>
-            <div style={{ fontSize:10, color:"rgba(255,255,255,.7)", marginTop:1 }}>{race.circuit}</div>
+            <div className="panel-title" style={{ fontSize:16, fontWeight:900, color:"#fff", fontFamily:"'Barlow Condensed',sans-serif" }}>{race.name}</div>
+            <div className="panel-sub" style={{ fontSize:10, color:"rgba(255,255,255,.7)", marginTop:1 }}>{race.circuit}</div>
           </div>
         </div>
         <button onClick={onClose} style={{ background:"rgba(255,255,255,.2)", border:"none", color:"#fff", width:26, height:26, borderRadius:6, cursor:"pointer", fontSize:13 }}>X</button>
@@ -271,8 +271,8 @@ function CircuitPanel({ race, id, onClose }) {
             <div key={label} style={{ background:"#fff", borderRadius:8, border:"1px solid #F0F0F0", padding:"6px 9px", display:"flex", alignItems:"flex-start", gap:7 }}>
               <span style={{ fontSize:13, flexShrink:0, marginTop:1 }}>{emoji}</span>
               <div style={{ flex:1, minWidth:0 }}>
-                <div style={{ fontSize:8, color:"#CCC", letterSpacing:1, fontWeight:700 }}>{label.toUpperCase()}</div>
-                <div style={{ fontSize:11, fontWeight:700, color:"#222", fontFamily:"'Barlow Condensed',sans-serif", lineHeight:1.3 }}>{val}</div>
+                <div className="info-label" style={{ fontSize:8, color:"#CCC", letterSpacing:1, fontWeight:700 }}>{label.toUpperCase()}</div>
+                <div className="info-value" style={{ fontSize:11, fontWeight:700, color:"#222", fontFamily:"'Barlow Condensed',sans-serif", lineHeight:1.3 }}>{val}</div>
               </div>
             </div>
           ))}
@@ -291,7 +291,7 @@ function CircuitPanel({ race, id, onClose }) {
                     {i<3?["🥇","🥈","🥉"][i]:r.position}
                   </div>
                   <div style={{ flex:1, minWidth:0 }}>
-                    <div style={{ fontSize:13, fontWeight:700, color:i===0?id.text:"#222", whiteSpace:"nowrap", overflow:"hidden", textOverflow:"ellipsis", fontFamily:"'Barlow Condensed',sans-serif" }}>{r.driver}</div>
+                    <div className="result-driver" style={{ fontSize:13, fontWeight:700, color:i===0?id.text:"#222", whiteSpace:"nowrap", overflow:"hidden", textOverflow:"ellipsis", fontFamily:"'Barlow Condensed',sans-serif" }}>{r.driver}</div>
                     {r.team&&<div style={{ fontSize:9, color:"#BBB" }}>{r.team}</div>}
                   </div>
                   <div style={{ textAlign:"right", flexShrink:0 }}>
@@ -341,14 +341,14 @@ function StandingsPanel({ seriesId, id }) {
             <div key={i} style={{ background:"#fff", border:`1.5px solid ${i===0?id.color+"60":"#EFEFEF"}`, borderLeft:`4px solid ${i===0?id.color:i===1?"#C0C0C0":i===2?"#CD7F32":"#E8E8E8"}`, borderRadius:10, padding:"9px 12px", display:"flex", alignItems:"center", gap:10 }}>
               <div style={{ fontSize:17, fontWeight:900, color:i===0?id.color:i<3?"#888":"#DDD", minWidth:26, textAlign:"center", fontFamily:"'Barlow Condensed',sans-serif" }}>{s.position}</div>
               <div style={{ flex:1, minWidth:0 }}>
-                <div style={{ fontSize:13, fontWeight:700, color:i===0?"#111":"#333", fontFamily:"'Barlow Condensed',sans-serif" }}>{s.name}</div>
+                <div className="standings-name" style={{ fontSize:13, fontWeight:700, color:i===0?"#111":"#333", fontFamily:"'Barlow Condensed',sans-serif" }}>{s.name}</div>
                 {s.nationality&&<div style={{ fontSize:10, color:"#AAA" }}>{s.nationality}</div>}
                 <div style={{ marginTop:4, height:3, background:"#F0F0F0", borderRadius:2, overflow:"hidden" }}>
                   <div style={{ height:"100%", width:`${Math.round((s.points/maxPts)*100)}%`, background:i===0?id.color:i===1?"#C0C0C0":i===2?"#CD7F32":"#E0E0E0", borderRadius:2 }}/>
                 </div>
               </div>
               <div style={{ textAlign:"right", flexShrink:0 }}>
-                <div style={{ fontSize:20, fontWeight:900, lineHeight:1, color:i===0?id.color:"#CCC", fontFamily:"'Barlow Condensed',sans-serif" }}>{s.points}</div>
+                <div className="standings-pts" style={{ fontSize:20, fontWeight:900, lineHeight:1, color:i===0?id.color:"#CCC", fontFamily:"'Barlow Condensed',sans-serif" }}>{s.points}</div>
                 <div style={{ fontSize:8, color:"#CCC", letterSpacing:1, fontWeight:600 }}>PTS</div>
                 {s.wins>0&&<div style={{ fontSize:10, color:id.color, fontWeight:700 }}>{s.wins}V</div>}
               </div>
@@ -369,8 +369,8 @@ function RaceCard({ race, id, active, onClick }) {
     <div onClick={()=>onClick(race)} style={{ display:"flex", alignItems:"center", background:active?`${id.color}08`:"#FFFFFF", border:`1.5px solid ${active?id.color:live?id.color:"#E8E8E8"}`, borderLeft:`4px solid ${live?id.color:done?"#D0D0D0":id.color}`, borderRadius:active?"12px 12px 0 0":12, cursor:"pointer", transition:"all .15s", overflow:"hidden", opacity:done&&!race._hasResults?0.5:1 }}>
       <div style={{ minWidth:58, padding:"10px 4px", background:live?id.color:done?"#F5F5F5":id.bg, display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", flexShrink:0, gap:3 }}>
         <Flag country={race.country} size={18}/>
-        <div style={{ fontSize:17, fontWeight:900, lineHeight:1, color:live?"#fff":done?"#AAA":id.color, fontFamily:"'Barlow Condensed',sans-serif" }}>{new Date(race.date_start+"T12:00:00").getDate()}</div>
-        <div style={{ fontSize:8, fontWeight:600, letterSpacing:1, textTransform:"uppercase", color:live?"#ffffff99":done?"#BBB":id.text }}>{MONTHS_FR[new Date(race.date_start+"T12:00:00").getMonth()]}</div>
+        <div className="race-day" style={{ fontSize:17, fontWeight:900, lineHeight:1, color:live?"#fff":done?"#AAA":id.color, fontFamily:"'Barlow Condensed',sans-serif" }}>{new Date(race.date_start+"T12:00:00").getDate()}</div>
+        <div className="race-month" style={{ fontSize:8, fontWeight:600, letterSpacing:1, textTransform:"uppercase", color:live?"#ffffff99":done?"#BBB":id.text }}>{MONTHS_FR[new Date(race.date_start+"T12:00:00").getMonth()]}</div>
       </div>
       <div style={{ flex:1, padding:"9px 11px", minWidth:0 }}>
         <div style={{ display:"flex", alignItems:"center", gap:5, marginBottom:2, flexWrap:"wrap" }}>
@@ -381,13 +381,13 @@ function RaceCard({ race, id, active, onClick }) {
           {done&&race._hasResults&&<span style={{ fontSize:8, fontWeight:600, color:id.text, background:id.bg, padding:"2px 6px", borderRadius:4 }}>RESULTATS</span>}
           {race.type!=="sprint"&&race.type!=="sprint_weekend"&&race.round&&<span style={{ fontSize:9, color:"#CCC", fontWeight:600 }}>R{race.round}</span>}
         </div>
-        <div style={{ fontSize:14, fontWeight:700, color:done?"#999":"#111", whiteSpace:"nowrap", overflow:"hidden", textOverflow:"ellipsis", fontFamily:"'Barlow Condensed',sans-serif" }}>{race.name}</div>
-        <div style={{ fontSize:10, color:"#BBB", marginTop:1, whiteSpace:"nowrap", overflow:"hidden", textOverflow:"ellipsis" }}>{race.circuit}</div>
+        <div className="race-name" style={{ fontSize:14, fontWeight:700, color:done?"#999":"#111", whiteSpace:"nowrap", overflow:"hidden", textOverflow:"ellipsis", fontFamily:"'Barlow Condensed',sans-serif" }}>{race.name}</div>
+        <div className="race-circuit" style={{ fontSize:10, color:"#BBB", marginTop:1, whiteSpace:"nowrap", overflow:"hidden", textOverflow:"ellipsis" }}>{race.circuit}</div>
       </div>
       {!done&&days!==null&&(
         <div style={{ padding:"0 10px", textAlign:"center", flexShrink:0 }}>
           {days===0?<div style={{ fontSize:10, fontWeight:800, color:id.color }}>AUJ.</div>
-            :days>0?<><div style={{ fontSize:days<=99?20:14, fontWeight:900, color:days<=7?id.color:"#DDD", lineHeight:1, fontFamily:"'Barlow Condensed',sans-serif" }}>{days}</div><div style={{ fontSize:8, color:"#DDD", letterSpacing:1, fontWeight:600 }}>J</div></>:null}
+            :days>0?<><div className="days-left" style={{ fontSize:days<=99?20:14, fontWeight:900, color:days<=7?id.color:"#DDD", lineHeight:1, fontFamily:"'Barlow Condensed',sans-serif" }}>{days}</div><div style={{ fontSize:8, color:"#DDD", letterSpacing:1, fontWeight:600 }}>J</div></>:null}
         </div>
       )}
       <div style={{ padding:"0 8px", color:active?id.color:"#DDD", fontSize:12, flexShrink:0 }}>{active?"▲":"▼"}</div>
@@ -446,6 +446,38 @@ export default function App() {
           .app-inner{max-width:1300px}
           .track-img-wrap{height:280px !important}
         }
+        @media(min-width:900px){
+          /* Scale up toutes les polices sur PC */
+          .app-inner .race-name    { font-size:18px !important }
+          .app-inner .race-circuit { font-size:13px !important }
+          .app-inner .race-day     { font-size:22px !important }
+          .app-inner .race-month   { font-size:11px !important }
+          .app-inner .days-left    { font-size:26px !important }
+          .app-inner .badge        { font-size:11px !important; padding: 3px 8px !important }
+          .app-inner .round-num    { font-size:12px !important }
+          .app-inner .info-label   { font-size:10px !important }
+          .app-inner .info-value   { font-size:14px !important }
+          .app-inner .info-emoji   { font-size:16px !important }
+          .app-inner .panel-title  { font-size:20px !important }
+          .app-inner .panel-sub    { font-size:13px !important }
+          .app-inner .result-driver{ font-size:16px !important }
+          .app-inner .result-team  { font-size:12px !important }
+          .app-inner .result-pts   { font-size:15px !important }
+          .app-inner .result-gap   { font-size:11px !important }
+          .app-inner .section-lbl  { font-size:11px !important }
+          .app-inner .next-name    { font-size:22px !important }
+          .app-inner .next-sub     { font-size:13px !important }
+          .app-inner .next-days    { font-size:52px !important }
+          .app-inner .progress-lbl { font-size:11px !important }
+          .app-inner .tab-btn      { font-size:13px !important }
+          .app-inner .series-tab   { font-size:14px !important }
+          .app-inner .header-title { font-size:28px !important }
+          .app-inner .header-sub   { font-size:13px !important }
+          .app-inner .standings-pos{ font-size:22px !important }
+          .app-inner .standings-name{ font-size:17px !important }
+          .app-inner .standings-nat{ font-size:13px !important }
+          .app-inner .standings-pts{ font-size:26px !important }
+        }
       `}</style>
       <div style={{ position:"sticky", top:0, zIndex:20, background:"#fff", borderBottom:"1.5px solid #EFEFEF" }}>
         <div className="app-inner" style={{ maxWidth:"unset" }}>
@@ -454,11 +486,11 @@ export default function App() {
             <div style={{ position:"absolute", right:-5, top:-8, fontSize:72, opacity:.07, userSelect:"none" }}>{id.heroEmoji}</div>
             <div>
               <div style={{ fontSize:10, fontWeight:700, letterSpacing:3, color:"#BBB" }}>CALENDRIER</div>
-              <div style={{ fontSize:21, fontWeight:900, color:"#111" }}>MOTORSPORT <span style={{ color:id.color }}>2026</span></div>
+              <div className="header-title" style={{ fontSize:21, fontWeight:900, color:"#111" }}>MOTORSPORT <span style={{ color:id.color }}>2026</span></div>
             </div>
           </div>
           <div style={{ display:"flex", marginTop:10, overflowX:"auto", scrollbarWidth:"none", borderBottom:"1.5px solid #F0F0F0" }}>
-            {series.map(s=>{ const sid=SERIES_ID[s.id]||{}; const isA=active===s.id; return <button key={s.id} onClick={()=>setActive(s.id)} style={{ padding:"7px 13px", border:"none", borderBottom:`3px solid ${isA?sid.color:"transparent"}`, background:"transparent", color:isA?sid.color:"#CCC", fontSize:11, fontWeight:isA?800:600, letterSpacing:.5, cursor:"pointer", whiteSpace:"nowrap", transition:"all .15s" }}>{sid.icon} {s.id}</button>; })}
+            {series.map(s=>{ const sid=SERIES_ID[s.id]||{}; const isA=active===s.id; return <button key={s.id} onClick={()=>setActive(s.id)} className="series-tab" style={{ padding:"7px 13px", border:"none", borderBottom:`3px solid ${isA?sid.color:"transparent"}`, background:"transparent", color:isA?sid.color:"#CCC", fontSize:11, fontWeight:isA?800:600, letterSpacing:.5, cursor:"pointer", whiteSpace:"nowrap", transition:"all .15s" }}>{sid.icon} {s.id}</button>; })}
           </div>
         </div>
       </div>
@@ -468,7 +500,7 @@ export default function App() {
             <div style={{ position:"absolute", right:14, top:"50%", transform:"translateY(-50%)", opacity:.15 }}><Flag country={next.country} size={60}/></div>
             <div>
               <div style={{ fontSize:8, fontWeight:700, letterSpacing:2.5, color:"rgba(255,255,255,.65)", marginBottom:3 }}>PROCHAINE COURSE</div>
-              <div style={{ fontSize:17, fontWeight:900, color:"#fff", fontFamily:"'Barlow Condensed',sans-serif" }}>{next.name}</div>
+              <div className="next-name" style={{ fontSize:17, fontWeight:900, color:"#fff", fontFamily:"'Barlow Condensed',sans-serif" }}>{next.name}</div>
               <div style={{ display:"flex", alignItems:"center", gap:6, marginTop:3 }}>
                 <Flag country={next.country} size={14}/>
                 <span style={{ fontSize:10, color:"rgba(255,255,255,.65)" }}>{fmtRange(next.date_start,next.date_end)}{next.circuit?` - ${next.circuit}`:""}</span>
@@ -476,7 +508,7 @@ export default function App() {
             </div>
             <div style={{ textAlign:"right", zIndex:1 }}>
               {dNext===0?<div style={{ fontSize:11, fontWeight:900, color:"#fff" }}>AUJOURD'HUI</div>
-                :<><div style={{ fontSize:40, fontWeight:900, color:"#fff", lineHeight:1, fontFamily:"'Barlow Condensed',sans-serif" }}>{dNext}</div><div style={{ fontSize:9, color:"rgba(255,255,255,.6)", letterSpacing:2, fontWeight:600 }}>JOURS</div></>}
+                :<><div className="next-days" style={{ fontSize:40, fontWeight:900, color:"#fff", lineHeight:1, fontFamily:"'Barlow Condensed',sans-serif" }}>{dNext}</div><div style={{ fontSize:9, color:"rgba(255,255,255,.6)", letterSpacing:2, fontWeight:600 }}>JOURS</div></>}
             </div>
           </div>
         )}
@@ -493,7 +525,7 @@ export default function App() {
         )}
         <div style={{ display:"flex", gap:4, marginBottom:10, padding:"4px", background:"#E8E8E8", borderRadius:10 }}>
           {[["upcoming","A venir"],["all","Calendrier"],["results","Resultats"],["standings","Classement"]].map(([v,l])=>(
-            <button key={v} onClick={()=>setFilter(v)} style={{ flex:1, padding:"6px 0", borderRadius:7, border:"none", background:filter===v?"#fff":"transparent", color:filter===v?id.color:"#AAA", fontSize:10, fontWeight:filter===v?800:600, cursor:"pointer", boxShadow:filter===v?"0 1px 4px rgba(0,0,0,0.08)":"none", transition:"all .15s" }}>{l}</button>
+            <button key={v} onClick={()=>setFilter(v)} className="tab-btn" style={{ flex:1, padding:"6px 0", borderRadius:7, border:"none", background:filter===v?"#fff":"transparent", color:filter===v?id.color:"#AAA", fontSize:10, fontWeight:filter===v?800:600, cursor:"pointer", boxShadow:filter===v?"0 1px 4px rgba(0,0,0,0.08)":"none", transition:"all .15s" }}>{l}</button>
           ))}
         </div>
         {loading&&<Spinner color={id.color}/>}
