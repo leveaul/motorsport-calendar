@@ -87,9 +87,15 @@ const TRACK_IMAGES = {
   motogp_val:   "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/motogp/val.svg",
 
   // ── WEC (/public/tracks/wec/) ───────────────────────────────────────────
+  wec_losail:   "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/wec/losail.pdf",
+  wec_imola:    "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/wec/imola.pdf",
   wec_spa:      "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/wec/spa.pdf",
-  // wec_imola, wec_lemans, wec_saopaulo, wec_fuji, wec_bahrain, wec_losail, wec_portimao
-  // → à ajouter via upload_wec_tracks.py au fur et à mesure
+  wec_lemans:   "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/wec/lemans.pdf",
+  wec_saopaulo: "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/wec/saopaulo.pdf",
+  wec_cota:     "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/wec/cota.pdf",
+  wec_fuji:     "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/wec/fuji.pdf",
+  wec_bahrain:  "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/wec/bahrain.pdf",
+  // wec_portimao — à ajouter quand disponible
 
   // ── ELMS / GTWCE / IMSA (/public/tracks/elms/ etc.) — à compléter ───────
 };
@@ -239,9 +245,15 @@ const CIRCUIT_INFO = {
   motogp_val:   { lap:"4.005 km", turns:14, record:"1:28.809 - Bezzecchi/Aprilia (2025)",  first:"MotoGP: 1999" },
 
   // ── WEC ─────────────────────────────────────────────────────────────────
-  wec_spa:      { lap:"7.004 km", turns:19, record:"2:01.649 - Kobayashi/Toyota GR010 (2024)", first:"WEC: 2012" },
-  wec_imola:    { lap:"4.909 km", turns:19, record:"1:53.224 - Hartley/Toyota (2022)",   first:"WEC: 2022" },
-  wec_lemans:   { lap:"13.626 km",turns:38, record:"3:14.791 - Kobayashi/Toyota (2017)", first:"24H: 1923" },
+  wec_losail:   { lap:"5.380 km",  turns:16, record:"3:26.359 - Kobayashi/Toyota (2024)",  first:"WEC: 2024" },
+  wec_imola:    { lap:"4.909 km",  turns:19, record:"1:28.920 - Giovinazzi/Ferrari (2025)", first:"WEC: 2024" },
+  wec_spa:      { lap:"7.004 km",  turns:19, record:"2:01.649 - Kobayashi/Toyota (2024)",  first:"WEC: 2012" },
+  wec_lemans:   { lap:"13.626 km", turns:38, record:"3:14.791 - Kobayashi/Toyota (2017)",  first:"24H: 1923" },
+  wec_saopaulo: { lap:"4.309 km",  turns:15, record:"1:43.627 - Hartley/Toyota (2025)",    first:"WEC: 2025" },
+  wec_cota:     { lap:"5.513 km",  turns:20, record:"1:50.932 - Bamber/Porsche (2025)",    first:"WEC: 2025" },
+  wec_fuji:     { lap:"4.563 km",  turns:16, record:"1:26.048 - Kobayashi/Toyota (2019)",  first:"WEC: 2012" },
+  wec_bahrain:  { lap:"5.412 km",  turns:15, record:"1:42.321 - Buemi/Toyota (2023)",      first:"WEC: 2012" },
+  wec_portimao: { lap:"4.653 km",  turns:15, record:"1:33.886 - Buemi/Toyota (2021)",      first:"WEC: 2021" },
 
   default:      { lap:"--", turns:"--", record:"--", first:"--" },
 };
