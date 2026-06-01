@@ -641,24 +641,27 @@ export default function App() {
       {/* ── TOP BAR ── */}
       <div style={{ background:"#fff", borderBottom:"0.5px solid #EFEFEF", position:"sticky", top:0, zIndex:20 }}>
         <div className="inner">
-          <div style={{ height:4, background:id.color, margin:"0 -40px 0 -40px" }}/>
-          <div style={{ display:"flex", alignItems:"flex-end", paddingTop:12, gap:5, overflowX:"auto", scrollbarWidth:"none" }}>
-            <div style={{ marginRight:16, flexShrink:0, paddingBottom:12 }}>
+          <div className="header-stripe" style={{ height:4, background:id.color, margin:"0 -40px 0 -40px" }}/>
+          <div style={{ display:"flex", alignItems:"center", paddingTop:10, paddingBottom:2, gap:4, overflowX:"auto", scrollbarWidth:"none" }}>
+            {/* Logo — caché sur mobile */}
+            <div className="header-logo" style={{ marginRight:14, flexShrink:0, paddingBottom:8 }}>
               <div style={{ fontSize:11, fontWeight:700, letterSpacing:3, color:"#BBB" }}>CALENDRIER</div>
               <div style={{ fontSize:32, fontWeight:900, color:"#111" }}>MOTORSPORT <span style={{ color:id.color }}>2026</span></div>
             </div>
-            <button className="stab" style={{ '--sc':'#666', color: view==='home'?'#444':'#BBB', borderBottomColor: view==='home'?'#444':'transparent', fontWeight: view==='home'?800:600 }}
+            {/* Bouton Accueil */}
+            <button className="stab" style={{ '--sc':'#666', color: view==='home'?'#444':'#BBB', borderBottomColor: view==='home'?'#444':'transparent', fontWeight: view==='home'?800:600, flexShrink:0 }}
               onClick={() => setView('home')}>
-              🏠 Accueil
+              🏠<span className="stab-home-label"> Accueil</span>
             </button>
+            {/* Onglets séries */}
             {series.map(s => {
               const sid = SERIES_ID[s.id] || {};
-              const isA = active === s.id;
+              const isA = active === s.id && view === 'series';
               return (
                 <button key={s.id} className={`stab${isA?' active':''}`}
-                  style={{ '--sc': sid.color, color: isA ? sid.color : '#BBB' }}
+                  style={{ '--sc': sid.color, color: isA ? sid.color : '#BBB', flexShrink:0 }}
                   onClick={() => { setActive(s.id); setView('series'); }}>
-                  {sid.icon} {s.id}
+                  {sid.icon}<span className="stab-label"> {s.id}</span>
                 </button>
               );
             })}
