@@ -228,6 +228,11 @@ const CIRCUIT_INFO = {
   f1_bahrain:    { lap:"5.412 km", turns:15, record:"1:31.447 - De la Rosa (2005)",        first:"F1: 2004", laps:57 , laps:57 },
   mexicocity:   { lap:"4.304 km", turns:17, record:"1:17.774 - Bottas (2021)",            first:"F1: 1963" },
 
+  f1_redbullring:  { lap:"4.318 km", turns:10, laps:71,  record:"1:05.619 - Hamilton (2020)",          first:"F1: 1970" },
+  f1_silverstone:  { lap:"5.891 km", turns:18, laps:52,  record:"1:27.097 - Verstappen (2020)",        first:"F1: 1950" },
+  f1_hungaroring:  { lap:"4.381 km", turns:14, laps:70,  record:"1:16.627 - Hamilton (2020)",          first:"F1: 1986" },
+  f1_mexicocity:   { lap:"4.304 km", turns:17, laps:71,  record:"1:17.774 - Bottas (2021)",            first:"F1: 1963" },
+  f1_interlagos:   { lap:"4.309 km", turns:15, laps:71,  record:"1:10.540 - Verstappen (2023)",        first:"F1: 1973" },
   // ── MotoGP — records all-time au 17 mai 2026 (source: motorsporttickets.com) ──
   motogp_tha:   { lap:"4.554 km", turns:12, record:"1:28.526 - Bezzecchi/Aprilia (2026)",  first:"MotoGP: 2018" , laps:26 },
   motogp_bra:   { lap:"4.212 km", turns:14, record:"1:17.408 - Bezzecchi/Aprilia (2026)",  first:"MotoGP: 2026" , laps:20 },
