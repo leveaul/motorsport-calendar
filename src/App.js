@@ -62,6 +62,8 @@ const TRACK_IMAGES = {
   f1_shanghai:     "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/f1/shanghai.webp",
   f1_bahrain:      "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/f1/bahrain.webp",
   f1_mexicocity:   "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/f1/mexicocity.webp",
+  f1_madrid:       { lap:"5.416 km", turns:22, laps:57, record:"À établir (2026)", first:"F1: 2026" },
+  f1_madrid:       "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/f1/madrid.webp",  // à ajouter quand formula1.com le publie
 
   // ── MotoGP (/public/tracks/motogp/) ─────────────────────────────────────
   motogp_tha:      "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/motogp/tha.svg",
@@ -175,6 +177,8 @@ function getTrackKey(circuit, seriesId, circuitKey) {
   if (c.includes("shanghai"))                                       return "f1_shanghai";
   if (c.includes("bahrain") || c.includes("sakhir"))               return "f1_bahrain";
   if (c.includes("hermanos") || c.includes("mexico"))              return "f1_mexicocity";
+  if (c.includes("gilles") || c.includes("montreal") || c.includes("montréal") || c.includes("canada")) return "f1_montreal";
+  if (c.includes("madrid") || c.includes("ifema") || c.includes("madring"))     return "f1_madrid";
   return null;
 }
 
