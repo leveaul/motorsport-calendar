@@ -62,7 +62,7 @@ const TRACK_IMAGES = {
   f1_shanghai:     "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/f1/shanghai.webp",
   f1_bahrain:      "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/f1/bahrain.webp",
   f1_mexicocity:   "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/f1/mexicocity.webp",
-  f1_madrid:       { lap:"5.416 km", turns:22, laps:57, record:"308.524 km distance", first:"F1: 2026" },
+  f1_madrid:       { lap:"5.416 km", turns:22, laps:57, record:"À établir (2026)",    first:"F1: 2026" },
   f1_madrid:       "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/f1/madrid.webp",  // à ajouter quand formula1.com le publie
 
   // ── MotoGP (/public/tracks/motogp/) ─────────────────────────────────────
