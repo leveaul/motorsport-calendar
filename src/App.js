@@ -228,7 +228,7 @@ function CircuitPanel({ race, id, onClose }) {
   const [results, setResults] = useState([]);
   const [loadingR, setLoadingR] = useState(true);
   const key = getTrackKey(race.circuit, race.series_id, race.circuit_key);
-  const [info, setInfo] = useState({ lap:"--", turns:"--", laps:null, record:"--", first_year:"--" });
+  const [info, setInfo] = useState({ lap_length:"--", turns:"--", laps:null, lap_record:"--", first_year:"--" });
   useEffect(() => {
     if (!key) return;
     sb(`circuits?key=eq.${key}&limit=1`).then(rows => {
