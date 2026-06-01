@@ -201,77 +201,6 @@ function TrackSVG({ circuit, color, size=140, seriesId='', circuitKey=null }) {
   );
 }
 
-const CIRCUIT_INFO = {
-  // ── F1 ───────────────────────────────────────────────────────────────────
-  f1_monaco:    { lap:"3.337 km", turns:19, record:"1:12.909 - Hamilton (2021)",         first:"F1: 1950", laps:78 , laps:78 },
-  f1_monza:     { lap:"5.793 km", turns:11, record:"1:19.119 - Leclerc (2019)",           first:"F1: 1950", laps:53 , laps:53 },
-  silverstone:  { lap:"5.891 km", turns:18, record:"1:27.097 - Verstappen (2020)",        first:"F1: 1950" },
-  f1_spa:       { lap:"7.004 km", turns:19, record:"1:41.252 - Bottas (2018)",             first:"F1: 1950" },
-  f1_suzuka:    { lap:"5.807 km", turns:18, record:"1:30.983 - Hamilton (2019)",          first:"F1: 1987", laps:53 , laps:53 },
-  albertpark:   { lap:"5.278 km", turns:16, record:"1:19.813 - Leclerc (2022)",           first:"F1: 1996" },
-  redbullring:  { lap:"4.318 km", turns:10, record:"1:05.619 - Hamilton (2020)",          first:"F1: 1970" },
-  f1_barcelona:    { lap:"4.657 km", turns:16, record:"1:16.330 - Verstappen (2023)",        first:"F1: 1991", laps:66 , laps:66 },
-  f1_zandvoort:    { lap:"4.259 km", turns:14, record:"1:11.097 - Verstappen (2021)",        first:"F1: 1952, retour 2021", laps:72 , laps:72 },
-  hungaroring:  { lap:"4.381 km", turns:14, record:"1:16.627 - Hamilton (2020)",          first:"F1: 1986" },
-  f1_imola:     { lap:"4.909 km", turns:19, record:"1:15.484 - Hamilton (2020)",          first:"F1: 1980", laps:63 , laps:63 },
-  f1_yasmarina:    { lap:"5.281 km", turns:16, record:"1:26.103 - Verstappen (2021)",        first:"F1: 2009", laps:58 , laps:58 },
-  f1_cota:      { lap:"5.513 km", turns:20, record:"1:36.169 - Hamilton (2012)",          first:"F1: 2012", laps:56 , laps:56 },
-  f1_baku:      { lap:"6.003 km", turns:20, record:"1:43.009 - Leclerc (2019)",           first:"F1: 2017", laps:51 , laps:51 },
-  f1_losail:    { lap:"5.380 km", turns:16, record:"1:24.319 - Hamilton (2021)",          first:"F1: 2021", laps:57 , laps:57 },
-  f1_marinabay:    { lap:"4.940 km", turns:19, record:"1:35.867 - Leclerc (2023)",           first:"F1: 2008", laps:62 , laps:62 },
-  f1_montreal:    { lap:"4.361 km", turns:14, record:"1:13.078 - Vettel (2019)",            first:"F1: 1978", laps:70 , laps:70 },
-  interlagos:   { lap:"4.309 km", turns:15, record:"1:10.540 - Verstappen (2023)",        first:"F1: 1973" },
-  f1_jeddah:    { lap:"6.174 km", turns:27, record:"1:30.734 - Leclerc (2022)",           first:"F1: 2021", laps:50 , laps:50 },
-  f1_miami:     { lap:"5.412 km", turns:19, record:"1:29.708 - Verstappen (2023)",        first:"F1: 2022", laps:57 , laps:57 },
-  f1_lasvegas:    { lap:"6.201 km", turns:17, record:"1:35.490 - Leclerc (2023)",           first:"F1: 2023", laps:50 , laps:50 },
-  f1_shanghai:    { lap:"5.451 km", turns:16, record:"1:32.238 - Schumacher (2004)",        first:"F1: 2004", laps:56 , laps:56 },
-  f1_bahrain:    { lap:"5.412 km", turns:15, record:"1:31.447 - De la Rosa (2005)",        first:"F1: 2004", laps:57 , laps:57 },
-  mexicocity:   { lap:"4.304 km", turns:17, record:"1:17.774 - Bottas (2021)",            first:"F1: 1963" },
-
-  f1_redbullring:  { lap:"4.318 km", turns:10, laps:71,  record:"1:05.619 - Hamilton (2020)",          first:"F1: 1970" },
-  f1_silverstone:  { lap:"5.891 km", turns:18, laps:52,  record:"1:27.097 - Verstappen (2020)",        first:"F1: 1950" },
-  f1_hungaroring:  { lap:"4.381 km", turns:14, laps:70,  record:"1:16.627 - Hamilton (2020)",          first:"F1: 1986" },
-  f1_mexicocity:   { lap:"4.304 km", turns:17, laps:71,  record:"1:17.774 - Bottas (2021)",            first:"F1: 1963" },
-  f1_interlagos:   { lap:"4.309 km", turns:15, laps:71,  record:"1:10.540 - Verstappen (2023)",        first:"F1: 1973" },
-  // ── MotoGP — records all-time au 17 mai 2026 (source: motorsporttickets.com) ──
-  motogp_tha:   { lap:"4.554 km", turns:12, record:"1:28.526 - Bezzecchi/Aprilia (2026)",  first:"MotoGP: 2018" , laps:26 },
-  motogp_bra:   { lap:"4.212 km", turns:14, record:"1:17.408 - Bezzecchi/Aprilia (2026)",  first:"MotoGP: 2026" , laps:20 },
-  motogp_usa:   { lap:"5.513 km", turns:20, record:"2:00.864 - Di Giannantonio/Ducati (2026)", first:"MotoGP: 2013" , laps:21 },
-  motogp_spa:   { lap:"4.423 km", turns:13, record:"1:35.610 - Quartararo/Yamaha (2025)",  first:"MotoGP: 1992" , laps:25 },
-  motogp_fra:   { lap:"4.185 km", turns:14, record:"1:29.288 - M.Marquez/Ducati (2026)",   first:"MotoGP: 2000" , laps:27 },
-  motogp_cat:   { lap:"4.657 km", turns:16, record:"1:37.536 - A.Marquez/Ducati (2025)",   first:"MotoGP: 1992" , laps:24 },
-  motogp_ita:   { lap:"5.245 km", turns:15, record:"1:44.169 - M.Marquez/Ducati (2025)",   first:"MotoGP: 1994" , laps:23 },
-  motogp_hun:   { lap:"4.197 km", turns:13, record:"1:36.518 - M.Marquez/Ducati (2025)",   first:"MotoGP: 2024" , laps:27 },
-  motogp_cze:   { lap:"5.403 km", turns:14, record:"1:52.303 - Bagnaia/Ducati (2025)",     first:"MotoGP: 1987" , laps:22 },
-  motogp_nld:   { lap:"4.542 km", turns:18, record:"1:30.540 - Bagnaia/Ducati (2024)",     first:"MotoGP: 1949" , laps:26 },
-  motogp_ger:   { lap:"3.671 km", turns:13, record:"1:19.071 - Di Giannantonio/Ducati (2025)", first:"MotoGP: 1998" , laps:30 },
-  motogp_gbr:   { lap:"5.900 km", turns:18, record:"1:57.233 - Quartararo/Yamaha (2025)",  first:"MotoGP: 1987" , laps:20 },
-  motogp_ara:   { lap:"5.344 km", turns:17, record:"1:45.704 - M.Marquez/Ducati (2025)",   first:"MotoGP: 2010" , laps:23 },
-  motogp_rsm:   { lap:"4.226 km", turns:16, record:"1:30.031 - Bagnaia/Ducati (2024)",     first:"MotoGP: 1993" , laps:28 },
-  motogp_aut:   { lap:"4.318 km", turns:10, record:"1:27.748 - Martin/Ducati (2024)",      first:"MotoGP: 2016" , laps:28 },
-  motogp_jpn:   { lap:"4.801 km", turns:14, record:"1:42.911 - Bagnaia/Ducati (2025)",     first:"MotoGP: 1999" , laps:24 },
-  motogp_ina:   { lap:"4.310 km", turns:17, record:"1:28.832 - Bezzecchi/Aprilia (2025)",  first:"MotoGP: 2021" , laps:27 },
-  motogp_aus:   { lap:"4.448 km", turns:12, record:"1:26.465 - Quartararo/Yamaha (2025)",  first:"MotoGP: 1997" , laps:27 },
-  motogp_mal:   { lap:"5.543 km", turns:15, record:"1:56.337 - Bagnaia/Ducati (2024)",     first:"MotoGP: 1999" , laps:20 },
-  motogp_qat:   { lap:"5.380 km", turns:16, record:"1:50.499 - M.Marquez/Ducati (2025)",   first:"MotoGP: 2004" , laps:22 },
-  motogp_por:   { lap:"4.653 km", turns:15, record:"1:37.226 - M.Marquez/Honda (2023)",    first:"MotoGP: 2020" , laps:25 },
-  motogp_val:   { lap:"4.005 km", turns:14, record:"1:28.809 - Bezzecchi/Aprilia (2025)",  first:"MotoGP: 1999" , laps:28 },
-
-  // ── WEC ─────────────────────────────────────────────────────────────────
-  wec_losail:   { lap:"5.380 km",  turns:16, record:"3:26.359 - Kobayashi/Toyota (2024)",  first:"WEC: 2024" },
-  wec_imola:    { lap:"4.909 km",  turns:19, record:"1:28.920 - Giovinazzi/Ferrari (2025)", first:"WEC: 2024" },
-  wec_spa:      { lap:"7.004 km",  turns:19, record:"2:01.649 - Kobayashi/Toyota (2024)",  first:"WEC: 2012" },
-  wec_lemans:   { lap:"13.626 km", turns:38, record:"3:14.791 - Kobayashi/Toyota (2017)",  first:"24H: 1923" },
-  wec_saopaulo: { lap:"4.309 km",  turns:15, record:"1:43.627 - Hartley/Toyota (2025)",    first:"WEC: 2025" },
-  wec_cota:     { lap:"5.513 km",  turns:20, record:"1:50.932 - Bamber/Porsche (2025)",    first:"WEC: 2025" },
-  wec_fuji:     { lap:"4.563 km",  turns:16, record:"1:26.048 - Kobayashi/Toyota (2019)",  first:"WEC: 2012" },
-  wec_bahrain:  { lap:"5.412 km",  turns:15, record:"1:42.321 - Buemi/Toyota (2023)",      first:"WEC: 2012" },
-  wec_portimao: { lap:"4.653 km",  turns:15, record:"1:33.886 - Buemi/Toyota (2021)",      first:"WEC: 2021" },
-
-
-  f1_madrid:       { lap:"5.416 km", turns:22, laps:57, record:"À établir (2026)", first:"F1: 2026" },
-  default:      { lap:"--", turns:"--", record:"--", first:"--" },
-};
 
 const MONTHS_FR = ["Jan","Fev","Mar","Avr","Mai","Jun","Jul","Aou","Sep","Oct","Nov","Dec"];
 function fmtDate(d) { if (!d) return ""; const x = new Date(d+"T12:00:00"); return `${x.getDate()} ${MONTHS_FR[x.getMonth()]}`; }
@@ -299,7 +228,13 @@ function CircuitPanel({ race, id, onClose }) {
   const [results, setResults] = useState([]);
   const [loadingR, setLoadingR] = useState(true);
   const key = getTrackKey(race.circuit, race.series_id, race.circuit_key);
-  const info = CIRCUIT_INFO[key] || CIRCUIT_INFO.default;
+  const [info, setInfo] = useState({ lap:"--", turns:"--", laps:null, record:"--", first_year:"--" });
+  useEffect(() => {
+    if (!key) return;
+    sb(`circuits?key=eq.${key}&limit=1`).then(rows => {
+      if (rows[0]) setInfo(rows[0]);
+    }).catch(() => {});
+  }, [key]);
   const MEDALS = ["🥇","🥈","🥉"];
 
   useEffect(() => {
