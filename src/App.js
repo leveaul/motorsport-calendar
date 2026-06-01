@@ -62,7 +62,7 @@ const TRACK_IMAGES = {
   f1_shanghai:     "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/f1/shanghai.webp",
   f1_bahrain:      "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/f1/bahrain.webp",
   f1_mexicocity:   "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/f1/mexicocity.webp",
-  f1_madrid:       { lap:"5.416 km", turns:22, laps:57, record:"À établir (2026)", first:"F1: 2026" },
+  f1_madrid:       { lap:"5.416 km", turns:22, laps:57, record:"308.524 km distance", first:"F1: 2026" },
   f1_madrid:       "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/f1/madrid.webp",  // à ajouter quand formula1.com le publie
 
   // ── MotoGP (/public/tracks/motogp/) ─────────────────────────────────────
@@ -144,7 +144,7 @@ function getTrackKey(circuit, seriesId, circuitKey) {
     if (c.includes("imola") || c.includes("dino ferrari"))           return "wec_imola";
     if (c.includes("spa"))                                          return "wec_spa";
     if (c.includes("sarthe") || (c.includes("mans") && !c.includes("bugatti"))) return "wec_lemans";
-    if (c.includes("interlagos") || c.includes("são paulo") || c.includes("sao paulo") || c.includes("goiania") || c.includes("goiânia") || c.includes("senna") || c.includes("ayrton")) return "wec_saopaulo";
+    if (c.includes("interlagos") || c.includes("são paulo") || c.includes("sao paulo") || c.includes("goiania") || c.includes("goiânia") || c.includes("senna") || c.includes("ayrton") || c.includes("pace") || c.includes("paulo")) return "wec_saopaulo";
     if (c.includes("americas") || c.includes("cota") || c.includes("austin")) return "wec_cota";
     if (c.includes("fuji"))                                         return "wec_fuji";
     if (c.includes("bahrain") || c.includes("sakhir"))             return "wec_bahrain";
