@@ -547,9 +547,9 @@ export default function App() {
     }).catch(()=>setLoading(false));
   },[active]);
 
-  const mainRaces = races.filter(r => r.type !== 'sprint');
-  const sprintRounds = new Set(races.filter(r => r.type === 'sprint').map(r => r.round));
-  const sprintByRound = Object.fromEntries(races.filter(r => r.type === 'sprint').map(r => [r.round, r]));
+  const mainRaces = races.filter(r => r.type !== 'sprint' && !r.name?.toLowerCase().startsWith('sprint'));
+  const sprintRounds = new Set(races.filter(r => r.type === 'sprint' || r.name?.toLowerCase().startsWith('sprint')).map(r => r.round));
+  const sprintByRound = Object.fromEntries(races.filter(r => r.type === 'sprint' || r.name?.toLowerCase().startsWith('sprint')).map(r => [r.round, r]));
   const displayed = filter==="upcoming"
     ? mainRaces.filter(r => r.date_end >= today)
     : filter==="results"
@@ -737,7 +737,7 @@ export default function App() {
                   <div
                     className={`tile${done?' done':''}${isNext?' next-race':''}`}
                     style={{ '--sc': id.color }}
-                    onClick={() => setSelected(selected?.id === race.id ? null : race)}
+                    onClick={() => { const next = selected?.id === race.id ? null : race; setSelected(next); if (next) setTimeout(()=>document.getElementById('circuit-panel')?.scrollIntoView({behavior:'smooth',block:'nearest'}),50); }}
                   >
                     <div className="tile-top">
                       <div className="tile-date">
@@ -759,7 +759,7 @@ export default function App() {
                         {live && <span className="badge" style={{ background:id.color, color:"#fff", animation:"pulse 1.4s infinite" }}>LIVE</span>}
                         {isNext && <span className="badge b-next" style={{ background:id.color }}>Prochain</span>}
                         {done && race._hasResults && <span className="badge b-res">Résultats</span>}
-                        {(race.type==="sprint"||race.type==="sprint_weekend") && <span className="badge b-sprint">Sprint</span>}
+                        {sprintRounds.has(race.round) && <span className="badge b-sprint">Sprint</span>}
                         {!done && !isNext && days !== null && days >= 0 && <span className="badge b-days">{days}j</span>}
                       </div>
                     </div>
@@ -769,7 +769,7 @@ export default function App() {
             })}
             {/* Panel pleine largeur — après toutes les tuiles */}
             {selected && (
-              <div style={{ gridColumn:"1/-1", animation:"expandDown .25s cubic-bezier(.4,0,.2,1)" }}>
+              <div id="circuit-panel" style={{ gridColumn:"1/-1", animation:"expandDown .25s cubic-bezier(.4,0,.2,1)" }}>
                 <CircuitPanel race={selected} id={id} sprintRace={sprintByRound[selected.round]||null} onClose={() => setSelected(null)}/>
               </div>
             )}
