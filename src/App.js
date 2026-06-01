@@ -62,7 +62,6 @@ const TRACK_IMAGES = {
   f1_shanghai:     "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/f1/shanghai.webp",
   f1_bahrain:      "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/f1/bahrain.webp",
   f1_mexicocity:   "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/f1/mexicocity.webp",
-  f1_madrid:       { lap:"5.416 km", turns:22, laps:57, record:"À établir (2026)",    first:"F1: 2026" },
   f1_madrid:       "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/f1/madrid.webp",  // à ajouter quand formula1.com le publie
 
   // ── MotoGP (/public/tracks/motogp/) ─────────────────────────────────────
@@ -144,7 +143,7 @@ function getTrackKey(circuit, seriesId, circuitKey) {
     if (c.includes("imola") || c.includes("dino ferrari"))           return "wec_imola";
     if (c.includes("spa"))                                          return "wec_spa";
     if (c.includes("sarthe") || (c.includes("mans") && !c.includes("bugatti"))) return "wec_lemans";
-    if (c.includes("interlagos") || c.includes("são paulo") || c.includes("sao paulo") || c.includes("goiania") || c.includes("goiânia") || c.includes("senna") || c.includes("ayrton") || c.includes("pace") || c.includes("paulo")) return "wec_saopaulo";
+    if (c.includes("interlagos") || c.includes("são paulo") || c.includes("sao paulo") || c.includes("goiania") || c.includes("goiânia") || c.includes("senna") || c.includes("ayrton") || c.includes("pace") || c.includes("paulo") || c.includes("josé carlos") || c.includes("jose carlos")) return "wec_saopaulo";
     if (c.includes("americas") || c.includes("cota") || c.includes("austin")) return "wec_cota";
     if (c.includes("fuji"))                                         return "wec_fuji";
     if (c.includes("bahrain") || c.includes("sakhir"))             return "wec_bahrain";
@@ -264,6 +263,7 @@ const CIRCUIT_INFO = {
   wec_bahrain:  { lap:"5.412 km",  turns:15, record:"1:42.321 - Buemi/Toyota (2023)",      first:"WEC: 2012" },
   wec_portimao: { lap:"4.653 km",  turns:15, record:"1:33.886 - Buemi/Toyota (2021)",      first:"WEC: 2021" },
 
+  f1_madrid:       { lap:"5.416 km", turns:22, laps:57, record:"À établir (2026)", first:"F1: 2026" },
   default:      { lap:"--", turns:"--", record:"--", first:"--" },
 };
 
