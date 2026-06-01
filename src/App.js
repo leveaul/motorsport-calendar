@@ -636,6 +636,16 @@ export default function App() {
           .next-name{font-size:40px !important}
           .next-days{font-size:75px !important}
         }
+        /* ── Mobile : header compact ── */
+        @media(max-width:899px){
+          .header-logo{display:none !important}
+          .stab{padding:9px 12px !important;font-size:14px !important}
+          .stab-label{display:none !important}
+          .stab-home-label{display:none !important}
+          .app-inner{padding:0 10px !important}
+          .tiles{grid-template-columns:1fr !important}
+          .inner{padding:0 10px !important}
+        }
       `}</style>
 
       {/* ── TOP BAR ── */}
