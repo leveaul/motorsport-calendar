@@ -263,7 +263,7 @@ function CircuitPanel({ race, id, onClose }) {
           </div>
         </div>
         <div style={{ display:"flex", flexDirection:"column", gap:8 }}>
-          {[["📏","Longueur",info.lap],["↩️","Virages",info.turns !== "--" ? `${info.turns}` : "--"],...(info.laps ? [["🔄","Tours",`${info.laps} tours`]] : []),["⏱️","Record",info.record],["📅","Date",fmtRange(race.date_start,race.date_end)],["🗓️","Au calendrier",info.first]].map(([emoji,label,val]) => (
+          {[["📏","Longueur",info.lap_length],["↩️","Virages",info.turns !== "--" ? `${info.turns}` : "--"],...(info.laps ? [["🔄","Tours",`${info.laps} tours`]] : []),["⏱️","Record",info.lap_record],["📅","Date",fmtRange(race.date_start,race.date_end)],["🗓️","Au calendrier",info.first_year]].map(([emoji,label,val]) => (
             <div key={label} style={{ background:"#fff", borderRadius:10, border:"1px solid #F0F0F0", padding:"8px 11px", display:"flex", alignItems:"flex-start", gap:9 }}>
               <span style={{ fontSize:16, flexShrink:0, marginTop:1 }}>{emoji}</span>
               <div style={{ flex:1, minWidth:0 }}>
