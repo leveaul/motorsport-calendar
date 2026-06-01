@@ -259,7 +259,7 @@ function CircuitPanel({ race, id, sprintRace, onClose }) {
         </div>
         <button onClick={onClose} style={{ background:"rgba(255,255,255,.2)", border:"none", color:"#fff", width:32, height:32, borderRadius:8, cursor:"pointer", fontSize:16 }}>X</button>
       </div>
-      <div className="circuit-panel-inner" style={{ padding:"15px 20px", display:"grid", gridTemplateColumns:"1fr 1fr", gap:12 }}>
+      <div className="circuit-panel-inner" style={{ padding:"18px 24px", display:"grid", gridTemplateColumns:"2fr 1fr 1.5fr", gap:16 }}>
         <div style={{ background:"#fff", borderRadius:12, border:`1px solid ${id.color}15`, padding:12, display:"flex", flexDirection:"column", alignItems:"center", overflow:"hidden" }}>
           <div style={{ fontSize:11, color:"#BBB", letterSpacing:1.5, marginBottom:6, fontWeight:700 }}>TRACE</div>
           <div className="track-img-wrap" style={{ width:"100%", height:225, display:"flex", alignItems:"center", justifyContent:"center", overflow:"hidden" }}>
@@ -618,6 +618,7 @@ export default function App() {
           .stab-home-label{display:none !important}
           .app-inner{padding:0 10px !important}
           .tiles{grid-template-columns:1fr !important}
+          .circuit-panel-inner{grid-template-columns:1fr !important}
           .inner{padding:0 10px !important}
         }
       `}</style>
@@ -763,12 +764,15 @@ export default function App() {
                       </div>
                     </div>
                   </div>
-                  {selected?.id === race.id && (
-                    <CircuitPanel race={race} id={id} sprintRace={sprintByRound[race.round]||null} onClose={() => setSelected(null)}/>
-                  )}
                 </div>
               );
             })}
+            {/* Panel pleine largeur — après toutes les tuiles */}
+            {selected && (
+              <div style={{ gridColumn:"1/-1", animation:"expandDown .25s cubic-bezier(.4,0,.2,1)" }}>
+                <CircuitPanel race={selected} id={id} sprintRace={sprintByRound[selected.round]||null} onClose={() => setSelected(null)}/>
+              </div>
+            )}
           </div>
         )}
 
