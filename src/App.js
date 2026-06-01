@@ -224,8 +224,9 @@ function Spinner({ color }) {
   </div>;
 }
 
-function CircuitPanel({ race, id, onClose }) {
+function CircuitPanel({ race, id, sprintRace, onClose }) {
   const [results, setResults] = useState([]);
+  const [sprintResults, setSprintResults] = useState([]);
   const [loadingR, setLoadingR] = useState(true);
   const key = getTrackKey(race.circuit, race.series_id, race.circuit_key);
   const [info, setInfo] = useState({ lap_length:"--", turns:"--", laps:null, lap_record:"--", first_year:"--" });
@@ -241,7 +242,10 @@ function CircuitPanel({ race, id, onClose }) {
     if (race.status==="done") {
       sb(`results?race_id=eq.${race.id}&order=position.asc`).then(r => { setResults(r); setLoadingR(false); }).catch(()=>setLoadingR(false));
     } else setLoadingR(false);
-  }, [race.id]);
+    if (sprintRace?.id) {
+      sb(`results?race_id=eq.${sprintRace.id}&order=position.asc&limit=10`).then(setSprintResults).catch(()=>{});
+    }
+  }, [race.id, sprintRace?.id]);
 
   return (
     <div style={{ background:"#FAFAFA", border:`1.5px solid ${id.color}30`, borderTop:"none", borderRadius:"0 0 12px 12px", overflow:"hidden", animation:"expandDown .25s cubic-bezier(.4,0,.2,1)" }}>
@@ -299,6 +303,27 @@ function CircuitPanel({ race, id, onClose }) {
             </div>
           )}
         </div>
+        {/* ── Résultats Sprint ── */}
+        {sprintResults.length > 0 && (
+          <div style={{ padding:"0 16px 4px" }}>
+            <div style={{ fontSize:11, fontWeight:700, letterSpacing:1.5, color:"#FF6B00", marginBottom:8 }}>RÉSULTATS SPRINT</div>
+            {sprintResults.slice(0,5).map((r,i) => (
+              <div key={i} style={{ display:"flex", alignItems:"center", gap:10, padding:"7px 10px", background:i===0?"#FFF5EE":"#fff", border:`1px solid ${i===0?"#FF6B0030":"#F0F0F0"}`, borderRadius:10, marginBottom:6 }}>
+                <div style={{ width:28, height:28, borderRadius:7, background:i===0?"#FF6B00":i===1?"#C0C0C0":i===2?"#CD7F32":"#F5F5F5", display:"flex", alignItems:"center", justifyContent:"center", fontSize:i<3?11:9, fontWeight:800, color:i<3?"#fff":"#AAA", flexShrink:0 }}>
+                  {i<3?["🥇","🥈","🥉"][i]:r.position}
+                </div>
+                <div style={{ flex:1, minWidth:0 }}>
+                  <div style={{ fontSize:14, fontWeight:700, color:"#222", whiteSpace:"nowrap", overflow:"hidden", textOverflow:"ellipsis", fontFamily:"'Barlow Condensed',sans-serif" }}>{r.driver}</div>
+                  {r.team&&<div style={{ fontSize:10, color:"#BBB" }}>{r.team}</div>}
+                </div>
+                <div style={{ textAlign:"right", flexShrink:0 }}>
+                  {r.points>0&&<div style={{ fontSize:13, fontWeight:800, color:"#FF6B00", fontFamily:"'Barlow Condensed',sans-serif" }}>{r.points} pts</div>}
+                  {r.gap&&<div style={{ fontSize:10, color:"#CCC" }}>{r.gap}</div>}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       ) : (
         <div style={{ padding:"0 16px 12px" }}>
           <div style={{ background:id.bg, borderRadius:12, padding:"12px 18px", border:`1px dashed ${id.color}40`, display:"flex", alignItems:"center", justifyContent:"center", gap:12 }}>
@@ -371,7 +396,7 @@ function RaceCard({ race, id, active, onClick }) {
       <div style={{ flex:1, padding:"11px 14px", minWidth:0 }}>
         <div style={{ display:"flex", alignItems:"center", gap:6, marginBottom:2, flexWrap:"wrap" }}>
           {live&&<span style={{ fontSize:10, fontWeight:700, letterSpacing:1.5, color:"#fff", background:id.color, padding:"2px 8px", borderRadius:5, animation:"pulse 1.4s infinite" }}>LIVE</span>}
-          {race.type==="sprint"&&<span style={{ fontSize:10, fontWeight:700, color:"#FF6B00", background:"#FFF0E0", padding:"2px 8px", borderRadius:5 }}>SPRINT</span>}
+          {sprintRounds.has(race.round)&&<span style={{ fontSize:10, fontWeight:700, color:"#FF6B00", background:"#FFF0E0", padding:"3px 10px", borderRadius:5 }}>Sprint WE</span>}
           {race.type==="sprint_weekend"&&race.series_id==="MotoGP"&&<span style={{ fontSize:10, fontWeight:600, color:"#888", background:"#F2F2F2", padding:"2px 8px", borderRadius:5 }}>+ SPRINT SAM.</span>}
           {race.type==="sprint_weekend"&&race.series_id==="F1"&&<span style={{ fontSize:10, fontWeight:700, color:id.color, background:id.bg, padding:"2px 8px", borderRadius:5 }}>SPRINT WE</span>}
           {done&&race._hasResults&&<span style={{ fontSize:10, fontWeight:600, color:id.text, background:id.bg, padding:"2px 8px", borderRadius:5 }}>RESULTATS</span>}
@@ -521,7 +546,14 @@ export default function App() {
     }).catch(()=>setLoading(false));
   },[active]);
 
-  const displayed = filter==="upcoming"?races.filter(r=>r.date_end>=today):filter==="results"?races.filter(r=>r.status==="done").reverse():races;
+  const mainRaces = races.filter(r => r.type !== 'sprint');
+  const sprintRounds = new Set(races.filter(r => r.type === 'sprint').map(r => r.round));
+  const sprintByRound = Object.fromEntries(races.filter(r => r.type === 'sprint').map(r => [r.round, r]));
+  const displayed = filter==="upcoming"
+    ? mainRaces.filter(r => r.date_end >= today)
+    : filter==="results"
+    ? mainRaces.filter(r => r.status === "done").reverse()
+    : mainRaces;
   const next = races.find(r=>r.date_start>=today&&r.status!=="done"&&r.type!=="sprint");
   const dNext = next?daysUntil(next.date_start):null;
   const doneCount = races.filter(r=>r.status==="done"&&r.type!=="sprint").length;
@@ -731,7 +763,7 @@ export default function App() {
                     </div>
                   </div>
                   {selected?.id === race.id && (
-                    <CircuitPanel race={race} id={id} onClose={() => setSelected(null)}/>
+                    <CircuitPanel race={race} id={id} sprintRace={sprintByRound[race.round]||null} onClose={() => setSelected(null)}/>
                   )}
                 </div>
               );
