@@ -262,7 +262,7 @@ function CircuitPanel({ race, id, sprintRace, onClose }) {
       <div className="circuit-panel-inner" style={{ padding:"18px 24px", display:"grid", gridTemplateColumns:"2fr 1fr 1.5fr", gap:16 }}>
         <div style={{ background:"#fff", borderRadius:12, border:`1px solid ${id.color}15`, padding:12, display:"flex", flexDirection:"column", alignItems:"center", overflow:"hidden" }}>
           <div style={{ fontSize:11, color:"#BBB", letterSpacing:1.5, marginBottom:6, fontWeight:700 }}>TRACE</div>
-          <div className="track-img-wrap" style={{ width:"100%", height:225, display:"flex", alignItems:"center", justifyContent:"center", overflow:"hidden" }}>
+          <div className="track-img-wrap" style={{ width:"100%", height:420, display:"flex", alignItems:"center", justifyContent:"center", overflow:"hidden" }}>
             <TrackSVG circuit={race.circuit} color={id.color} size={160} seriesId={race.series_id} circuitKey={race.circuit_key}/>
           </div>
         </div>
