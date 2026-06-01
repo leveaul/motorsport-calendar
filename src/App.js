@@ -263,7 +263,6 @@ const CIRCUIT_INFO = {
   wec_bahrain:  { lap:"5.412 km",  turns:15, record:"1:42.321 - Buemi/Toyota (2023)",      first:"WEC: 2012" },
   wec_portimao: { lap:"4.653 km",  turns:15, record:"1:33.886 - Buemi/Toyota (2021)",      first:"WEC: 2021" },
 
-  f1_madrid:       { lap:"5.416 km", turns:22, laps:57, record:"À établir (2026)", first:"F1: 2026" },
 
   f1_madrid:       { lap:"5.416 km", turns:22, laps:57, record:"À établir (2026)", first:"F1: 2026" },
   default:      { lap:"--", turns:"--", record:"--", first:"--" },
