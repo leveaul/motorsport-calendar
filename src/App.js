@@ -399,7 +399,7 @@ function RaceCard({ race, id, active, onClick }) {
       <div style={{ flex:1, padding:"11px 14px", minWidth:0 }}>
         <div style={{ display:"flex", alignItems:"center", gap:6, marginBottom:2, flexWrap:"wrap" }}>
           {live&&<span style={{ fontSize:10, fontWeight:700, letterSpacing:1.5, color:"#fff", background:id.color, padding:"2px 8px", borderRadius:5, animation:"pulse 1.4s infinite" }}>LIVE</span>}
-          {sprintRounds.has(race.round)&&<span style={{ fontSize:10, fontWeight:700, color:"#FF6B00", background:"#FFF0E0", padding:"3px 10px", borderRadius:5 }}>Sprint WE</span>}
+          {getSprintForRace(race)&&<span style={{ fontSize:10, fontWeight:700, color:"#FF6B00", background:"#FFF0E0", padding:"3px 10px", borderRadius:5 }}>Sprint WE</span>}
           {race.type==="sprint_weekend"&&race.series_id==="MotoGP"&&<span style={{ fontSize:10, fontWeight:600, color:"#888", background:"#F2F2F2", padding:"2px 8px", borderRadius:5 }}>+ SPRINT SAM.</span>}
           {race.type==="sprint_weekend"&&race.series_id==="F1"&&<span style={{ fontSize:10, fontWeight:700, color:id.color, background:id.bg, padding:"2px 8px", borderRadius:5 }}>SPRINT WE</span>}
           {done&&race._hasResults&&<span style={{ fontSize:10, fontWeight:600, color:id.text, background:id.bg, padding:"2px 8px", borderRadius:5 }}>RESULTATS</span>}
@@ -550,8 +550,22 @@ export default function App() {
   },[active]);
 
   const mainRaces = races.filter(r => r.type !== 'sprint' && !r.name?.toLowerCase().startsWith('sprint'));
-  const sprintRounds = new Set(races.filter(r => r.type === 'sprint' || r.name?.toLowerCase().startsWith('sprint')).map(r => r.round));
-  const sprintByRound = Object.fromEntries(races.filter(r => r.type === 'sprint' || r.name?.toLowerCase().startsWith('sprint')).map(r => [r.round, r]));
+  const sprintRaces = races.filter(r => r.type === 'sprint' || r.name?.toLowerCase().startsWith('sprint'));
+  const sprintRounds = new Set(sprintRaces.map(r => r.round).filter(Boolean));
+  // Index par round (si disponible) sinon par date de la semaine
+  const sprintByRound = Object.fromEntries(sprintRaces.map(r => [r.round, r]).filter(([k]) => k != null));
+  // Fallback : index par semaine ISO (lundi de la semaine du sprint)
+  const getWeekKey = (dateStr) => {
+    const d = new Date(dateStr + 'T12:00:00');
+    const day = d.getDay();
+    const mon = new Date(d); mon.setDate(d.getDate() - (day === 0 ? 6 : day - 1));
+    return mon.toISOString().slice(0,10);
+  };
+  const sprintByWeek = Object.fromEntries(sprintRaces.map(r => [getWeekKey(r.date_start), r]));
+  const getSprintForRace = (race) => {
+    if (race.round != null && sprintByRound[race.round]) return sprintByRound[race.round];
+    return sprintByWeek[getWeekKey(race.date_start)] || null;
+  };
   const displayed = filter==="upcoming"
     ? mainRaces.filter(r => r.date_end >= today)
     : filter==="results"
@@ -810,7 +824,7 @@ export default function App() {
             <CircuitPanel
               race={selected}
               id={id}
-              sprintRace={sprintByRound[selected.round]||null}
+              sprintRace={getSprintForRace(selected)}
               onClose={() => setSelected(null)}
             />
           </div>
