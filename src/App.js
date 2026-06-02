@@ -252,7 +252,7 @@ function CircuitPanel({ race, id, sprintRace, onClose }) {
   }, [race.id, sprintRace?.id]);
 
   return (
-    <div style={{ background:"#FAFAFA", border:`1.5px solid ${id.color}30`, borderTop:"none", borderRadius:"0 0 12px 12px", overflow:"hidden", animation:"expandDown .25s cubic-bezier(.4,0,.2,1)" }}>
+    <div style={{ background:"#FAFAFA", borderTop:"none", borderRadius:"0 0 18px 18px", overflow:"hidden", flex:1, display:"flex", flexDirection:"column" }}>
       <div style={{ background:`linear-gradient(135deg,${id.color},${id.color}BB)`, padding:"15px 20px", display:"flex", justifyContent:"space-between", alignItems:"flex-start" }}>
         <div style={{ display:"flex", alignItems:"center", gap:12 }}>
           <Flag country={race.country} size={24}/>
@@ -266,7 +266,7 @@ function CircuitPanel({ race, id, sprintRace, onClose }) {
       <div className="circuit-panel-inner" style={{ padding:"18px 24px", display:"grid", gridTemplateColumns: (!loadingR && results.length > 0) ? "2fr 1fr 1.5fr" : "2fr 1fr", gap:16 }}>
         <div style={{ background:"#fff", borderRadius:12, border:`1px solid ${id.color}15`, padding:12, display:"flex", flexDirection:"column", alignItems:"center", overflow:"hidden" }}>
           <div style={{ fontSize:11, color:"#BBB", letterSpacing:1.5, marginBottom:6, fontWeight:700 }}>TRACE</div>
-          <div className="track-img-wrap" style={{ width:"100%", height:420, display:"flex", alignItems:"center", justifyContent:"center", overflow:"hidden" }}>
+          <div className="track-img-wrap" style={{ width:"100%", height:"100%", minHeight:400, display:"flex", alignItems:"center", justifyContent:"center", overflow:"hidden" }}>
             <TrackSVG circuit={race.circuit} color={id.color} size={160} seriesId={race.series_id} circuitKey={race.circuit_key}/>
           </div>
         </div>
@@ -789,20 +789,22 @@ export default function App() {
           onClick={(e) => { if (e.target === e.currentTarget) setSelected(null); }}
           style={{
             position:"fixed", inset:0, zIndex:1000,
-            background:"rgba(0,0,0,.55)",
-            backdropFilter:"blur(3px)",
+            background:"rgba(0,0,0,.6)",
+            backdropFilter:"blur(4px)",
             display:"flex", alignItems:"center", justifyContent:"center",
-            padding:"20px 16px",
+            padding:"16px",
             animation:"fadeIn .2s ease"
           }}
         >
           <div style={{
-            width:"100%", maxWidth:1100,
-            maxHeight:"90vh",
+            width:"100%", maxWidth:"min(1400px, calc(100vw - 32px))",
+            height:"calc(100vh - 32px)",
+            maxHeight:"calc(100vh - 32px)",
             overflowY:"auto",
             borderRadius:18,
-            boxShadow:"0 24px 80px rgba(0,0,0,.35)",
-            animation:"slideUp .25s cubic-bezier(.4,0,.2,1)"
+            boxShadow:"0 24px 80px rgba(0,0,0,.4)",
+            animation:"slideUp .25s cubic-bezier(.4,0,.2,1)",
+            display:"flex", flexDirection:"column"
           }}>
             <CircuitPanel
               race={selected}
