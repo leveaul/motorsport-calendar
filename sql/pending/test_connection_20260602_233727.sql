@@ -1,0 +1,1 @@
+SELECT COUNT(*) as total FROM races WHERE series_id = 'MotoGP';
