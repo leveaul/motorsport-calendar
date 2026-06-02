@@ -3,8 +3,7 @@ name: Execute SQL on Supabase
 on:
   push:
     paths:
-      - 'sql/pending/**/*.sql'
-      - 'sql/pending/*.sql'
+      - 'sql/pending/**'
 
 jobs:
   execute-sql:
@@ -18,38 +17,27 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Execute new SQL files
-        env:
-          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
         run: |
-          FILES=$(git diff --name-only HEAD~1 HEAD -- 'sql/pending/*.sql' 'sql/pending/**/*.sql')
+          FILES=$(git diff --name-only HEAD~1 HEAD | grep '^sql/pending/.*\.sql$')
           echo "Files to execute: $FILES"
-          SUCCESS=true
           for FILE in $FILES; do
             [ -f "$FILE" ] || continue
             echo "--- Executing: $FILE ---"
-            SQL=$(cat "$FILE")
-            # Supabase Management API - execute SQL directement
-            HTTP_CODE=$(curl -s -o /tmp/resp.json -w "%{http_code}" \
-              -X POST "https://api.supabase.com/v1/projects/qgdcutklhgnlcrxuvgkn/database/query" \
-              -H "Authorization: Bearer ${SUPABASE_SERVICE_KEY}" \
+            JSON_SQL=$(python3 -c "import json; print(json.dumps(open('$FILE').read()))")
+            RESPONSE=$(curl -s -X POST "${{ secrets.SUPABASE_URL }}/functions/v1/execute-sql" \
+              -H "Authorization: Bearer ${{ secrets.SUPABASE_SERVICE_KEY }}" \
               -H "Content-Type: application/json" \
-              -d "$(python3 -c "import json,sys; print(json.dumps({'query': open(sys.argv[1]).read()}))" "$FILE")")
-            echo "HTTP: $HTTP_CODE"
-            cat /tmp/resp.json
-            if [ "$HTTP_CODE" = "200" ] || [ "$HTTP_CODE" = "201" ]; then
-              echo "SUCCESS: $FILE"
-            else
-              echo "FAILED: $FILE (HTTP $HTTP_CODE)"
-              SUCCESS=false
-            fi
+              -H "x-secret: motorsport2026" \
+              -d "{\"sql\": $JSON_SQL}")
+            echo "Response: $RESPONSE"
+            echo "$RESPONSE" | grep -q '"ok"' && echo "SUCCESS" || (echo "FAILED" && exit 1)
           done
-          $SUCCESS || exit 1
 
       - name: Archive executed SQL
         run: |
           git config user.email "bot@motorsport.app"
           git config user.name "Motorsport Bot"
-          FILES=$(git diff --name-only HEAD~1 HEAD -- 'sql/pending/*.sql' 'sql/pending/**/*.sql')
+          FILES=$(git diff --name-only HEAD~1 HEAD | grep '^sql/pending/.*\.sql$')
           CHANGED=0
           for FILE in $FILES; do
             if [ -f "$FILE" ]; then
