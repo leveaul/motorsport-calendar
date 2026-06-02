@@ -198,6 +198,38 @@ function TrackSVG({ circuit, color, size=140, seriesId='', circuitKey=null }) {
       <img src={imgUrl} alt={circuit} onError={() => setError(true)}
         style={{ width:"100%", height:"100%", objectFit:"contain", display:"block" }} />
     </div>
+
+      {/* ── MODAL CIRCUIT PANEL ── */}
+      {selected && (
+        <div
+          onClick={(e) => { if (e.target === e.currentTarget) setSelected(null); }}
+          style={{
+            position:"fixed", inset:0, zIndex:1000,
+            background:"rgba(0,0,0,.55)",
+            backdropFilter:"blur(3px)",
+            display:"flex", alignItems:"center", justifyContent:"center",
+            padding:"20px 16px",
+            animation:"fadeIn .2s ease"
+          }}
+        >
+          <div style={{
+            width:"100%", maxWidth:1100,
+            maxHeight:"90vh",
+            overflowY:"auto",
+            borderRadius:18,
+            boxShadow:"0 24px 80px rgba(0,0,0,.35)",
+            animation:"slideUp .25s cubic-bezier(.4,0,.2,1)"
+          }}>
+            <CircuitPanel
+              race={selected}
+              id={id}
+              sprintRace={sprintByRound[selected.round]||null}
+              onClose={() => setSelected(null)}
+            />
+          </div>
+        </div>
+      )}
+    </div>
   );
 }
 
@@ -736,7 +768,7 @@ export default function App() {
                   <div
                     className={`tile${done?' done':''}${isNext?' next-race':''}`}
                     style={{ '--sc': id.color }}
-                    onClick={() => { const next = selected?.id === race.id ? null : race; setSelected(next); if (next) setTimeout(()=>document.getElementById('circuit-panel')?.scrollIntoView({behavior:'smooth',block:'nearest'}),50); }}
+                    onClick={() => { const next = selected?.id === race.id ? null : race; setSelected(next); }}
                   >
                     <div className="tile-top">
                       <div className="tile-date">
@@ -766,12 +798,7 @@ export default function App() {
                 </div>
               );
             })}
-            {/* Panel pleine largeur — après toutes les tuiles */}
-            {selected && (
-              <div id="circuit-panel" style={{ gridColumn:"1/-1", animation:"expandDown .25s cubic-bezier(.4,0,.2,1)" }}>
-                <CircuitPanel race={selected} id={id} sprintRace={sprintByRound[selected.round]||null} onClose={() => setSelected(null)}/>
-              </div>
-            )}
+
           </div>
         )}
 
