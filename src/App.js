@@ -270,54 +270,49 @@ function CircuitPanel({ race, id, sprintRace, onClose }) {
             <TrackSVG circuit={race.circuit} color={id.color} size={160} seriesId={race.series_id} circuitKey={race.circuit_key}/>
           </div>
         </div>
-        <div style={{ display:"flex", flexDirection:"column", gap:8 }}>
+        <div style={{ display:"flex", flexDirection:"column", gap:8, overflowY:"auto", maxHeight:500 }}>
+          {/* ── Infos circuit ── */}
           {[["📏","Longueur",info.lap_length],["↩️","Virages",info.turns !== "--" ? `${info.turns}` : "--"],...(info.laps ? [["🔄","Tours",`${info.laps} tours`]] : []),["⏱️","Record",info.lap_record],["📅","Date",fmtRange(race.date_start,race.date_end)],["🗓️","Au calendrier",info.first_year]].map(([emoji,label,val]) => (
-            <div key={label} style={{ background:"#fff", borderRadius:10, border:"1px solid #F0F0F0", padding:"8px 11px", display:"flex", alignItems:"flex-start", gap:9 }}>
+            <div key={label} style={{ background:"#fff", borderRadius:10, border:"1px solid #F0F0F0", padding:"9px 13px", display:"flex", alignItems:"flex-start", gap:9, flexShrink:0 }}>
               <span style={{ fontSize:16, flexShrink:0, marginTop:1 }}>{emoji}</span>
               <div style={{ flex:1, minWidth:0 }}>
-                <div className="info-label" style={{ fontSize:10, color:"#CCC", letterSpacing:1, fontWeight:700 }}>{label.toUpperCase()}</div>
-                <div className="info-value" style={{ fontSize:14, fontWeight:700, color:"#222", fontFamily:"'Barlow Condensed',sans-serif", lineHeight:1.3 }}>{val}</div>
+                <div className="info-label" style={{ fontSize:9, color:"#BBB", letterSpacing:1.5, fontWeight:700, marginBottom:2 }}>{label.toUpperCase()}</div>
+                <div className="info-value" style={{ fontSize:13, fontWeight:700, color:"#222", fontFamily:"'Barlow Condensed',sans-serif", lineHeight:1.3 }}>{val}</div>
               </div>
             </div>
           ))}
-        </div>
-      </div>
-      {race.status==="done" ? (
-        <div style={{ padding:"0 16px 12px" }}>
-          <div style={{ fontSize:11, fontWeight:700, color:"#BBB", letterSpacing:1.5, marginBottom:7 }}>RESULTATS</div>
-          {loadingR && <Spinner color={id.color}/>}
-          {!loadingR && results.length===0 && <div style={{ textAlign:"center", color:"#DDD", fontSize:15, padding:"8px 0" }}>Pas encore de resultats</div>}
-          {!loadingR && results.length>0 && (
-            <div style={{ display:"flex", flexDirection:"column", gap:5 }}>
-              {results.map((r,i) => (
-                <div key={i} style={{ display:"flex", alignItems:"center", gap:11, padding:"9px 11px", background:i===0?id.bg:"#fff", border:`1px solid ${i===0?id.color+"30":"#F0F0F0"}`, borderRadius:10 }}>
-                  <div style={{ width:31, height:31, borderRadius:8, background:i===0?id.color:i===1?"#C0C0C0":i===2?"#CD7F32":"#F5F5F5", display:"flex", alignItems:"center", justifyContent:"center", fontSize:i<3?12:10, fontWeight:800, color:i<3?"#fff":"#AAA", flexShrink:0 }}>
-                    {i<3?["🥇","🥈","🥉"][i]:r.position}
-                  </div>
-                  <div style={{ flex:1, minWidth:0 }}>
-                    <div className="result-driver" style={{ fontSize:16, fontWeight:700, color:i===0?id.text:"#222", whiteSpace:"nowrap", overflow:"hidden", textOverflow:"ellipsis", fontFamily:"'Barlow Condensed',sans-serif" }}>{r.driver}</div>
-                    {r.team&&<div style={{ fontSize:11, color:"#BBB" }}>{r.team}</div>}
-                  </div>
-                  <div style={{ textAlign:"right", flexShrink:0 }}>
-                    {r.points>0&&<div style={{ fontSize:15, fontWeight:800, color:id.color, fontFamily:"'Barlow Condensed',sans-serif" }}>{r.points} pts</div>}
-                    {r.gap&&<div style={{ fontSize:11, color:"#CCC" }}>{r.gap}</div>}
-                  </div>
+          {/* ── Résultats (course terminée) ── */}
+          {race.status==="done" && <>
+            <div style={{ fontSize:11, fontWeight:700, color:"#BBB", letterSpacing:1.5, marginTop:6, flexShrink:0 }}>RÉSULTATS</div>
+            {loadingR && <Spinner color={id.color}/>}
+            {!loadingR && results.length===0 && <div style={{ textAlign:"center", color:"#DDD", fontSize:14, padding:"8px 0" }}>Pas encore de résultats</div>}
+            {!loadingR && results.map((r,i) => (
+              <div key={i} style={{ display:"flex", alignItems:"center", gap:10, padding:"8px 11px", background:i===0?id.bg:"#fff", border:`1px solid ${i===0?id.color+"30":"#F0F0F0"}`, borderRadius:10, flexShrink:0 }}>
+                <div style={{ width:28, height:28, borderRadius:8, background:i===0?id.color:i===1?"#C0C0C0":i===2?"#CD7F32":"#F5F5F5", display:"flex", alignItems:"center", justifyContent:"center", fontSize:i<3?11:10, fontWeight:800, color:i<3?"#fff":"#AAA", flexShrink:0 }}>
+                  {i<3?["🥇","🥈","🥉"][i]:r.position}
                 </div>
-              ))}
+                <div style={{ flex:1, minWidth:0 }}>
+                  <div className="result-driver" style={{ fontSize:15, fontWeight:700, color:i===0?id.text:"#222", whiteSpace:"nowrap", overflow:"hidden", textOverflow:"ellipsis", fontFamily:"'Barlow Condensed',sans-serif" }}>{r.driver}</div>
+                  {r.team&&<div style={{ fontSize:10, color:"#BBB" }}>{r.team}</div>}
+                </div>
+                <div style={{ textAlign:"right", flexShrink:0 }}>
+                  {r.points>0&&<div style={{ fontSize:14, fontWeight:800, color:id.color, fontFamily:"'Barlow Condensed',sans-serif" }}>{r.points} pts</div>}
+                  {r.gap&&<div style={{ fontSize:10, color:"#CCC" }}>{r.gap}</div>}
+                </div>
+              </div>
+            ))}
+          </>}
+          {/* ── Countdown (course à venir) ── */}
+          {race.status!=="done" && (
+            <div style={{ background:id.bg, borderRadius:12, padding:"14px 18px", border:`1px dashed ${id.color}40`, display:"flex", alignItems:"center", justifyContent:"center", gap:12, flexShrink:0 }}>
+              <Flag country={race.country} size={20}/>
+              <div style={{ fontSize:16, color:id.text, fontWeight:700 }}>
+                {daysUntil(race.date_start)===0 ? "C'est aujourd'hui !" : `Dans ${daysUntil(race.date_start)} jours`}
+              </div>
             </div>
           )}
         </div>
-
-      ) : (
-        <div style={{ padding:"0 16px 12px" }}>
-          <div style={{ background:id.bg, borderRadius:12, padding:"12px 18px", border:`1px dashed ${id.color}40`, display:"flex", alignItems:"center", justifyContent:"center", gap:12 }}>
-            <Flag country={race.country} size={20}/>
-            <div style={{ fontSize:16, color:id.text, fontWeight:700 }}>
-              {daysUntil(race.date_start)===0 ? "C'est aujourd'hui !" : `Dans ${daysUntil(race.date_start)} jours`}
-            </div>
-          </div>
-        </div>
-      )}
+      </div>
         {/* ── Résultats Sprint ── */}
         {sprintResults.length > 0 && (
           <div style={{ padding:"0 16px 4px" }}>
