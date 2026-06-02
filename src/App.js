@@ -560,7 +560,7 @@ export default function App() {
   const totalCount = races.filter(r=>r.type!=="sprint").length;
 
   return (
-    <div style={{ minHeight:"100vh", background:"#F2F2F0", fontFamily:"'Barlow Condensed','Arial Narrow',sans-serif" }}>
+    <div style={{ minHeight:"100vh", background:"#F2F2F0", fontFamily:"'Barlow Condensed','Arial Narrow',sans-serif", overflowX:"hidden", width:"100%" }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&display=swap');
         @keyframes spin{to{transform:rotate(360deg)}}
@@ -568,6 +568,7 @@ export default function App() {
         @keyframes slideUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
         *{box-sizing:border-box}
         button{font-family:inherit}
+        html,body{max-width:100vw;overflow-x:hidden}
         body{background:#F2F2F0}
         .inner{width:100%;max-width:1750px;margin:0 auto;padding:0 30px}
         .tiles{display:grid;grid-template-columns:repeat(2,1fr);gap:15px}
