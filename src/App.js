@@ -229,7 +229,7 @@ function CircuitPanel({ race, id, sprintRace, onClose }) {
   const [sprintResults, setSprintResults] = useState([]);
   const [loadingR, setLoadingR] = useState(true);
   const key = getTrackKey(race.circuit, race.series_id, race.circuit_key);
-  const [info, setInfo] = useState({ lap_length:"--", turns:"--", laps:null, lap_record:"--", first_year:"--" });
+  const [info, setInfo] = useState({ lap_length:"--", turns:"--", laps:null, lap_record:"--", qual_record:null, first_year:"--" });
   useEffect(() => {
     if (!key) return;
     sb(`circuits?key=eq.${key}&limit=1`).then(rows => {
@@ -272,7 +272,7 @@ function CircuitPanel({ race, id, sprintRace, onClose }) {
         </div>
         <div style={{ display:"flex", flexDirection:"column", gap:8, overflowY:"auto", maxHeight:500 }}>
           {/* ── Infos circuit ── */}
-          {[["📏","Longueur",info.lap_length],["↩️","Virages",info.turns !== "--" ? `${info.turns}` : "--"],...(info.laps ? [["🔄","Tours",`${info.laps} tours`]] : []),["⏱️","Record",info.lap_record],["📅","Date",fmtRange(race.date_start,race.date_end)],["🗓️","Au calendrier",info.first_year]].map(([emoji,label,val]) => (
+          {[["📏","Longueur",info.lap_length],["↩️","Virages",info.turns !== "--" ? `${info.turns}` : "--"],...(info.laps ? [["🔄","Tours",`${info.laps} tours`]] : []),["🏁","Record course",info.lap_record],...(info.qual_record ? [["⚡","Record qualif",info.qual_record]] : []),["📅","Date",fmtRange(race.date_start,race.date_end)],["🗓️","Au calendrier",info.first_year]].map(([emoji,label,val]) => (
             <div key={label} style={{ background:"#fff", borderRadius:10, border:"1px solid #F0F0F0", padding:"9px 13px", display:"flex", alignItems:"flex-start", gap:9, flexShrink:0 }}>
               <span style={{ fontSize:16, flexShrink:0, marginTop:1 }}>{emoji}</span>
               <div style={{ flex:1, minWidth:0 }}>
