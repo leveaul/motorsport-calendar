@@ -281,11 +281,23 @@ function CircuitPanel({ race, id, sprintRace, onClose }) {
               </div>
             </div>
           ))}
-          {/* ── Résultats (course terminée) ── */}
-          {race.status==="done" && <>
-            <div style={{ fontSize:11, fontWeight:700, color:"#BBB", letterSpacing:1.5, marginTop:6, flexShrink:0 }}>RÉSULTATS</div>
+
+          {/* ── Countdown (course à venir) ── */}
+          {race.status!=="done" && (
+            <div style={{ background:id.bg, borderRadius:12, padding:"14px 18px", border:`1px dashed ${id.color}40`, display:"flex", alignItems:"center", justifyContent:"center", gap:12, flexShrink:0 }}>
+              <Flag country={race.country} size={20}/>
+              <div style={{ fontSize:16, color:id.text, fontWeight:700 }}>
+                {daysUntil(race.date_start)===0 ? "C'est aujourd'hui !" : `Dans ${daysUntil(race.date_start)} jours`}
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* ── Col 3 : Résultats ── */}
+        {(results.length > 0 || loadingR) && (
+          <div style={{ display:"flex", flexDirection:"column", gap:8, overflowY:"auto", maxHeight:480 }}>
+            <div style={{ fontSize:11, fontWeight:700, color:"#BBB", letterSpacing:1.5, flexShrink:0 }}>RÉSULTATS</div>
             {loadingR && <Spinner color={id.color}/>}
-            {!loadingR && results.length===0 && <div style={{ textAlign:"center", color:"#DDD", fontSize:14, padding:"8px 0" }}>Pas encore de résultats</div>}
             {!loadingR && results.map((r,i) => (
               <div key={i} style={{ display:"flex", alignItems:"center", gap:10, padding:"8px 11px", background:i===0?id.bg:"#fff", border:`1px solid ${i===0?id.color+"30":"#F0F0F0"}`, borderRadius:10, flexShrink:0 }}>
                 <div style={{ width:28, height:28, borderRadius:8, background:i===0?id.color:i===1?"#C0C0C0":i===2?"#CD7F32":"#F5F5F5", display:"flex", alignItems:"center", justifyContent:"center", fontSize:i<3?11:10, fontWeight:800, color:i<3?"#fff":"#AAA", flexShrink:0 }}>
@@ -301,17 +313,8 @@ function CircuitPanel({ race, id, sprintRace, onClose }) {
                 </div>
               </div>
             ))}
-          </>}
-          {/* ── Countdown (course à venir) ── */}
-          {race.status!=="done" && (
-            <div style={{ background:id.bg, borderRadius:12, padding:"14px 18px", border:`1px dashed ${id.color}40`, display:"flex", alignItems:"center", justifyContent:"center", gap:12, flexShrink:0 }}>
-              <Flag country={race.country} size={20}/>
-              <div style={{ fontSize:16, color:id.text, fontWeight:700 }}>
-                {daysUntil(race.date_start)===0 ? "C'est aujourd'hui !" : `Dans ${daysUntil(race.date_start)} jours`}
-              </div>
-            </div>
-          )}
-        </div>
+          </div>
+        )}
       </div>
         {/* ── Résultats Sprint ── */}
         {sprintResults.length > 0 && (
