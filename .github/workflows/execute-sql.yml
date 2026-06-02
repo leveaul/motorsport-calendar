@@ -17,46 +17,33 @@ jobs:
           fetch-depth: 2
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Install Supabase CLI
-        run: |
-          curl -fsSL https://github.com/supabase/cli/releases/latest/download/supabase_linux_amd64.tar.gz | tar -xz
-          sudo mv supabase /usr/local/bin/
-
       - name: Execute new SQL files
         env:
-          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
         run: |
           FILES=$(git diff --name-only HEAD~1 HEAD -- 'sql/pending/*.sql' 'sql/pending/**/*.sql')
           echo "Files to execute: $FILES"
+          SUCCESS=true
           for FILE in $FILES; do
             [ -f "$FILE" ] || continue
             echo "--- Executing: $FILE ---"
-            cat "$FILE"
-            # Appel direct API REST Supabase via curl avec le service key
-            # On utilise l'endpoint rpc pour executer du SQL arbitraire
-            RESPONSE=$(curl -s -o /tmp/response.json -w "%{http_code}" \
-              -X POST "${SUPABASE_URL}/rest/v1/rpc/exec_sql" \
-              -H "apikey: ${SUPABASE_SERVICE_KEY}" \
+            SQL=$(cat "$FILE")
+            # Supabase Management API - execute SQL directement
+            HTTP_CODE=$(curl -s -o /tmp/resp.json -w "%{http_code}" \
+              -X POST "https://api.supabase.com/v1/projects/qgdcutklhgnlcrxuvgkn/database/query" \
               -H "Authorization: Bearer ${SUPABASE_SERVICE_KEY}" \
               -H "Content-Type: application/json" \
-              -d "{"sql": $(python3 -c "import json,sys; print(json.dumps(open(sys.argv[1]).read()))" "$FILE")}")
-            echo "HTTP Status: $RESPONSE"
-            cat /tmp/response.json
-            # Fallback: essayer l'edge function si disponible
-            if [ "$RESPONSE" != "200" ]; then
-              echo "Trying edge function fallback..."
-              RESPONSE2=$(curl -s -X POST "${SUPABASE_URL}/functions/v1/execute-sql" \
-                -H "Authorization: Bearer ${SUPABASE_SERVICE_KEY}" \
-                -H "Content-Type: application/json" \
-                -H "x-secret: motorsport2026" \
-                -d "{"sql": $(python3 -c "import json,sys; print(json.dumps(open(sys.argv[1]).read()))" "$FILE")}")
-              echo "Edge function response: $RESPONSE2"
-              echo "$RESPONSE2" | grep -q '"ok"' && echo "SUCCESS via edge function" || echo "WARNING: execution may have failed"
+              -d "$(python3 -c "import json,sys; print(json.dumps({'query': open(sys.argv[1]).read()}))" "$FILE")")
+            echo "HTTP: $HTTP_CODE"
+            cat /tmp/resp.json
+            if [ "$HTTP_CODE" = "200" ] || [ "$HTTP_CODE" = "201" ]; then
+              echo "SUCCESS: $FILE"
             else
-              echo "SUCCESS via REST API"
+              echo "FAILED: $FILE (HTTP $HTTP_CODE)"
+              SUCCESS=false
             fi
           done
+          $SUCCESS || exit 1
 
       - name: Archive executed SQL
         run: |
