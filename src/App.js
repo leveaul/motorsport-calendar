@@ -198,7 +198,6 @@ function TrackSVG({ circuit, color, size=140, seriesId='', circuitKey=null }) {
       <img src={imgUrl} alt={circuit} onError={() => setError(true)}
         style={{ width:"100%", height:"100%", objectFit:"contain", display:"block" }} />
     </div>
-    </div>
   );
 }
 
