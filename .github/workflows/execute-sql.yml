@@ -19,12 +19,8 @@ jobs:
 
       - name: Execute new SQL files
         run: |
-          FILES=$(git diff --name-only HEAD~1 HEAD -- 'sql/pending/**' 'sql/pending/*.sql' | grep '\.sql$')
+          FILES=$(git diff --name-only HEAD~1 HEAD -- 'sql/pending/*.sql' 'sql/pending/**/*.sql')
           echo "Files to execute: $FILES"
-          if [ -z "$FILES" ]; then
-            echo "No SQL files to execute"
-            exit 0
-          fi
           for FILE in $FILES; do
             [ -f "$FILE" ] || continue
             echo "--- Executing: $FILE ---"
@@ -35,20 +31,20 @@ jobs:
               -H "x-secret: motorsport2026" \
               -d "{\"sql\": $JSON_SQL}")
             echo "Response: $RESPONSE"
-            echo "$RESPONSE" | grep -q '"ok"' && echo "SUCCESS" || (echo "FAILED: $RESPONSE" && exit 1)
+            echo "$RESPONSE" | grep -q '"ok"' && echo "SUCCESS" || (echo "FAILED" && exit 1)
           done
 
       - name: Archive executed SQL
         run: |
           git config user.email "bot@motorsport.app"
           git config user.name "Motorsport Bot"
-          FILES=$(git diff --name-only HEAD~1 HEAD -- 'sql/pending/**' 'sql/pending/*.sql' | grep '\.sql$')
+          FILES=$(git diff --name-only HEAD~1 HEAD -- 'sql/pending/*.sql' 'sql/pending/**/*.sql')
           CHANGED=0
           for FILE in $FILES; do
             if [ -f "$FILE" ]; then
               # Conserver la structure de sous-dossiers dans sql/done/
               DEST="sql/done/${FILE#sql/pending/}"
-              mkdir -p "$(dirname $DEST)"
+              mkdir -p "$(dirname "$DEST")"
               git mv "$FILE" "$DEST" && CHANGED=1
             fi
           done
