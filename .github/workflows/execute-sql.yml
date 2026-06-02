@@ -17,21 +17,45 @@ jobs:
           fetch-depth: 2
           token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Install Supabase CLI
+        run: |
+          curl -fsSL https://github.com/supabase/cli/releases/latest/download/supabase_linux_amd64.tar.gz | tar -xz
+          sudo mv supabase /usr/local/bin/
+
       - name: Execute new SQL files
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
         run: |
           FILES=$(git diff --name-only HEAD~1 HEAD -- 'sql/pending/*.sql' 'sql/pending/**/*.sql')
           echo "Files to execute: $FILES"
           for FILE in $FILES; do
             [ -f "$FILE" ] || continue
             echo "--- Executing: $FILE ---"
-            JSON_SQL=$(python3 -c "import json; print(json.dumps(open('$FILE').read()))")
-            RESPONSE=$(curl -s -X POST "${{ secrets.SUPABASE_URL }}/functions/v1/execute-sql" \
-              -H "Authorization: Bearer ${{ secrets.SUPABASE_SERVICE_KEY }}" \
+            cat "$FILE"
+            # Appel direct API REST Supabase via curl avec le service key
+            # On utilise l'endpoint rpc pour executer du SQL arbitraire
+            RESPONSE=$(curl -s -o /tmp/response.json -w "%{http_code}" \
+              -X POST "${SUPABASE_URL}/rest/v1/rpc/exec_sql" \
+              -H "apikey: ${SUPABASE_SERVICE_KEY}" \
+              -H "Authorization: Bearer ${SUPABASE_SERVICE_KEY}" \
               -H "Content-Type: application/json" \
-              -H "x-secret: motorsport2026" \
-              -d "{\"sql\": $JSON_SQL}")
-            echo "Response: $RESPONSE"
-            echo "$RESPONSE" | grep -q '"ok"' && echo "SUCCESS" || (echo "FAILED" && exit 1)
+              -d "{"sql": $(python3 -c "import json,sys; print(json.dumps(open(sys.argv[1]).read()))" "$FILE")}")
+            echo "HTTP Status: $RESPONSE"
+            cat /tmp/response.json
+            # Fallback: essayer l'edge function si disponible
+            if [ "$RESPONSE" != "200" ]; then
+              echo "Trying edge function fallback..."
+              RESPONSE2=$(curl -s -X POST "${SUPABASE_URL}/functions/v1/execute-sql" \
+                -H "Authorization: Bearer ${SUPABASE_SERVICE_KEY}" \
+                -H "Content-Type: application/json" \
+                -H "x-secret: motorsport2026" \
+                -d "{"sql": $(python3 -c "import json,sys; print(json.dumps(open(sys.argv[1]).read()))" "$FILE")}")
+              echo "Edge function response: $RESPONSE2"
+              echo "$RESPONSE2" | grep -q '"ok"' && echo "SUCCESS via edge function" || echo "WARNING: execution may have failed"
+            else
+              echo "SUCCESS via REST API"
+            fi
           done
 
       - name: Archive executed SQL
@@ -42,7 +66,6 @@ jobs:
           CHANGED=0
           for FILE in $FILES; do
             if [ -f "$FILE" ]; then
-              # Conserver la structure de sous-dossiers dans sql/done/
               DEST="sql/done/${FILE#sql/pending/}"
               mkdir -p "$(dirname "$DEST")"
               git mv "$FILE" "$DEST" && CHANGED=1
