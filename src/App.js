@@ -272,7 +272,7 @@ function CircuitPanel({ race, id, sprintRace, onClose }) {
         </div>
         <div style={{ display:"flex", flexDirection:"column", gap:8, overflowY:"auto", maxHeight:500 }}>
           {/* ── Infos circuit ── */}
-          {[["📏","Longueur",info.lap_length],["↩️","Virages",info.turns !== "--" ? `${info.turns}` : "--"],...(info.laps ? [["🔄","Tours",`${info.laps} tours`]] : []),["🏁","Record course",info.lap_record],...(info.qual_record ? [["⚡","Record qualif",info.qual_record]] : []),["📅","Date",fmtRange(race.date_start,race.date_end)],["🗓️","Au calendrier",info.first_year]].map(([emoji,label,val]) => (
+          {[["📏","Longueur",info.lap_length],["↩️","Virages",info.turns !== "--" ? `${info.turns}` : "--"],...(info.laps ? [["🔄","Tours",`${info.laps} tours`]] : []),["🏁","Record course",info.lap_record],...(info.qual_record ? [["⚡", race.series_id === "F1" ? "Record qualif" : "Record all-time", info.qual_record]] : []),["📅","Date",fmtRange(race.date_start,race.date_end)],["🗓️","Au calendrier",info.first_year]].map(([emoji,label,val]) => (
             <div key={label} style={{ background:"#fff", borderRadius:10, border:"1px solid #F0F0F0", padding:"9px 13px", display:"flex", alignItems:"flex-start", gap:9, flexShrink:0 }}>
               <span style={{ fontSize:16, flexShrink:0, marginTop:1 }}>{emoji}</span>
               <div style={{ flex:1, minWidth:0 }}>
