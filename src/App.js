@@ -316,6 +316,24 @@ function CircuitPanel({ race, id, sprintRace, onClose }) {
                 </div>
               </div>
             ))}
+            {/* Résultats Sprint dans la même colonne */}
+            {sprintResults.length > 0 && <>
+              <div style={{ fontSize:11, fontWeight:700, letterSpacing:1.5, color:"#FF6B00", marginTop:8, flexShrink:0 }}>RÉSULTATS SPRINT</div>
+              {sprintResults.slice(0,10).map((r,i) => (
+                <div key={i} style={{ display:"flex", alignItems:"center", gap:10, padding:"7px 10px", background:i===0?"#FFF5EE":"#fff", border:`1px solid ${i===0?"#FF6B0030":"#F0F0F0"}`, borderRadius:10, flexShrink:0 }}>
+                  <div style={{ width:26, height:26, borderRadius:7, background:i===0?"#FF6B00":i===1?"#C0C0C0":i===2?"#CD7F32":"#F5F5F5", display:"flex", alignItems:"center", justifyContent:"center", fontSize:10, fontWeight:800, color:i<3?"#fff":"#AAA", flexShrink:0 }}>
+                    {i<3?["🥇","🥈","🥉"][i]:r.position}
+                  </div>
+                  <div style={{ flex:1, minWidth:0 }}>
+                    <div style={{ fontSize:14, fontWeight:700, color:"#222", whiteSpace:"nowrap", overflow:"hidden", textOverflow:"ellipsis", fontFamily:"'Barlow Condensed',sans-serif" }}>{r.driver}</div>
+                    {r.team&&<div style={{ fontSize:10, color:"#BBB" }}>{r.team}</div>}
+                  </div>
+                  <div style={{ textAlign:"right", flexShrink:0 }}>
+                    {r.points>0&&<div style={{ fontSize:13, fontWeight:800, color:"#FF6B00", fontFamily:"'Barlow Condensed',sans-serif" }}>{r.points} pts</div>}
+                  </div>
+                </div>
+              ))}
+            </>}
           </div>
         )}
       </div>
@@ -560,10 +578,16 @@ export default function App() {
   // Règle simple : le sprint est toujours le samedi, la course le dimanche
   // donc sprint.date_start = course.date_start - 1 jour
   const getSprintForRace = (race) => {
-    const dayBefore = new Date(race.date_start + 'T12:00:00');
-    dayBefore.setDate(dayBefore.getDate() - 1);
-    const dayBeforeStr = dayBefore.toISOString().slice(0, 10);
-    return sprintRaces.find(s => s.date_start === dayBeforeStr) || null;
+    // Même round (F1 : sprint le samedi = J-1, MotoGP : sprint = même jour)
+    if (race.round != null) {
+      const s = sprintRaces.find(s => s.round === race.round);
+      if (s) return s;
+    }
+    // Fallback : même date_start ou J-1
+    return sprintRaces.find(s =>
+      s.date_start === race.date_start ||
+      s.date_start === new Date(new Date(race.date_start+'T12:00:00').getTime()-86400000).toISOString().slice(0,10)
+    ) || null;
   };
   const displayed = filter==="upcoming"
     ? mainRaces.filter(r => r.date_end >= today)
