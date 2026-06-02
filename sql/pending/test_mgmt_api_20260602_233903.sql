@@ -1,0 +1,1 @@
+SELECT COUNT(*) as total, type FROM races WHERE series_id = 'MotoGP' GROUP BY type ORDER BY type;
