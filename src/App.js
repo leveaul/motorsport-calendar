@@ -557,12 +557,13 @@ export default function App() {
   const mainRaces = races.filter(r => r.type !== 'sprint' && !r.name?.toLowerCase().startsWith('sprint'));
   const sprintRaces = races.filter(r => r.type === 'sprint' || r.name?.toLowerCase().startsWith('sprint'));
   const sprintRounds = new Set(sprintRaces.map(r => r.round).filter(Boolean));
-  const sprintByRound = Object.fromEntries(sprintRaces.map(r => [r.round, r]).filter(([k]) => k != null));
-  // Trouver le sprint dans un rayon de 3 jours autour de la course (évite pb semaine ISO)
+  // Règle simple : le sprint est toujours le samedi, la course le dimanche
+  // donc sprint.date_start = course.date_start - 1 jour
   const getSprintForRace = (race) => {
-    if (race.round != null && sprintByRound[race.round]) return sprintByRound[race.round];
-    const raceTs = new Date(race.date_start + 'T12:00:00').getTime();
-    return sprintRaces.find(s => Math.abs(new Date(s.date_start + 'T12:00:00').getTime() - raceTs) <= 3 * 86400000) || null;
+    const dayBefore = new Date(race.date_start + 'T12:00:00');
+    dayBefore.setDate(dayBefore.getDate() - 1);
+    const dayBeforeStr = dayBefore.toISOString().slice(0, 10);
+    return sprintRaces.find(s => s.date_start === dayBeforeStr) || null;
   };
   const displayed = filter==="upcoming"
     ? mainRaces.filter(r => r.date_end >= today)
