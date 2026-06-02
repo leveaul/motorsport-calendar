@@ -239,12 +239,15 @@ function CircuitPanel({ race, id, sprintRace, onClose }) {
   const MEDALS = ["🥇","🥈","🥉"];
 
   useEffect(() => {
-    // Reset immédiat à chaque changement de course → pas de "mémoire" visuelle
     setResults([]);
     setSprintResults([]);
-    setLoadingR(race.status === "done");
-    if (race.status==="done") {
+    // Charger résultats si course terminée (status=done) OU date passée
+    const isPast = race.status === "done" || race.date_start < new Date().toISOString().slice(0,10);
+    if (isPast) {
+      setLoadingR(true);
       sb(`results?race_id=eq.${race.id}&order=position.asc`).then(r => { setResults(r); setLoadingR(false); }).catch(()=>setLoadingR(false));
+    } else {
+      setLoadingR(false);
     }
     if (sprintRace?.id) {
       sb(`results?race_id=eq.${sprintRace.id}&order=position.asc&limit=10`).then(setSprintResults).catch(()=>{});
@@ -283,7 +286,7 @@ function CircuitPanel({ race, id, sprintRace, onClose }) {
           ))}
 
           {/* ── Countdown (course à venir) ── */}
-          {race.status!=="done" && (
+          {!( race.status === "done" || race.date_start < new Date().toISOString().slice(0,10) ) && (
             <div style={{ background:id.bg, borderRadius:12, padding:"14px 18px", border:`1px dashed ${id.color}40`, display:"flex", alignItems:"center", justifyContent:"center", gap:12, flexShrink:0 }}>
               <Flag country={race.country} size={20}/>
               <div style={{ fontSize:16, color:id.text, fontWeight:700 }}>
