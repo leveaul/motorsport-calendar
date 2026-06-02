@@ -557,19 +557,12 @@ export default function App() {
   const mainRaces = races.filter(r => r.type !== 'sprint' && !r.name?.toLowerCase().startsWith('sprint'));
   const sprintRaces = races.filter(r => r.type === 'sprint' || r.name?.toLowerCase().startsWith('sprint'));
   const sprintRounds = new Set(sprintRaces.map(r => r.round).filter(Boolean));
-  // Index par round (si disponible) sinon par date de la semaine
   const sprintByRound = Object.fromEntries(sprintRaces.map(r => [r.round, r]).filter(([k]) => k != null));
-  // Fallback : index par semaine ISO (lundi de la semaine du sprint)
-  const getWeekKey = (dateStr) => {
-    const d = new Date(dateStr + 'T12:00:00');
-    const day = d.getDay();
-    const mon = new Date(d); mon.setDate(d.getDate() - (day === 0 ? 6 : day - 1));
-    return mon.toISOString().slice(0,10);
-  };
-  const sprintByWeek = Object.fromEntries(sprintRaces.map(r => [getWeekKey(r.date_start), r]));
+  // Trouver le sprint dans un rayon de 3 jours autour de la course (évite pb semaine ISO)
   const getSprintForRace = (race) => {
     if (race.round != null && sprintByRound[race.round]) return sprintByRound[race.round];
-    return sprintByWeek[getWeekKey(race.date_start)] || null;
+    const raceTs = new Date(race.date_start + 'T12:00:00').getTime();
+    return sprintRaces.find(s => Math.abs(new Date(s.date_start + 'T12:00:00').getTime() - raceTs) <= 3 * 86400000) || null;
   };
   const displayed = filter==="upcoming"
     ? mainRaces.filter(r => r.date_end >= today)
