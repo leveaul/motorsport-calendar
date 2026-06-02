@@ -539,11 +539,13 @@ export default function App() {
   useEffect(()=>{
     setLoading(true); setSelected(null);
     sb(`races?series_id=eq.${active}&order=date_start.asc,type.asc`).then(async r=>{
-      const doneIds = r.filter(x=>x.status==="done").map(x=>x.id);
+      // Inclure les courses done OU dont la date est passée
+      const doneIds = r.filter(x=>x.status==="done" || x.date_start <= "2026-06-02").map(x=>x.id);
       if (doneIds.length>0) {
         const res = await sb(`results?race_id=in.(${doneIds.join(",")})&select=race_id`).catch(()=>[]);
         const withRes = new Set(res.map(x=>x.race_id));
-        r = r.map(x=>({...x, _hasResults:withRes.has(x.id)}));
+        // Marquer aussi status=done pour les courses passées
+        r = r.map(x=>({...x, _hasResults:withRes.has(x.id), status: x.date_start <= "2026-06-02" && x.status==="upcoming" ? "done" : x.status}));
       }
       setRaces(r); setLoading(false);
     }).catch(()=>setLoading(false));
