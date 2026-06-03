@@ -865,25 +865,6 @@ export default function App() {
       )}
     </div>
   );
-};
-
-const COUNTRY_CODES = {
-  "Australie":"au","Chine":"cn","Japon":"jp","Etats-Unis":"us","États-Unis":"us","Canada":"ca",
-  "Monaco":"mc","Espagne":"es","Autriche":"at","Angleterre":"gb","Grande-Bretagne":"gb",
-  "Belgique":"be","Hongrie":"hu","Pays-Bas":"nl","Italie":"it","Azerbaïdjan":"az",
-  "Singapour":"sg","Mexique":"mx","Brésil":"br","Qatar":"qa","Abu Dhabi":"ae",
-  "Bahreïn":"bh","Thaïlande":"th","Indonésie":"id","Malaisie":"my","France":"fr",
-  "Portugal":"pt","Allemagne":"de","Arabie Saoudite":"sa","Grande Bretagne":"gb",
-};
-
-function Flag({ country, size=20 }) {
-  const code = COUNTRY_CODES[country];
-  if (!code) return null;
-  return <img src={`https://flagcdn.com/w${size*2}/${code}.png`} alt={country}
-    style={{ width:size*1.4, height:size, objectFit:"cover", borderRadius:2, display:"block" }}
-    onError={e => e.target.style.display="none"} />;
-}
-
 const TRACK_IMAGES = {
   // ── F1 (/public/tracks/f1/) ──────────────────────────────────────────────
   f1_monaco:       "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/f1/monaco.webp",
