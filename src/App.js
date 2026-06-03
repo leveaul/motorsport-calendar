@@ -208,6 +208,24 @@ function getTrackKey(circuit, seriesId, circuitKey) {
   if (c.includes("hermanos") || c.includes("mexico"))              return "f1_mexicocity";
   if (c.includes("gilles") || c.includes("montreal") || c.includes("montréal") || c.includes("canada")) return "f1_montreal";
   if (c.includes("madrid") || c.includes("ifema") || c.includes("madring"))     return "f1_madrid";
+  // ── WRC ──────────────────────────────────────────────────────
+  if (seriesId === "WRC") {
+    if (c.includes("monte") || c.includes("monaco"))           return "wrc_montecarlo";
+    if (c.includes("sweden") || c.includes("suède") || c.includes("umea")) return "wrc_sweden";
+    if (c.includes("kenya") || c.includes("safari"))           return "wrc_kenya";
+    if (c.includes("croatia") || c.includes("croatie"))        return "wrc_croatia";
+    if (c.includes("canaria") || c.includes("palmas"))         return "wrc_canarias";
+    if (c.includes("portugal") || c.includes("matosinhos"))    return "wrc_portugal";
+    if (c.includes("japan") || c.includes("japon") || c.includes("toyota")) return "wrc_japan";
+    if (c.includes("greece") || c.includes("acropolis") || c.includes("grèce")) return "wrc_greece";
+    if (c.includes("estonia") || c.includes("tartu"))          return "wrc_estonia";
+    if (c.includes("finland") || c.includes("finlande") || c.includes("jyv")) return "wrc_finland";
+    if (c.includes("paraguay"))                                return "wrc_paraguay";
+    if (c.includes("chile") || c.includes("chili"))            return "wrc_chile";
+    if (c.includes("italy") || c.includes("italie"))           return "wrc_italy";
+    if (c.includes("saudi") || c.includes("arabie"))           return "wrc_saudi";
+  }
+
   return null;
 }
 
