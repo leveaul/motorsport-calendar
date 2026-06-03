@@ -100,6 +100,36 @@ const TRACK_IMAGES = {
 
   // ── ELMS / GTWCE / IMSA — à compléter ───────────────────────────────────
 
+  // ── ELMS ──────────────────────────────────────────────────────
+  elms_barcelona:   "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/elms/barcelone-elms-69b7eea1a8f91756807100.png",
+  elms_imola:       "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/elms/imola-elms-69b7e4fd946a3863386444.png",
+  elms_lecastellet: "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/elms/le-castellet-elms-69b7ee7381c93214935018.png",
+  elms_portimao:    "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/elms/portimao-elms-69b7ee93b89d9386719725.png",
+  elms_silverstone: "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/elms/silverstone-elms-69b7ee8a621d4505427669.png",
+  elms_spa:         "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/elms/spa-elms-69b7e4df47d51724602485.png",
+  // ── GTWCE ─────────────────────────────────────────────────────
+  gtwce_barcelona:   "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/gtwce/Barcelona_GTWCE.png",
+  gtwce_brandshatch: "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/gtwce/BrandsHatch__GTWCE.png",
+  gtwce_lecastellet: "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/gtwce/CircuitPaulRicard_GTWCE.jpg",
+  gtwce_magnycours:  "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/gtwce/MagnyCours_GTWCE.png",
+  gtwce_misano:      "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/gtwce/Misano_GTWCE.png",
+  gtwce_monza:       "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/gtwce/Monza_GTWCE.png",
+  gtwce_nurburgring: "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/gtwce/Nurburgring_GTWCE.png",
+  gtwce_spa:         "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/gtwce/SPA__GTWCE.png",
+  gtwce_zandvoort:   "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/gtwce/Zandvoort_GTWCE.jpg",
+  // ── IMSA ──────────────────────────────────────────────────────
+  imsa_daytona:      "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/imsa/Daytona_International_Speedway_Road_Course_2024.svg.png",
+  imsa_indianapolis: "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/imsa/Indianapolis_Motor_Speedway_Grand_Prix_Road_Course_2024.svg.png",
+  imsa_lagunaseca:   "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/imsa/Laguna_Seca.svg.png",
+  imsa_longbeach:    "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/imsa/Long_Beach_Street_Circuit_IndyCar.svg.png",
+  imsa_mosport:      "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/imsa/Mosport-CTMP.svg.png",
+  imsa_roadamerica:  "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/imsa/Road_America.svg.png",
+  imsa_roadatlanta:  "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/imsa/Road_Atlanta_track_map.svg.png",
+  imsa_sebring:      "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/imsa/Sebring_International_Raceway.svg.png",
+  imsa_detroit:      "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/imsa/TrackMap_Detroit-2023.png",
+  imsa_vir:          "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/imsa/Virginia_International_Raceway_-_Full_Course.svg.png",
+  imsa_watkinsglen:  "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/imsa/Watkins_Glen_International_Long_Circuit_2024.svg.png",
+
 };
 
 
@@ -835,51 +865,6 @@ export default function App() {
       )}
     </div>
   );
-  elms_barcelona: "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/elms/barcelone-elms-69b7eea1a8f91756807100.png",
-  elms_imola: "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/elms/imola-elms-69b7e4fd946a3863386444.png",
-  elms_lecastellet: "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/elms/le-castellet-elms-69b7ee7381c93214935018.png",
-  elms_portimao: "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/elms/portimao-elms-69b7ee93b89d9386719725.png",
-  elms_silverstone: "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/elms/silverstone-elms-69b7ee8a621d4505427669.png",
-  elms_spa: "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/elms/spa-elms-69b7e4df47d51724602485.png",
-  gtwce_barcelona: "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/gtwce/Barcelona_GTWCE.png",
-  gtwce_brandshatch: "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/gtwce/BrandsHatch__GTWCE.png",
-  gtwce_lecastellet: "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/gtwce/CircuitPaulRicard_GTWCE.jpg",
-  gtwce_magnycours: "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/gtwce/MagnyCours_GTWCE.png",
-  gtwce_misano: "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/gtwce/Misano_GTWCE.png",
-  gtwce_monza: "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/gtwce/Monza_GTWCE.png",
-  gtwce_nurburgring: "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/gtwce/Nurburgring_GTWCE.png",
-  gtwce_spa: "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/gtwce/SPA__GTWCE.png",
-  gtwce_zandvoort: "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/gtwce/Zandvoort_GTWCE.jpg",
-  imsa_daytona: "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/imsa/Daytona_International_Speedway_Road_Course_2024.svg.png",
-  imsa_indianapolis: "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/imsa/Indianapolis_Motor_Speedway_Grand_Prix_Road_Course_2024.svg.png",
-  imsa_lagunaseca: "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/imsa/Laguna_Seca.svg.png",
-  imsa_longbeach: "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/imsa/Long_Beach_Street_Circuit_IndyCar.svg.png",
-  imsa_mosport: "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/imsa/Mosport-CTMP.svg.png",
-  imsa_roadamerica: "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/imsa/Road_America.svg.png",
-  imsa_roadatlanta: "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/imsa/Road_Atlanta_track_map.svg.png",
-  imsa_sebring: "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/imsa/Sebring_International_Raceway.svg.png",
-  imsa_detroit: "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/imsa/TrackMap_Detroit-2023.png",
-  imsa_vir: "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/imsa/Virginia_International_Raceway_-_Full_Course.svg.png",
-  imsa_watkinsglen: "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/imsa/Watkins_Glen_International_Long_Circuit_2024.svg.png",
-import { useState, useEffect } from "react";
-
-const SUPABASE_URL = "https://qgdcutklhgnlcrxuvgkn.supabase.co";
-const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFnZGN1dGtsaGdubGNyeHV2Z2tuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk4NzQ0NjAsImV4cCI6MjA5NTQ1MDQ2MH0.ltV5jlQfoF4OS6078lwwRAV-q-IDN7biLzHzM1tkUI8";
-const H = { "apikey": SUPABASE_KEY, "Authorization": `Bearer ${SUPABASE_KEY}` };
-async function sb(path) {
-  const r = await fetch(`${SUPABASE_URL}/rest/v1/${path}`, { headers: H });
-  if (!r.ok) throw new Error(await r.text());
-  return r.json();
-}
-
-const SERIES_ID = {
-  F1:    { label:"Formula 1",    color:"#E8002D", bg:"#FFF0F2", text:"#B0001F", icon:"🏎️", heroEmoji:"🏎️" },
-  MotoGP:{ label:"MotoGP",       color:"#D50032", bg:"#FFF0F1", text:"#A50027", icon:"🏍️", heroEmoji:"🏍️" },
-  WEC:   { label:"FIA WEC",      color:"#0066CC", bg:"#EFF6FF", text:"#004A9E", icon:"⏱️", heroEmoji:"⏱️" },
-  ELMS:  { label:"ELMS",         color:"#00833E", bg:"#EDFAF3", text:"#006030", icon:"🏁", heroEmoji:"🏁" },
-  IMSA:  { label:"IMSA",         color:"#0033A0", bg:"#EEF2FF", text:"#002280", icon:"🏆", heroEmoji:"🏆" },
-  WRC:   { label:"WRC",            color:"#1A3C6E", bg:"#EEF2FF", text:"#0A1F40", icon:"🚗", heroEmoji:"🚗" },
-  GTWCE: { label:"GT WC Europe", color:"#FF6600", bg:"#FFF4EE", text:"#CC4400", icon:"🏆", heroEmoji:"🏆" },
 };
 
 const COUNTRY_CODES = {
