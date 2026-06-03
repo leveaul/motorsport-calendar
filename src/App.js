@@ -115,6 +115,7 @@ const TRACK_IMAGES = {
   gtwce_monza:       "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/gtwce/Monza_GTWCE.png",
   gtwce_nurburgring: "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/gtwce/Nurburgring_GTWCE.png",
   gtwce_spa:         "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/gtwce/SPA__GTWCE.png",
+  gtwce_portimao:    "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/gtwce/Portimao_GTWCE.png",
   gtwce_zandvoort:   "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/gtwce/Zandvoort_GTWCE.jpg",
   // ── IMSA ──────────────────────────────────────────────────────
   imsa_daytona:      "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/imsa/Daytona_International_Speedway_Road_Course_2024.svg.png",
