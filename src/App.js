@@ -637,7 +637,8 @@ export default function App() {
           .stab-home-label{display:none !important}
           .app-inner{padding:0 10px !important}
           .tiles{grid-template-columns:1fr !important}
-          .circuit-panel-inner{grid-template-columns:1fr !important}
+          .circuit-panel-inner{grid-template-columns:1fr !important; padding:12px 14px !important}
+          .track-img-wrap{height:180px !important}
           .inner{padding:0 10px !important}
         }
       `}</style>
@@ -817,7 +818,7 @@ export default function App() {
         >
           <div style={{
             width:"100%", maxWidth:"min(1400px, calc(100vw - 32px))",
-            maxHeight:"80vh",
+            maxHeight:"92vh",
             overflowY:"auto",
             borderRadius:18,
             boxShadow:"0 24px 80px rgba(0,0,0,.4)",
