@@ -1,14 +1,15 @@
 
 -- Fix Mugello : créer le sprint R7 + insérer tous les résultats
+-- Les IDs sont des integers (pas des UUIDs)
 
 -- 1. Créer le sprint Mugello s'il n'existe pas
 INSERT INTO races (series_id, name, circuit, country, date_start, date_end, round, type, status, circuit_key)
 SELECT 'MotoGP','Sprint - Italie','Autodromo del Mugello','Italie','2026-05-31','2026-05-31',7,'sprint','done','motogp_ita'
 WHERE NOT EXISTS (SELECT 1 FROM races WHERE series_id='MotoGP' AND round=7 AND type='sprint');
 
--- 2. Résultats course principale Mugello (race_id=30)
+-- 2. Résultats course principale Mugello (race_id=30, integer)
 INSERT INTO results (race_id, position, driver, team, points, gap)
-SELECT '30'::uuid, v.pos, v.driver, v.team, v.pts, v.gap
+SELECT 30, v.pos, v.driver, v.team, v.pts, v.gap
 FROM (VALUES
   (1,'Marco Bezzecchi','Aprilia Racing',25,'0.000'),
   (2,'Jorge Martin','Aprilia Racing',20,'+3.559'),
@@ -26,9 +27,9 @@ FROM (VALUES
   (14,'Luca Marini','HRC Honda',0,'+30.221'),
   (15,'Johann Zarco','LCR Honda',0,'+33.445')
 ) AS v(pos,driver,team,pts,gap)
-WHERE NOT EXISTS (SELECT 1 FROM results WHERE race_id='30'::uuid);
+WHERE NOT EXISTS (SELECT 1 FROM results WHERE race_id=30);
 
--- 3. Résultats sprint Mugello
+-- 3. Résultats sprint Mugello (round=7, type=sprint)
 INSERT INTO results (race_id, position, driver, team, points, gap)
 SELECT r.id, v.pos, v.driver, v.team, v.pts, v.gap
 FROM races r,
@@ -45,9 +46,3 @@ FROM races r,
 ) AS v(pos,driver,team,pts,gap)
 WHERE r.series_id='MotoGP' AND r.round=7 AND r.type='sprint'
   AND NOT EXISTS (SELECT 1 FROM results res WHERE res.race_id=r.id);
-
--- Vérification
-SELECT r.name, r.type, r.round, COUNT(res.id) as nb_results
-FROM races r LEFT JOIN results res ON res.race_id=r.id
-WHERE r.series_id='MotoGP' AND r.round=7
-GROUP BY r.id, r.name, r.type, r.round;
