@@ -15,7 +15,7 @@ const SERIES_ID = {
   WEC:   { label:"FIA WEC",      color:"#0066CC", bg:"#EFF6FF", text:"#004A9E", icon:"⏱️", heroEmoji:"⏱️" },
   ELMS:  { label:"ELMS",         color:"#00833E", bg:"#EDFAF3", text:"#006030", icon:"🏁", heroEmoji:"🏁" },
   IMSA:  { label:"IMSA",         color:"#0033A0", bg:"#EEF2FF", text:"#002280", icon:"🏆", heroEmoji:"🏆" },
-  WRC:   { label:"WRC",            color:"#1A3C6E", bg:"#EEF2FF", text:"#0A1F40", icon:"🚗", heroEmoji:"🚗" },
+  WRC:   { label:"WRC",            color:"#1A1A1A", bg:"#F2F2F2",  text:"#1A1A1A", icon:"🚗", heroEmoji:"🚗" },
   GTWCE: { label:"GT WC Europe", color:"#FF6600", bg:"#FFF4EE", text:"#CC4400", icon:"🏆", heroEmoji:"🏆" },
 };
 
