@@ -129,6 +129,21 @@ const TRACK_IMAGES = {
   imsa_detroit:      "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/imsa/TrackMap_Detroit-2023.png",
   imsa_vir:          "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/imsa/Virginia_International_Raceway_-_Full_Course.svg.png",
   imsa_watkinsglen:  "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/imsa/Watkins_Glen_International_Long_Circuit_2024.svg.png",
+  // ── WRC ───────────────────────────────────────────────────────
+  wrc_montecarlo: "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/wrc/MonteCarlo.avif",
+  wrc_sweden:     "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/wrc/Suede.avif",
+  wrc_kenya:      "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/wrc/Kenya.avif",
+  wrc_croatia:    "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/wrc/Croatie.avif",
+  wrc_canarias:   "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/wrc/Espagne.avif",
+  wrc_portugal:   "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/wrc/Portugal.avif",
+  wrc_japan:      "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/wrc/Japon.avif",
+  wrc_greece:     "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/wrc/Grece.avif",
+  wrc_estonia:    "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/wrc/Estonie.avif",
+  wrc_finland:    "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/wrc/Finlande.avif",
+  wrc_paraguay:   "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/wrc/Paraguay.avif",
+  wrc_chile:      "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/wrc/Chili.avif",
+  wrc_italy:      "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/wrc/Sardaigne.avif",
+  wrc_saudi:      "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/tracks/wrc/ArabieSaoudite.avif",
 
 };
 
