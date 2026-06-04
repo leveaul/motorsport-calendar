@@ -396,8 +396,8 @@ function CircuitPanel({ race, id, sprintRace, onClose }) {
                   {r.team&&<div style={{ fontSize:10, color:"#BBB" }}>{r.team}</div>}
                 </div>
                 <div style={{ textAlign:"right", flexShrink:0 }}>
-                  {r.points>0&&<div style={{ fontSize:14, fontWeight:800, color:id.color, fontFamily:"'Barlow Condensed',sans-serif" }}>{r.points} pts</div>}
-                  {r.gap&&<div style={{ fontSize:10, color:"#CCC" }}>{r.gap}</div>}
+                  {race.series_id !== "WRC" && r.points>0 && <div style={{ fontSize:14, fontWeight:800, color:id.color, fontFamily:"'Barlow Condensed',sans-serif" }}>{r.points} pts</div>}
+                  {r.gap&&<div style={{ fontSize:race.series_id==="WRC"?13:10, fontWeight:race.series_id==="WRC"?700:400, color:race.series_id==="WRC"?"#555":"#CCC", fontFamily:"'Barlow Condensed',sans-serif" }}>{r.gap}</div>}
                 </div>
               </div>
             ))}
