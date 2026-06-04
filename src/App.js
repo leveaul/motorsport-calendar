@@ -26,6 +26,7 @@ const COUNTRY_CODES = {
   "Singapour":"sg","Mexique":"mx","Brésil":"br","Qatar":"qa","Abu Dhabi":"ae",
   "Bahreïn":"bh","Thaïlande":"th","Indonésie":"id","Malaisie":"my","France":"fr",
   "Portugal":"pt","Allemagne":"de","Arabie Saoudite":"sa","Grande Bretagne":"gb",
+  "Suede":"se","Suède":"se","Kenya":"ke","Croatie":"hr","Estonie":"ee","Finlande":"fi","Paraguay":"py","Chili":"cl","Grece":"gr","Grèce":"gr"
 };
 
 function Flag({ country, size=20 }) {
