@@ -316,53 +316,39 @@ function CircuitPanel({ race, id, sprintRace, useUTC, onClose }) {
   const [loadingR, setLoadingR] = useState(true);
   const key = getTrackKey(race.circuit, race.series_id, race.circuit_key);
   const [info, setInfo] = useState({ lap_length:"--", turns:"--", laps:null, lap_record:"--", qual_record:null, first_year:"--", prev_winner:null, special_stages:null, total_distance:null, surface:null });
-  useEffect(() => {
-    if (!key) return;
-    sb(`circuits?key=eq.${key}&limit=1`).then(rows => {
-      if (rows[0]) setInfo(rows[0]);
-    }).catch(() => {});
-  }, [key]);
-  const MEDALS = ["🥇","🥈","🥉"];
 
   useEffect(() => {
-    setResults([]);
-    setSprintResults([]);
-    // Charger résultats si course terminée (status=done) OU date passée
-    const isPast = race.status === "done" || race.date_start < new Date().toISOString().slice(0,10);
-    if (isPast) {
-      setLoadingR(true);
-      sb(`results?race_id=eq.${race.id}&order=position.asc&limit=15`).then(r => { setResults(r); setLoadingR(false); }).catch(()=>setLoadingR(false));
-    } else {
-      setLoadingR(false);
-    }
+    setResults([]); setSprintResults([]); setSessions([]); setLoadingR(true);
+    sb(`circuits?key=eq.${key}&limit=1`).then(d => { if(d[0]) setInfo(i=>({...i,...d[0]})); }).catch(()=>{});
+    sb(`results?race_id=eq.${race.id}&order=position.asc&limit=15`).then(d => { setResults(d); setLoadingR(false); }).catch(()=>{ setLoadingR(false); });
     if (sprintRace?.id) {
       sb(`results?race_id=eq.${sprintRace.id}&order=position.asc&limit=10`).then(setSprintResults).catch(()=>{});
     }
-    // Charger les sessions
     sb(`sessions?race_id=eq.${race.id}&order=datetime_utc.asc`).then(setSessions).catch(()=>{});
   }, [race.id, sprintRace?.id]);
 
   return (
-    <div style={{ background:"#FAFAFA", borderTop:"none", borderRadius:"0 0 18px 18px", overflow:"hidden" }}>
-      <div style={{ background:`linear-gradient(135deg,${id.color},${id.color}BB)`, padding:"15px 20px", display:"flex", justifyContent:"space-between", alignItems:"flex-start" }}>
-        <div style={{ display:"flex", alignItems:"center", gap:12 }}>
-          <Flag country={race.country} size={24}/>
-          <div>
-            <div className="panel-title" style={{ fontSize:20, fontWeight:900, color:"#fff", fontFamily:"'Barlow Condensed',sans-serif" }}>{race.name}</div>
-            <div className="panel-sub" style={{ fontSize:12, color:"rgba(255,255,255,.7)", marginTop:1 }}>{race.circuit}</div>
-          </div>
+    <div style={{ background:"#F7F7F7", borderRadius:18, overflow:"hidden" }}>
+      {/* Header */}
+      <div style={{ background:`linear-gradient(135deg,${id.color},${id.color}CC)`, padding:"18px 24px 16px", display:"flex", alignItems:"flex-start", justifyContent:"space-between" }}>
+        <div>
+          <div style={{ fontSize:22, fontWeight:900, color:"#fff", fontFamily:"'Barlow Condensed',sans-serif", letterSpacing:0.5 }}>{race.name}</div>
+          <div style={{ fontSize:12, color:"rgba(255,255,255,.7)", marginTop:2 }}>{race.circuit}</div>
         </div>
-        <button onClick={onClose} style={{ background:"rgba(255,255,255,.2)", border:"none", color:"#fff", width:32, height:32, borderRadius:8, cursor:"pointer", fontSize:16 }}>X</button>
+        <button onClick={onClose} style={{ background:"rgba(255,255,255,.2)", border:"none", color:"#fff", width:32, height:32, borderRadius:8, cursor:"pointer", fontSize:16, display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>✕</button>
       </div>
-      <div className="circuit-panel-inner" style={{ padding:"20px 28px", display:"grid", gridTemplateColumns: (results.length > 0 || loadingR) ? "2fr 1fr 1.2fr" : "2fr 1fr", gap:20 }}>
+
+      {/* Grille tracé + infos — toujours 2 colonnes */}
+      <div className="circuit-panel-inner" style={{ padding:"20px 28px", display:"grid", gridTemplateColumns:"2fr 1fr", gap:20 }}>
+        {/* Col 1 : Tracé */}
         <div style={{ background:"#fff", borderRadius:12, border:`1px solid ${id.color}15`, padding:12, display:"flex", flexDirection:"column", alignItems:"center", overflow:"hidden" }}>
           <div style={{ fontSize:11, color:"#BBB", letterSpacing:1.5, marginBottom:6, fontWeight:700 }}>TRACE</div>
           <div className="track-img-wrap" style={{ width:"100%", height:440, display:"flex", alignItems:"center", justifyContent:"center", overflow:"hidden" }}>
             <TrackSVG circuit={race.circuit} color={id.color} size={160} seriesId={race.series_id} circuitKey={race.circuit_key}/>
           </div>
         </div>
+        {/* Col 2 : Infos circuit */}
         <div style={{ display:"flex", flexDirection:"column", gap:8, overflowY:"auto", maxHeight:500 }}>
-          {/* ── Infos circuit ── */}
           {(() => {
             const base = [["📅","Date",fmtRange(race.date_start,race.date_end)],["🗓️","Au calendrier",info.first_year]];
             const winner = info.prev_winner ? [["🏆","Vainqueur préc.",info.prev_winner]] : [];
@@ -371,8 +357,7 @@ function CircuitPanel({ race, id, sprintRace, useUTC, onClose }) {
                 ...(info.special_stages ? [["🔢","Spéciales",`${info.special_stages} ES`]] : []),
                 ...(info.total_distance ? [["📏","Distance","" + info.total_distance]] : []),
                 ...(info.surface ? [["🛣️","Surface",info.surface]] : []),
-                ...base,
-                ...winner,
+                ...base, ...winner,
               ];
             }
             return [
@@ -381,8 +366,7 @@ function CircuitPanel({ race, id, sprintRace, useUTC, onClose }) {
               ...(info.laps ? [["🔄","Tours",`${info.laps} tours`]] : []),
               ["🏁","Record course",info.lap_record],
               ...(info.qual_record ? [["⚡", race.series_id === "F1" ? "Record qualif" : "Record all-time", info.qual_record]] : []),
-              ...base,
-              ...winner,
+              ...base, ...winner,
             ];
           })().map(([emoji,label,val]) => (
             <div key={label} style={{ background:"#fff", borderRadius:10, border:"1px solid #F0F0F0", padding:"9px 13px", display:"flex", alignItems:"flex-start", gap:9, flexShrink:0 }}>
@@ -393,10 +377,7 @@ function CircuitPanel({ race, id, sprintRace, useUTC, onClose }) {
               </div>
             </div>
           ))}
-
-          {/* ── Sessions ── */}
-
-          {/* ── Countdown (course à venir) ── */}
+          {/* Countdown */}
           {!( race.status === "done" || race.date_start < new Date().toISOString().slice(0,10) ) && (
             <div style={{ background:id.bg, borderRadius:12, padding:"14px 18px", border:`1px dashed ${id.color}40`, display:"flex", alignItems:"center", justifyContent:"center", gap:12, flexShrink:0 }}>
               <Flag country={race.country} size={20}/>
@@ -406,71 +387,82 @@ function CircuitPanel({ race, id, sprintRace, useUTC, onClose }) {
             </div>
           )}
         </div>
+      </div>
 
-
-        {/* ── Sessions en colonnes ── */}
-        {sessions.length > 0 && (
-          <div style={{ padding:"0 28px 16px", borderTop:`1px solid ${id.color}15`, marginTop:4 }}>
-            <div style={{ fontSize:11, fontWeight:700, color:"#BBB", letterSpacing:1.5, padding:"14px 0 10px" }}>PROGRAMME</div>
-            <div style={{ display:"grid", gridTemplateColumns:`repeat(${sessions.length}, 1fr)`, gap:12 }}>
-              {sessions.map((s,i) => (
-                <div key={i} style={{ background:`${id.color}08`, borderRadius:10, padding:"10px 12px", border:`1px solid ${id.color}20` }}>
-                  <div style={{ fontSize:11, fontWeight:800, color:id.color, letterSpacing:0.5, marginBottom:4 }}>{s.type.toUpperCase()}</div>
-                  <div style={{ fontSize:14, fontWeight:700, color:"#333", fontFamily:"'Barlow Condensed',sans-serif" }}>
-                    {fmtSession(s.datetime_utc, useUTC)}
-                  </div>
-                  {useUTC && <div style={{ fontSize:10, color:"#BBB" }}>UTC</div>}
-                  {s.duration_min && <div style={{ fontSize:10, color:"#AAA", marginTop:2 }}>{s.duration_min} min</div>}
+      {/* Programme — EN DEHORS de la grille */}
+      {sessions.length > 0 && (
+        <div style={{ padding:"0 28px 16px", borderTop:`1px solid ${id.color}15` }}>
+          <div style={{ fontSize:11, fontWeight:700, color:"#BBB", letterSpacing:1.5, padding:"14px 0 10px" }}>PROGRAMME</div>
+          <div style={{ display:"grid", gridTemplateColumns:`repeat(${Math.min(sessions.length, 6)}, 1fr)`, gap:10 }}>
+            {sessions.map((s,i) => (
+              <div key={i} style={{ background:`${id.color}08`, borderRadius:10, padding:"10px 12px", border:`1px solid ${id.color}20` }}>
+                <div style={{ fontSize:11, fontWeight:800, color:id.color, letterSpacing:0.5, marginBottom:4 }}>{s.type.toUpperCase()}</div>
+                <div style={{ fontSize:13, fontWeight:700, color:"#333", fontFamily:"'Barlow Condensed',sans-serif" }}>
+                  {fmtSession(s.datetime_utc, useUTC)}
                 </div>
-              ))}
-            </div>
+                {useUTC && <div style={{ fontSize:10, color:"#BBB" }}>UTC</div>}
+                {s.duration_min && <div style={{ fontSize:10, color:"#AAA", marginTop:2 }}>{s.duration_min} min</div>}
+              </div>
+            ))}
           </div>
-        )}
+        </div>
+      )}
 
-        {/* ── Résultats ── */}
-        {(results.length > 0 || loadingR) && (
-            <div style={{ display:"flex", flexDirection:"column", gap:8, overflowY:"auto", maxHeight:480 }}>
-              <div style={{ fontSize:11, fontWeight:700, color:"#BBB", letterSpacing:1.5, flexShrink:0 }}>RÉSULTATS</div>
-              {loadingR && <Spinner color={id.color}/>}
-              {!loadingR && results.map((r,i) => (
-                <div key={i} style={{ display:"flex", alignItems:"center", gap:10, padding:"8px 11px", background:i===0?id.bg:"#fff", border:`1px solid ${i===0?id.color+"30":"#F0F0F0"}`, borderRadius:10, flexShrink:0 }}>
-                  <div style={{ width:28, height:28, borderRadius:8, background:i===0?id.color:i===1?"#C0C0C0":i===2?"#CD7F32":"#F5F5F5", display:"flex", alignItems:"center", justifyContent:"center", fontSize:i<3?11:10, fontWeight:800, color:i<3?"#fff":"#AAA", flexShrink:0 }}>
-                    {i<3?["🥇","🥈","🥉"][i]:r.position}
-                  </div>
-                  <div style={{ flex:1, minWidth:0 }}>
-                    <div className="result-driver" style={{ fontSize:15, fontWeight:700, color:i===0?id.text:"#222", whiteSpace:"nowrap", overflow:"hidden", textOverflow:"ellipsis", fontFamily:"'Barlow Condensed',sans-serif" }}>{r.driver}</div>
-                    {r.team&&<div style={{ fontSize:10, color:"#BBB" }}>{r.team}</div>}
-                  </div>
-                  <div style={{ textAlign:"right", flexShrink:0 }}>
-                    {race.series_id !== "WRC" && r.points>0 && <div style={{ fontSize:14, fontWeight:800, color:id.color, fontFamily:"'Barlow Condensed',sans-serif" }}>{r.points} pts</div>}
-                    {r.gap&&<div style={{ fontSize:race.series_id==="WRC"?13:10, fontWeight:race.series_id==="WRC"?700:400, color:race.series_id==="WRC"?"#555":"#CCC", fontFamily:"'Barlow Condensed',sans-serif" }}>{r.gap}</div>}
-                  </div>
-                </div>
-              ))}
-              {/* Résultats Sprint dans la même colonne */}
-              {sprintResults.length > 0 && <>
-                <div style={{ fontSize:11, fontWeight:700, letterSpacing:1.5, color:"#FF6B00", marginTop:8, flexShrink:0 }}>RÉSULTATS SPRINT</div>
-                {sprintResults.slice(0,10).map((r,i) => (
-                  <div key={i} style={{ display:"flex", alignItems:"center", gap:10, padding:"7px 10px", background:i===0?"#FFF5EE":"#fff", border:`1px solid ${i===0?"#FF6B0030":"#F0F0F0"}`, borderRadius:10, flexShrink:0 }}>
-                    <div style={{ width:26, height:26, borderRadius:7, background:i===0?"#FF6B00":i===1?"#C0C0C0":i===2?"#CD7F32":"#F5F5F5", display:"flex", alignItems:"center", justifyContent:"center", fontSize:10, fontWeight:800, color:i<3?"#fff":"#AAA", flexShrink:0 }}>
+      {/* Résultats — EN DEHORS de la grille */}
+      {(results.length > 0 || loadingR) && (
+        <div style={{ padding:"0 28px 20px", borderTop:`1px solid ${id.color}15` }}>
+          <div style={{ fontSize:11, fontWeight:700, color:"#BBB", letterSpacing:1.5, padding:"14px 0 10px" }}>RÉSULTATS</div>
+          {loadingR && <Spinner color={id.color}/>}
+          {!loadingR && (
+            <div style={{ display:"grid", gridTemplateColumns: sprintResults.length > 0 ? "1fr 1fr" : "1fr", gap:12 }}>
+              {/* Course principale */}
+              <div style={{ display:"flex", flexDirection:"column", gap:6 }}>
+                {sprintResults.length > 0 && <div style={{ fontSize:10, fontWeight:700, color:id.color, letterSpacing:1 }}>COURSE</div>}
+                {results.map((r,i) => (
+                  <div key={i} style={{ display:"flex", alignItems:"center", gap:8, padding:"7px 10px", background:i===0?id.bg:"#fff", border:`1px solid ${i===0?id.color+"30":"#F0F0F0"}`, borderRadius:9, flexShrink:0 }}>
+                    <div style={{ width:26, height:26, borderRadius:7, background:i===0?id.color:i===1?"#C0C0C0":i===2?"#CD7F32":"#F5F5F5", display:"flex", alignItems:"center", justifyContent:"center", fontSize:i<3?11:10, fontWeight:800, color:i<3?"#fff":"#AAA", flexShrink:0 }}>
                       {i<3?["🥇","🥈","🥉"][i]:r.position}
                     </div>
                     <div style={{ flex:1, minWidth:0 }}>
-                      <div style={{ fontSize:14, fontWeight:700, color:"#222", whiteSpace:"nowrap", overflow:"hidden", textOverflow:"ellipsis", fontFamily:"'Barlow Condensed',sans-serif" }}>{r.driver}</div>
+                      <div className="result-driver" style={{ fontSize:14, fontWeight:700, color:i===0?id.text:"#222", whiteSpace:"nowrap", overflow:"hidden", textOverflow:"ellipsis", fontFamily:"'Barlow Condensed',sans-serif" }}>{r.driver}</div>
                       {r.team&&<div style={{ fontSize:10, color:"#BBB" }}>{r.team}</div>}
                     </div>
                     <div style={{ textAlign:"right", flexShrink:0 }}>
-                      {r.points>0&&<div style={{ fontSize:13, fontWeight:800, color:"#FF6B00", fontFamily:"'Barlow Condensed',sans-serif" }}>{r.points} pts</div>}
+                      {race.series_id !== "WRC" && r.points>0 && <div style={{ fontSize:13, fontWeight:800, color:id.color, fontFamily:"'Barlow Condensed',sans-serif" }}>{r.points} pts</div>}
+                      {r.gap&&<div style={{ fontSize:race.series_id==="WRC"?12:10, color:race.series_id==="WRC"?"#555":"#CCC", fontFamily:"'Barlow Condensed',sans-serif" }}>{r.gap}</div>}
                     </div>
                   </div>
                 ))}
-              </>}
+              </div>
+              {/* Sprint */}
+              {sprintResults.length > 0 && (
+                <div style={{ display:"flex", flexDirection:"column", gap:6 }}>
+                  <div style={{ fontSize:10, fontWeight:700, color:"#FF6B00", letterSpacing:1 }}>SPRINT</div>
+                  {sprintResults.map((r,i) => (
+                    <div key={i} style={{ display:"flex", alignItems:"center", gap:8, padding:"7px 10px", background:i===0?"#FFF5EE":"#fff", border:`1px solid ${i===0?"#FF6B0030":"#F0F0F0"}`, borderRadius:9, flexShrink:0 }}>
+                      <div style={{ width:26, height:26, borderRadius:7, background:i===0?"#FF6B00":i===1?"#C0C0C0":i===2?"#CD7F32":"#F5F5F5", display:"flex", alignItems:"center", justifyContent:"center", fontSize:10, fontWeight:800, color:i<3?"#fff":"#AAA", flexShrink:0 }}>
+                        {i<3?["🥇","🥈","🥉"][i]:r.position}
+                      </div>
+                      <div style={{ flex:1, minWidth:0 }}>
+                        <div style={{ fontSize:14, fontWeight:700, color:"#222", whiteSpace:"nowrap", overflow:"hidden", textOverflow:"ellipsis", fontFamily:"'Barlow Condensed',sans-serif" }}>{r.driver}</div>
+                        {r.team&&<div style={{ fontSize:10, color:"#BBB" }}>{r.team}</div>}
+                      </div>
+                      <div style={{ textAlign:"right", flexShrink:0 }}>
+                        {r.points>0&&<div style={{ fontSize:12, fontWeight:800, color:"#FF6B00", fontFamily:"'Barlow Condensed',sans-serif" }}>{r.points} pts</div>}
+                        {r.gap&&<div style={{ fontSize:10, color:"#CCC", fontFamily:"'Barlow Condensed',sans-serif" }}>{r.gap}</div>}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           )}
-      </div>
+        </div>
+      )}
     </div>
   );
 }
+
 
 function StandingsPanel({ seriesId, id }) {
   const [tab, setTab] = useState("driver");
