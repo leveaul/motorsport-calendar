@@ -751,7 +751,10 @@ export default function App() {
                 <button key={s.id} className={`stab${isA?' active':''}`}
                   style={{ '--sc': sid.color, color: isA ? sid.color : '#BBB', flexShrink:0 }}
                   onClick={() => { setActive(s.id); setView('series'); }}>
-                  {sid.icon}<span className="stab-label"> {s.id}</span>
+                  {SERIES_LOGOS[s.id]
+                    ? <img src={SERIES_LOGOS[s.id]} alt={s.id} style={{ height:18, maxWidth:60, objectFit:'contain', filter: isA ? 'none' : 'grayscale(1) opacity(0.5)' }}/>
+                    : sid.icon
+                  }<span className="stab-label"> {s.id}</span>
                 </button>
               );
             })}
