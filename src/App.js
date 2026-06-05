@@ -284,6 +284,18 @@ function fmtRange(s, e) {
   if (a.getMonth()===b.getMonth()) return `${a.getDate()}-${b.getDate()} ${MONTHS_FR[a.getMonth()]}`;
   return `${fmtDate(s)} -> ${fmtDate(e)}`;
 }
+function fmtSession(dtStr, utc) {
+  const d = new Date(dtStr);
+  if (utc) {
+    const day = d.toLocaleDateString("fr-FR", { weekday:"short", timeZone:"UTC" });
+    const time = d.toLocaleTimeString("fr-FR", { hour:"2-digit", minute:"2-digit", timeZone:"UTC", hour12:false });
+    return `${day} ${time}`;
+  }
+  const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const day = d.toLocaleDateString("fr-FR", { weekday:"short", timeZone:tz });
+  const time = d.toLocaleTimeString("fr-FR", { hour:"2-digit", minute:"2-digit", timeZone:tz, hour12:false });
+  return `${day} ${time}`;
+}
 function daysUntil(d) {
   if (!d) return null;
   const t=new Date(); t.setHours(0,0,0,0);
