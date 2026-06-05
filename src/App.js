@@ -469,6 +469,7 @@ function CircuitPanel({ race, id, sprintRace, useUTC, onClose }) {
             </div>
           )}
         )}
+      </div>
     </div>
   );
 }
