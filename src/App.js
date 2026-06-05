@@ -297,8 +297,9 @@ function Spinner({ color }) {
   </div>;
 }
 
-function CircuitPanel({ race, id, sprintRace, onClose }) {
+function CircuitPanel({ race, id, sprintRace, useUTC, onClose }) {
   const [results, setResults] = useState([]);
+  const [sessions, setSessions] = useState([]);
   const [sprintResults, setSprintResults] = useState([]);
   const [loadingR, setLoadingR] = useState(true);
   const key = getTrackKey(race.circuit, race.series_id, race.circuit_key);
@@ -325,6 +326,8 @@ function CircuitPanel({ race, id, sprintRace, onClose }) {
     if (sprintRace?.id) {
       sb(`results?race_id=eq.${sprintRace.id}&order=position.asc&limit=10`).then(setSprintResults).catch(()=>{});
     }
+    // Charger les sessions
+    sb(`sessions?race_id=eq.${race.id}&order=datetime_utc.asc`).then(setSessions).catch(()=>{});
   }, [race.id, sprintRace?.id]);
 
   return (
@@ -379,7 +382,22 @@ function CircuitPanel({ race, id, sprintRace, onClose }) {
             </div>
           ))}
 
-          {/* ── Countdown (course à venir) ── */}
+          {/* ── Sessions ── */}
+          {sessions.length > 0 && (
+            <div style={{ marginTop:8 }}>
+              <div style={{ fontSize:11, fontWeight:700, color:"#BBB", letterSpacing:1.5, marginBottom:6 }}>PROGRAMME</div>
+              {sessions.map((s,i) => (
+                <div key={i} style={{ display:"flex", justifyContent:"space-between", alignItems:"center", padding:"5px 0", borderBottom:"1px solid #F5F5F5" }}>
+                  <span style={{ fontSize:13, fontWeight:700, color:"#333" }}>{s.type}</span>
+                  <span style={{ fontSize:12, fontWeight:600, color:id.color, fontFamily:"'Barlow Condensed',sans-serif" }}>
+                    {fmtSession(s.datetime_utc, useUTC)}{useUTC ? " UTC" : ""}
+                  </span>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* ── Countdown (course à venir) ── */}}
           {!( race.status === "done" || race.date_start < new Date().toISOString().slice(0,10) ) && (
             <div style={{ background:id.bg, borderRadius:12, padding:"14px 18px", border:`1px dashed ${id.color}40`, display:"flex", alignItems:"center", justifyContent:"center", gap:12, flexShrink:0 }}>
               <Flag country={race.country} size={20}/>
@@ -620,6 +638,7 @@ function HomeDashboard({ series, onSelect, id }) {
 
 export default function App() {
   const [series, setSeries] = useState([]);
+  const [useUTC, setUseUTC] = useState(false);
   const [active, setActive] = useState("F1");
   const [view, setView] = useState("home"); // 'home' | 'series'
   const [races, setRaces] = useState([]);
@@ -925,6 +944,7 @@ export default function App() {
               race={selected}
               id={id}
               sprintRace={getSprintForRace(selected)}
+              useUTC={useUTC}
               onClose={() => setSelected(null)}
             />
           </div>
