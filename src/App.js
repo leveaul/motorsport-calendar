@@ -807,7 +807,7 @@ export default function App() {
               );
             })}
             {/* ── Switch UTC/Local ── */}
-            <div style={{ display:"flex", alignItems:"center", gap:6, marginLeft:"auto", marginRight:12, flexShrink:0 }}>>
+            <div style={{ display:"flex", alignItems:"center", gap:6, marginLeft:"auto", marginRight:12, flexShrink:0 }}>
               <span style={{ fontSize:10, fontWeight:700, color: !useUTC?"#333":"#BBB", letterSpacing:0.5 }}>LOCAL</span>
               <div onClick={() => setUseUTC(u => !u)} style={{ width:36, height:20, borderRadius:10, background:useUTC?"#E8002D":"#DDD", cursor:"pointer", position:"relative", transition:"background .2s", flexShrink:0 }}>
                 <div style={{ position:"absolute", top:3, left:useUTC?19:3, width:14, height:14, borderRadius:"50%", background:"#fff", transition:"left .2s", boxShadow:"0 1px 3px rgba(0,0,0,.3)" }}/>
