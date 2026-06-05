@@ -303,6 +303,58 @@ function daysUntil(d) {
   return Math.ceil((x-t)/86400000);
 }
 
+
+// Retourne la prochaine session future pour une race donnée
+function getNextSession(sessions) {
+  const now = new Date();
+  return sessions
+    .filter(s => new Date(s.datetime_utc) > now)
+    .sort((a,b) => new Date(a.datetime_utc) - new Date(b.datetime_utc))[0] || null;
+}
+
+// Countdown JJ:HH:MM:SS jusqu'à une date cible
+function useCountdown(targetIso) {
+  const [diff, setDiff] = useState(null);
+  useEffect(() => {
+    if (!targetIso) { setDiff(null); return; }
+    const tick = () => {
+      const ms = new Date(targetIso) - new Date();
+      if (ms <= 0) { setDiff(null); return; }
+      const d = Math.floor(ms / 86400000);
+      const h = Math.floor((ms % 86400000) / 3600000);
+      const m = Math.floor((ms % 3600000) / 60000);
+      const s = Math.floor((ms % 60000) / 1000);
+      setDiff({ d, h, m, s, ms });
+    };
+    tick();
+    const id = setInterval(tick, 1000);
+    return () => clearInterval(id);
+  }, [targetIso]);
+  return diff;
+}
+
+// Composant Countdown affiché style JJ:HH:MM:SS
+function Countdown({ targetIso, color="#fff", size=1 }) {
+  const diff = useCountdown(targetIso);
+  if (!diff) return null;
+  const pad = n => String(n).padStart(2,'0');
+  const base = { fontWeight:900, fontFamily:"'Barlow Condensed',sans-serif", lineHeight:1, color };
+  if (diff.d > 0) return (
+    <div style={{ ...base, fontSize: 28 * size }}>
+      {diff.d}<span style={{ fontSize:12*size, color, opacity:.6 }}>j </span>
+      {pad(diff.h)}<span style={{ fontSize:12*size, opacity:.6 }}>h </span>
+      {pad(diff.m)}<span style={{ fontSize:12*size, opacity:.6 }}>m</span>
+    </div>
+  );
+  return (
+    <div style={{ ...base, fontSize: 32 * size }}>
+      {pad(diff.h)}<span style={{ fontSize:12*size, opacity:.7 }}>:</span>
+      {pad(diff.m)}<span style={{ fontSize:12*size, opacity:.7 }}>:</span>
+      {pad(diff.s)}
+    </div>
+  );
+}
+
 function Spinner({ color }) {
   return <div style={{ display:"flex", justifyContent:"center", padding:"40px 0" }}>
     <div style={{ width:35, height:35, borderRadius:"50%", border:`3px solid ${color}30`, borderTop:`3px solid ${color}`, animation:"spin .7s linear infinite" }}/>
@@ -553,7 +605,18 @@ function HomeDashboard({ series, onSelect, id }) {
         sb(`races?series_id=eq.${s.id}&date_start=gte.${today}&type=neq.sprint&order=date_start.asc&limit=1`),
         sb(`standings?series_id=eq.${s.id}&type=eq.driver&season=eq.2026&order=position.asc&limit=3`)
       ]).then(([races, standing]) => {
-        setData(prev => ({ ...prev, [s.id]: { next: races[0] || null, top3: standing } }));
+        const nextRace = races[0] || null;
+        if (nextRace) {
+          sb(`sessions?race_id=eq.${nextRace.id}&order=datetime_utc.asc`)
+            .then(sessions => {
+              const nextSess = getNextSession(sessions);
+              setData(prev => ({ ...prev, [s.id]: { next: nextRace, top3: standing, nextSession: nextSess } }));
+            }).catch(() => {
+              setData(prev => ({ ...prev, [s.id]: { next: nextRace, top3: standing, nextSession: null } }));
+            });
+        } else {
+          setData(prev => ({ ...prev, [s.id]: { next: null, top3: standing, nextSession: null } }));
+        }
       }).catch(() => {});
     });
   }, [series]);
@@ -570,6 +633,7 @@ function HomeDashboard({ series, onSelect, id }) {
           const d = data[s.id];
           const next = d?.next;
           const top3 = d?.top3 || [];
+          const nextSession = d?.nextSession || null;
           const key = next ? getTrackKey(next.circuit, s.id, next.circuit_key) : null;
           const imgUrl = key ? TRACK_IMAGES[key] : null;
           const days = next ? daysUntil(next.date_start) : null;
@@ -592,8 +656,16 @@ function HomeDashboard({ series, onSelect, id }) {
                 </div>
                 {days !== null && (
                   <div style={{ textAlign:"right" }}>
-                    <div style={{ fontSize:48, fontWeight:900, color:sid.color, lineHeight:1 }}>{days}</div>
-                    <div style={{ fontSize:10, color:"#CCC", letterSpacing:1.5, fontWeight:600 }}>JOURS</div>
+                    {nextSession
+                      ? <>
+                          <Countdown targetIso={nextSession.datetime_utc} color={sid.color} size={0.85}/>
+                          <div style={{ fontSize:9, color:"#CCC", letterSpacing:1, fontWeight:600, marginTop:2 }}>{nextSession.type.toUpperCase()}</div>
+                        </>
+                      : <>
+                          <div style={{ fontSize:48, fontWeight:900, color:sid.color, lineHeight:1 }}>{days}</div>
+                          <div style={{ fontSize:10, color:"#CCC", letterSpacing:1.5, fontWeight:600 }}>JOURS</div>
+                        </>
+                    }
                   </div>
                 )}
               </div>
@@ -646,6 +718,30 @@ function HomeDashboard({ series, onSelect, id }) {
   );
 }
 
+
+// Composant banner : charge sessions et affiche countdown ou nb jours
+function NextSessionBanner({ raceId, color }) {
+  const [nextSession, setNextSession] = useState(null);
+  const [loaded, setLoaded] = useState(false);
+  useEffect(() => {
+    if (!raceId) return;
+    sb(`sessions?race_id=eq.${raceId}&order=datetime_utc.asc`)
+      .then(sessions => { setNextSession(getNextSession(sessions)); setLoaded(true); })
+      .catch(() => setLoaded(true));
+  }, [raceId]);
+
+  if (!loaded) return <div style={{ fontSize:40, fontWeight:900, color, lineHeight:1 }}>…</div>;
+
+  if (nextSession) return (
+    <div style={{ textAlign:"right" }}>
+      <Countdown targetIso={nextSession.datetime_utc} color={color} size={1.1}/>
+      <div style={{ fontSize:10, color, opacity:.55, letterSpacing:1.5, marginTop:4 }}>{nextSession.type.toUpperCase()}</div>
+    </div>
+  );
+
+  // Pas de session → jours
+  return null;
+}
 
 export default function App() {
   const [series, setSeries] = useState([]);
@@ -834,10 +930,7 @@ export default function App() {
             <div style={{ textAlign:"right" }}>
               {daysUntil(next.date_start) === 0
                 ? <div style={{ fontSize:22, fontWeight:900, color:"#fff" }}>AUJOURD'HUI !</div>
-                : <>
-                  <div className="next-days" style={{ fontSize:80, fontWeight:900, color:"#fff", lineHeight:1 }}>{daysUntil(next.date_start)}</div>
-                  <div style={{ fontSize:11, color:"rgba(255,255,255,.5)", letterSpacing:2 }}>JOURS</div>
-                </>
+                : <NextSessionBanner raceId={next.id} color="#fff"/>
               }
             </div>
           </div>
