@@ -18,6 +18,15 @@ const SERIES_ID = {
   WRC:   { label:"WRC",            color:"#1A1A1A", bg:"#F2F2F2",  text:"#1A1A1A", icon:"🚗", heroEmoji:"🚗" },
   GTWCE: { label:"GT WC Europe", color:"#FF6600", bg:"#FFF4EE", text:"#CC4400", icon:"🏆", heroEmoji:"🏆" },
 };
+const SERIES_LOGOS = {
+  F1:     "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/logos/F1.svg.png",
+  MotoGP: "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/logos/MotoGP.png",
+  WEC:    "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/logos/WEC.png",
+  ELMS:   "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/logos/ELMS.png",
+  GTWCE:  "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/logos/GTWCE.png",
+  IMSA:   "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/logos/IMSA.png",
+  WRC:    "https://cdn.jsdelivr.net/gh/leveaul/motorsport-calendar@main/public/logos/WRC_Logo.png",
+};
 
 const COUNTRY_CODES = {
   "Australie":"au","Chine":"cn","Japon":"jp","Etats-Unis":"us","États-Unis":"us","Canada":"ca",
