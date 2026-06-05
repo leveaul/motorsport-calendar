@@ -407,7 +407,6 @@ function CircuitPanel({ race, id, sprintRace, useUTC, onClose }) {
           )}
         </div>
 
-        </div>
 
         {/* ── Sessions en colonnes ── */}
         {sessions.length > 0 && (
@@ -468,7 +467,6 @@ function CircuitPanel({ race, id, sprintRace, useUTC, onClose }) {
               </>}
             </div>
           )}
-        )}
       </div>
     </div>
   );
