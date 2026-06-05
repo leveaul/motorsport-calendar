@@ -1,0 +1,25 @@
+
+DELETE FROM results WHERE race_id = 1;
+INSERT INTO results (race_id, position, driver, team, points, gap) VALUES
+(1, 1,  'George Russell',    'Mercedes',       25, '1:23:06.801'),
+(1, 2,  'Kimi Antonelli',    'Mercedes',       18, '+2.974s'),
+(1, 3,  'Charles Leclerc',   'Ferrari',        15, '+15.519s'),
+(1, 4,  'Lewis Hamilton',    'Ferrari',        12, '+16.144s'),
+(1, 5,  'Lando Norris',      'McLaren',        10, '+51.741s'),
+(1, 6,  'Max Verstappen',    'Red Bull Racing', 8, '+54.617s'),
+(1, 7,  'Oliver Bearman',    'Haas F1 Team',    6, '+1 lap'),
+(1, 8,  'Arvid Lindblad',    'Racing Bulls',    4, '+1 lap'),
+(1, 9,  'Gabriel Bortoleto', 'Audi',            2, '+1 lap'),
+(1, 10, 'Pierre Gasly',      'Alpine',          1, '+1 lap'),
+(1, 11, 'Esteban Ocon',      'Haas F1 Team',    0, '+1 lap'),
+(1, 12, 'Alexander Albon',   'Williams',        0, '+1 lap'),
+(1, 13, 'Liam Lawson',       'Racing Bulls',    0, '+1 lap'),
+(1, 14, 'Franco Colapinto',  'Alpine',          0, '+2 laps'),
+(1, 15, 'Carlos Sainz',      'Williams',        0, '+2 laps'),
+(1, 16, 'Sergio Perez',      'Cadillac',        0, '+3 laps'),
+(1, 17, 'Lance Stroll',      'Aston Martin',    0, '+15 laps'),
+(1, 18, 'Fernando Alonso',   'Aston Martin',    0, 'DNF'),
+(1, 19, 'Valtteri Bottas',   'Cadillac',        0, 'DNF'),
+(1, 20, 'Isack Hadjar',      'Red Bull Racing', 0, 'DNF'),
+(1, 21, 'Oscar Piastri',     'McLaren',         0, 'DNS'),
+(1, 22, 'Nico Hulkenberg',   'Audi',            0, 'DNS');
