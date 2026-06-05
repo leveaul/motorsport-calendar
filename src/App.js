@@ -354,7 +354,7 @@ function CircuitPanel({ race, id, sprintRace, useUTC, onClose }) {
         </div>
         <button onClick={onClose} style={{ background:"rgba(255,255,255,.2)", border:"none", color:"#fff", width:32, height:32, borderRadius:8, cursor:"pointer", fontSize:16 }}>X</button>
       </div>
-      <div className="circuit-panel-inner" style={{ padding:"20px 28px", display:"grid", gridTemplateColumns: (results.length > 0 || loadingR) ? "2fr 1fr 1.2fr" : "2fr 1fr", gap:20 }}>
+      <div className="circuit-panel-inner" style={{ padding:"20px 28px", display:"grid", gridTemplateColumns: "2fr 1fr", gap:20 }}>
         <div style={{ background:"#fff", borderRadius:12, border:`1px solid ${id.color}15`, padding:12, display:"flex", flexDirection:"column", alignItems:"center", overflow:"hidden" }}>
           <div style={{ fontSize:11, color:"#BBB", letterSpacing:1.5, marginBottom:6, fontWeight:700 }}>TRACE</div>
           <div className="track-img-wrap" style={{ width:"100%", height:440, display:"flex", alignItems:"center", justifyContent:"center", overflow:"hidden" }}>
@@ -406,6 +406,7 @@ function CircuitPanel({ race, id, sprintRace, useUTC, onClose }) {
             </div>
           )}
         </div>
+      </div>
 
 
         {/* ── Sessions en colonnes ── */}
@@ -458,7 +459,6 @@ function CircuitPanel({ race, id, sprintRace, useUTC, onClose }) {
                     <div style={{ flex:1, minWidth:0 }}>
                       <div style={{ fontSize:14, fontWeight:700, color:"#222", whiteSpace:"nowrap", overflow:"hidden", textOverflow:"ellipsis", fontFamily:"'Barlow Condensed',sans-serif" }}>{r.driver}</div>
                       {r.team&&<div style={{ fontSize:10, color:"#BBB" }}>{r.team}</div>}
-                    </div>
                     <div style={{ textAlign:"right", flexShrink:0 }}>
                       {r.points>0&&<div style={{ fontSize:13, fontWeight:800, color:"#FF6B00", fontFamily:"'Barlow Condensed',sans-serif" }}>{r.points} pts</div>}
                     </div>
