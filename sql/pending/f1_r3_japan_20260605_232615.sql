@@ -1,0 +1,25 @@
+
+DELETE FROM results WHERE race_id = 3;
+INSERT INTO results (race_id, position, driver, team, points, gap) VALUES
+(3, 1,  'Kimi Antonelli',    'Mercedes',        25, '1:28:03.403'),
+(3, 2,  'Oscar Piastri',     'McLaren',         18, '+13.722s'),
+(3, 3,  'Charles Leclerc',   'Ferrari',         15, '+15.270s'),
+(3, 4,  'George Russell',    'Mercedes',        12, '+15.754s'),
+(3, 5,  'Lando Norris',      'McLaren',         10, '+23.479s'),
+(3, 6,  'Lewis Hamilton',    'Ferrari',          8, '+25.037s'),
+(3, 7,  'Pierre Gasly',      'Alpine',           6, '+32.340s'),
+(3, 8,  'Max Verstappen',    'Red Bull Racing',  4, '+32.677s'),
+(3, 9,  'Liam Lawson',       'Racing Bulls',     2, '+50.180s'),
+(3, 10, 'Esteban Ocon',      'Haas F1 Team',     1, '+51.216s'),
+(3, 11, 'Nico Hulkenberg',   'Audi',             0, '+52.280s'),
+(3, 12, 'Isack Hadjar',      'Red Bull Racing',  0, '+56.154s'),
+(3, 13, 'Gabriel Bortoleto', 'Audi',             0, '+59.078s'),
+(3, 14, 'Arvid Lindblad',    'Racing Bulls',     0, '+59.848s'),
+(3, 15, 'Carlos Sainz',      'Williams',         0, '+65.008s'),
+(3, 16, 'Franco Colapinto',  'Alpine',           0, '+65.773s'),
+(3, 17, 'Sergio Perez',      'Cadillac',         0, '+92.453s'),
+(3, 18, 'Fernando Alonso',   'Aston Martin',     0, '+1 lap'),
+(3, 19, 'Valtteri Bottas',   'Cadillac',         0, '+1 lap'),
+(3, 20, 'Alexander Albon',   'Williams',         0, '+2 laps'),
+(3, 21, 'Lance Stroll',      'Aston Martin',     0, 'DNF'),
+(3, 22, 'Oliver Bearman',    'Haas F1 Team',     0, 'DNF');
