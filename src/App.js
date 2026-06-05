@@ -406,7 +406,6 @@ function CircuitPanel({ race, id, sprintRace, useUTC, onClose }) {
             </div>
           )}
         </div>
-      </div>
 
 
         {/* ── Sessions en colonnes ── */}
@@ -459,6 +458,7 @@ function CircuitPanel({ race, id, sprintRace, useUTC, onClose }) {
                     <div style={{ flex:1, minWidth:0 }}>
                       <div style={{ fontSize:14, fontWeight:700, color:"#222", whiteSpace:"nowrap", overflow:"hidden", textOverflow:"ellipsis", fontFamily:"'Barlow Condensed',sans-serif" }}>{r.driver}</div>
                       {r.team&&<div style={{ fontSize:10, color:"#BBB" }}>{r.team}</div>}
+                    </div>
                     <div style={{ textAlign:"right", flexShrink:0 }}>
                       {r.points>0&&<div style={{ fontSize:13, fontWeight:800, color:"#FF6B00", fontFamily:"'Barlow Condensed',sans-serif" }}>{r.points} pts</div>}
                     </div>
@@ -468,7 +468,6 @@ function CircuitPanel({ race, id, sprintRace, useUTC, onClose }) {
             </div>
           )}
       </div>
-    </div>
   );
 }
 
