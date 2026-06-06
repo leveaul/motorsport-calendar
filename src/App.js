@@ -208,7 +208,7 @@ export default function App() {
               );
             })}
             {/* Switch UTC/Local */}
-            <div style={{ display: "flex", alignItems: "center", gap: 6, marginLeft: "auto", marginRight: 12, flexShrink: 0 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 4, marginLeft: "auto", marginRight: 8, flexShrink: 0 }}>
               <span style={{ fontSize: 10, fontWeight: 700, color: !useUTC ? "#333" : "#BBB", letterSpacing: 0.5 }}>LOCAL</span>
               <div onClick={() => setUseUTC(u => !u)} style={{ width: 36, height: 20, borderRadius: 10, background: useUTC ? "#E8002D" : "#DDD", cursor: "pointer", position: "relative", transition: "background .2s", flexShrink: 0 }}>
                 <div style={{ position: "absolute", top: 3, left: useUTC ? 19 : 3, width: 14, height: 14, borderRadius: "50%", background: "#fff", transition: "left .2s", boxShadow: "0 1px 3px rgba(0,0,0,.3)" }} />
@@ -233,7 +233,7 @@ export default function App() {
 
           {/* Banner prochaine course */}
           {next && (
-            <div style={{ background: `linear-gradient(135deg,${id.color},${id.color}CC)`, borderRadius: 18, padding: "22px 35px", display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20, animation: "slideUp .3s ease" }}>
+            <div style={{ background: `linear-gradient(135deg,${id.color},${id.color}CC)`, borderRadius: 14, padding: "16px 20px", display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20, animation: "slideUp .3s ease" }}>
               <div>
                 <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: 3, color: "rgba(255,255,255,.55)", marginBottom: 3 }}>PROCHAINE COURSE</div>
                 <div className="next-name" style={{ fontSize: 40, fontWeight: 900, color: "#fff" }}>{next.name}</div>
@@ -253,7 +253,7 @@ export default function App() {
 
           {/* Barre progression */}
           {totalCount > 0 && (
-            <div style={{ marginBottom: 16 }}>
+            <div style={{ marginBottom: 12 }}>
               <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 4 }}>
                 <span style={{ fontSize: 14, color: "#BBB", fontWeight: 600 }}>SAISON 2026 — {doneCount}/{totalCount} GP</span>
                 <span style={{ fontSize: 14, color: id.color, fontWeight: 700 }}>{Math.round((doneCount / totalCount) * 100)}%</span>
@@ -265,7 +265,7 @@ export default function App() {
           )}
 
           {/* Filtres */}
-          <div style={{ display: "flex", gap: 8, marginBottom: 20 }}>
+          <div style={{ display: "flex", gap: 6, marginBottom: 16, overflowX: "auto", flexShrink: 0 }}>
             {[["upcoming", "À venir"], ["all", "Calendrier"], ["results", "Résultats"], ["standings", "Classement"]].map(([v, l]) => (
               <button key={v} className={`fbtn${filter === v ? " active" : ""}`}
                 style={{ "--sc": id.color, background: filter === v ? id.color : "#fff" }}
