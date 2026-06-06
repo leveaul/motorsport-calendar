@@ -161,7 +161,7 @@ export default function App() {
     ) || null;
   };
 
-  const next = races.find(r => r.date_start >= today && r.status !== "done" && r.type !== "sprint");
+  const next = races.find(r => r.date_end >= today && r.status !== "done" && r.type !== "sprint");
   const dNext = next ? daysUntil(next.date_start) : null;
   const doneCount = races.filter(r => r.status === "done" && r.type !== "sprint").length;
   const totalCount = races.filter(r => r.type !== "sprint").length;
