@@ -61,19 +61,48 @@ const GLOBAL_CSS = `
     .next-name{font-size:40px !important}
     .next-days{font-size:75px !important}
   }
-  @media(max-width:899px){
+  @media(max-width:699px){
+    /* Header */
     .header-logo{display:none !important}
-    .stab{padding:9px 12px !important;font-size:14px !important}
+    .stab{padding:8px 8px !important;font-size:12px !important;min-width:0}
+    .stab img{height:16px !important;max-width:40px !important}
     .stab-label{display:none !important}
     .stab-home-label{display:none !important}
-    .app-inner{padding:0 10px !important}
+    /* Layout */
+    .app-inner{padding:0 8px !important}
+    .inner{padding:0 8px !important}
+    /* Tuiles calendrier */
+    .tiles{grid-template-columns:1fr 1fr !important;gap:8px !important}
+    .tile-track{height:100px !important}
+    .tile-top{padding:10px 10px 6px !important}
+    .tile-foot{padding:8px 10px 10px !important}
+    .tile-name{font-size:15px !important}
+    .tile-day{font-size:22px !important}
+    .tile-month{font-size:11px !important}
+    .tile-circuit{font-size:12px !important}
+    .tile-date{padding:4px 8px !important;min-width:42px !important}
+    .tile-badges{gap:3px !important;margin-top:6px !important}
+    .badge{font-size:11px !important;padding:2px 7px !important}
+    /* Banner prochaine course */
+    .next-name{font-size:22px !important}
+    /* Filtres */
+    .fbtn{padding:8px 12px !important;font-size:14px !important}
+    /* Circuit panel */
+    .circuit-panel-inner{grid-template-columns:1fr !important;padding:10px !important}
+    .track-img-wrap{height:180px !important}
+    /* Programme — 2 colonnes max sur mobile */
+    .programme-grid{grid-template-columns:repeat(2,1fr) !important}
+    /* Standings */
+    .standings-name{font-size:14px !important}
+    .standings-pts{font-size:20px !important}
+    /* Result driver */
+    .result-driver{font-size:13px !important}
+  }
+  @media(max-width:399px){
     .tiles{grid-template-columns:1fr !important}
-    .tile-track{height:130px !important}
-    .tile-name{font-size:18px !important}
-    .tile-day{font-size:28px !important}
-    .circuit-panel-inner{grid-template-columns:1fr !important;padding:12px !important}
-    .track-img-wrap{height:200px !important}
-    .next-name{font-size:28px !important}
+    .stab{padding:7px 6px !important;font-size:11px !important}
+    .stab img{height:14px !important;max-width:32px !important}
+    .next-name{font-size:18px !important}
   }
 `;
 
