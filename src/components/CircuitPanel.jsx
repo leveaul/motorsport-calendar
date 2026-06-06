@@ -46,7 +46,7 @@ export default function CircuitPanel({ race, id, sprintRace, useUTC, onClose }) 
   return (
     <div style={{ background: "#F7F7F7", borderRadius: 18, overflow: "hidden" }}>
       {/* Header */}
-      <div style={{ background: `linear-gradient(135deg,${id.color},${id.color}CC)`, padding: "18px 24px 16px", display: "flex", alignItems: "flex-start", justifyContent: "space-between" }}>
+      <div style={{ background: `linear-gradient(135deg,${id.color},${id.color}CC)`, padding: "14px 16px 12px", display: "flex", alignItems: "flex-start", justifyContent: "space-between" }}>
         <div>
           <div style={{ fontSize: 22, fontWeight: 900, color: "#fff", fontFamily: "'Barlow Condensed',sans-serif" }}>{race.name}</div>
           <div style={{ fontSize: 12, color: "rgba(255,255,255,.7)", marginTop: 2 }}>{race.circuit}</div>
@@ -85,9 +85,9 @@ export default function CircuitPanel({ race, id, sprintRace, useUTC, onClose }) 
 
       {/* Programme */}
       {sessions.length > 0 && (
-        <div style={{ padding: "0 28px 16px", borderTop: `1px solid ${id.color}15` }}>
+        <div style={{ padding: "0 16px 14px", borderTop: `1px solid ${id.color}15` }}>
           <div style={{ fontSize: 11, fontWeight: 700, color: "#BBB", letterSpacing: 1.5, padding: "14px 0 10px" }}>PROGRAMME</div>
-          <div style={{ display: "grid", gridTemplateColumns: `repeat(${Math.min(sessions.length, 6)}, 1fr)`, gap: 10 }}>
+          <div className="programme-grid" style={{ display: "grid", gridTemplateColumns: `repeat(${Math.min(sessions.length, 6)}, 1fr)`, gap: 10 }}>
             {sessions.map((s, i) => (
               <div key={i} style={{ background: `${id.color}08`, borderRadius: 10, padding: "10px 12px", border: `1px solid ${id.color}20` }}>
                 <div style={{ fontSize: 11, fontWeight: 800, color: id.color, letterSpacing: 0.5, marginBottom: 4 }}>{s.type.toUpperCase()}</div>
@@ -104,7 +104,7 @@ export default function CircuitPanel({ race, id, sprintRace, useUTC, onClose }) 
 
       {/* Résultats */}
       {(results.length > 0 || loadingR) && (
-        <div style={{ padding: "0 28px 20px", borderTop: `1px solid ${id.color}15` }}>
+        <div style={{ padding: "0 16px 16px", borderTop: `1px solid ${id.color}15` }}>
           <div style={{ fontSize: 11, fontWeight: 700, color: "#BBB", letterSpacing: 1.5, padding: "14px 0 10px" }}>RÉSULTATS</div>
           {loadingR && <Spinner color={id.color} />}
           {!loadingR && (
