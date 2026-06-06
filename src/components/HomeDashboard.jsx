@@ -12,7 +12,7 @@ export default function HomeDashboard({ series, onSelect }) {
   useEffect(() => {
     series.forEach(s => {
       Promise.all([
-        sb(`races?series_id=eq.${s.id}&date_start=gte.${today}&type=neq.sprint&order=date_start.asc&limit=1`),
+        sb(`races?series_id=eq.${s.id}&date_end=gte.${today}&type=neq.sprint&order=date_start.asc&limit=1`),
         sb(`standings?series_id=eq.${s.id}&type=eq.driver&season=eq.2026&order=position.asc&limit=3`)
       ]).then(([races, standing]) => {
         const nextRace = races[0] || null;
