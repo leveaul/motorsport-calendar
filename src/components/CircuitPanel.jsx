@@ -4,11 +4,27 @@ import TrackSVG from './TrackSVG';
 import Flag from './Flag';
 import Spinner from './Spinner';
 
+// Couleur par catégorie
+function catColor(cat, fallback) {
+  if (!cat) return fallback;
+  const c = cat.toLowerCase();
+  if (c.includes('hypercar') || c.includes('gtp'))    return '#0A0A40';
+  if (c.includes('lmp2'))                              return '#1A6BB5';
+  if (c.includes('lmgt3') || c.includes('gt3'))        return '#28A745';
+  if (c.includes('pro'))                               return '#8B0000';
+  if (c.includes('silver'))                            return '#888888';
+  if (c.includes('gold'))                              return '#B8860B';
+  if (c.includes('bronze'))                            return '#CD7F32';
+  return fallback;
+}
+
 export default function CircuitPanel({ race, id, sprintRace, useUTC, onClose }) {
   const [results, setResults] = useState([]);
   const [sessions, setSessions] = useState([]);
   const [sprintResults, setSprintResults] = useState([]);
   const [loadingR, setLoadingR] = useState(true);
+  const [activeRace, setActiveRace] = useState(1);   // 1 ou 2 (Sprint Cup)
+  const [activeCat, setActiveCat] = useState(null);  // catégorie active
   const [info, setInfo] = useState({
     lap_length: "--", turns: "--", laps: null, lap_record: "--",
     qual_record: null, first_year: "--", prev_winner: null,
@@ -16,13 +32,27 @@ export default function CircuitPanel({ race, id, sprintRace, useUTC, onClose }) 
   });
 
   useEffect(() => {
-    setResults([]); setSprintResults([]); setSessions([]); setLoadingR(true);
+    setResults([]); setSprintResults([]); setSessions([]);
+    setLoadingR(true); setActiveRace(1); setActiveCat(null);
     const key = race.circuit_key || null;
     if (key) sb(`circuits?key=eq.${key}&limit=1`).then(d => { if (d[0]) setInfo(i => ({ ...i, ...d[0] })); }).catch(() => {});
-    sb(`results?race_id=eq.${race.id}&order=position.asc&limit=25`).then(d => { setResults(d); setLoadingR(false); }).catch(() => setLoadingR(false));
+    sb(`results?race_id=eq.${race.id}&order=race_number.asc,position.asc&limit=50`)
+      .then(d => { setResults(d); setLoadingR(false); }).catch(() => setLoadingR(false));
     if (sprintRace?.id) sb(`results?race_id=eq.${sprintRace.id}&order=position.asc&limit=25`).then(setSprintResults).catch(() => {});
     sb(`sessions?race_id=eq.${race.id}&order=datetime_utc.asc`).then(setSessions).catch(() => {});
   }, [race.id, sprintRace?.id, race.circuit_key]);
+
+  // Grouper résultats par race_number puis par catégorie
+  const raceNumbers = [...new Set(results.map(r => r.race_number || 1))].sort();
+  const hasMultiRace = raceNumbers.length > 1;
+  const currentRaceResults = results.filter(r => (r.race_number || 1) === activeRace);
+  const categories = [...new Set(currentRaceResults.map(r => r.category).filter(Boolean))];
+  const hasCategories = categories.length > 0;
+
+  // Résultats affichés selon catégorie active
+  const displayedResults = hasCategories && activeCat
+    ? currentRaceResults.filter(r => r.category === activeCat)
+    : currentRaceResults;
 
   const stats = (() => {
     const base = [["📅", "Date", fmtRange(race.date_start, race.date_end)], ["🗓️", "Au calendrier", info.first_year]];
@@ -89,25 +119,25 @@ export default function CircuitPanel({ race, id, sprintRace, useUTC, onClose }) 
           <div style={{ fontSize: 11, fontWeight: 700, color: "#BBB", letterSpacing: 1.5, padding: "14px 0 10px" }}>PROGRAMME</div>
           <div className="programme-grid" style={{ display: "grid", gridTemplateColumns: `repeat(${Math.min(sessions.length, 6)}, 1fr)`, gap: 10 }}>
             {sessions.map((s, i) => {
-                const t = s.type.toLowerCase();
-                const isPast = new Date(s.datetime_utc) < new Date();
-                const sessionColor =
-                  t.includes('course') || t.includes('race')       ? id.color :
-                  t.includes('sprint qualif') || t.includes('shootout') ? '#FF8C00' :
-                  t.includes('sprint')                              ? '#FF6B00' :
-                  t.includes('qualif') || t.includes('hyperpole')  ? '#0077CC' :
-                  '#888888';
-                return (
-                  <div key={i} style={{ background: isPast ? '#F8F8F8' : `${sessionColor}12`, borderRadius: 10, padding: "10px 12px", border: `1.5px solid ${isPast ? '#E8E8E8' : sessionColor + '50'}`, opacity: isPast ? 0.55 : 1 }}>
-                    <div style={{ fontSize: 10, fontWeight: 800, color: sessionColor, letterSpacing: 0.5, marginBottom: 4 }}>{s.type.toUpperCase()}</div>
-                    <div style={{ fontSize: 13, fontWeight: 700, color: isPast ? '#AAA' : '#333', fontFamily: "'Barlow Condensed',sans-serif" }}>
-                      {fmtSession(s.datetime_utc, useUTC)}
-                    </div>
-                    {useUTC && <div style={{ fontSize: 10, color: "#BBB" }}>UTC</div>}
-                    {s.duration_min && <div style={{ fontSize: 10, color: "#AAA", marginTop: 2 }}>{s.duration_min} min</div>}
+              const t = s.type.toLowerCase();
+              const isPast = new Date(s.datetime_utc) < new Date();
+              const sessionColor =
+                t.includes('course') || t.includes('race')       ? id.color :
+                t.includes('sprint qualif') || t.includes('shootout') ? '#FF8C00' :
+                t.includes('sprint')                              ? '#FF6B00' :
+                t.includes('qualif') || t.includes('hyperpole')  ? '#0077CC' :
+                '#888888';
+              return (
+                <div key={i} style={{ background: isPast ? '#F8F8F8' : `${sessionColor}12`, borderRadius: 10, padding: "10px 12px", border: `1.5px solid ${isPast ? '#E8E8E8' : sessionColor + '50'}`, opacity: isPast ? 0.55 : 1 }}>
+                  <div style={{ fontSize: 10, fontWeight: 800, color: sessionColor, letterSpacing: 0.5, marginBottom: 4 }}>{s.type.toUpperCase()}</div>
+                  <div style={{ fontSize: 13, fontWeight: 700, color: isPast ? '#AAA' : '#333', fontFamily: "'Barlow Condensed',sans-serif" }}>
+                    {fmtSession(s.datetime_utc, useUTC)}
                   </div>
-                );
-              })}
+                  {useUTC && <div style={{ fontSize: 10, color: "#BBB" }}>UTC</div>}
+                  {s.duration_min && <div style={{ fontSize: 10, color: "#AAA", marginTop: 2 }}>{s.duration_min} min</div>}
+                </div>
+              );
+            })}
           </div>
         </div>
       )}
@@ -115,11 +145,41 @@ export default function CircuitPanel({ race, id, sprintRace, useUTC, onClose }) 
       {/* Résultats */}
       {(results.length > 0 || loadingR) && (
         <div style={{ padding: "0 16px 16px", borderTop: `1px solid ${id.color}15` }}>
-          <div style={{ fontSize: 11, fontWeight: 700, color: "#BBB", letterSpacing: 1.5, padding: "14px 0 10px" }}>RÉSULTATS</div>
+          {/* Onglets Race 1 / Race 2 */}
+          {hasMultiRace && (
+            <div style={{ display: "flex", gap: 8, padding: "12px 0 8px" }}>
+              {raceNumbers.map(n => (
+                <button key={n} onClick={() => { setActiveRace(n); setActiveCat(null); }}
+                  style={{ padding: "6px 16px", borderRadius: 20, border: `1.5px solid ${activeRace===n ? id.color : '#DDD'}`, background: activeRace===n ? id.color : '#fff', color: activeRace===n ? '#fff' : '#888', fontSize: 13, fontWeight: 700, cursor: "pointer", fontFamily: "inherit" }}>
+                  Race {n}
+                </button>
+              ))}
+            </div>
+          )}
+
+          {/* Onglets catégories */}
+          {hasCategories && !hasMultiRace && (
+            <div style={{ display: "flex", gap: 6, padding: "12px 0 8px", flexWrap: "wrap" }}>
+              {categories.map(cat => {
+                const cc = catColor(cat, id.color);
+                const isActive = activeCat === cat || (!activeCat && categories[0] === cat);
+                return (
+                  <button key={cat} onClick={() => setActiveCat(isActive && activeCat ? null : cat)}
+                    style={{ padding: "5px 14px", borderRadius: 20, border: `1.5px solid ${isActive ? cc : '#DDD'}`, background: isActive ? cc : '#fff', color: isActive ? '#fff' : '#888', fontSize: 12, fontWeight: 700, cursor: "pointer", fontFamily: "inherit" }}>
+                    {cat}
+                  </button>
+                );
+              })}
+              {activeCat && <button onClick={() => setActiveCat(null)} style={{ padding: "5px 14px", borderRadius: 20, border: '1.5px solid #DDD', background: '#fff', color: '#BBB', fontSize: 12, cursor: "pointer", fontFamily: "inherit" }}>Tout</button>}
+            </div>
+          )}
+
+          {!hasMultiRace && !hasCategories && <div style={{ fontSize: 11, fontWeight: 700, color: "#BBB", letterSpacing: 1.5, padding: "14px 0 10px" }}>RÉSULTATS</div>}
+
           {loadingR && <Spinner color={id.color} />}
           {!loadingR && (
             <div style={{ display: "grid", gridTemplateColumns: sprintResults.length > 0 ? "1fr 1fr" : "1fr", gap: 12 }}>
-              <ResultsList results={results} id={id} seriesId={race.series_id} label={sprintResults.length > 0 ? "COURSE" : null} />
+              <ResultsList results={displayedResults} id={id} seriesId={race.series_id} label={null} />
               {sprintResults.length > 0 && <ResultsList results={sprintResults} id={{ color: "#FF6B00", bg: "#FFF5EE", text: "#CC4400" }} seriesId={race.series_id} label="SPRINT" sprint />}
             </div>
           )}
@@ -139,7 +199,7 @@ function ResultsList({ results, id, seriesId, label, sprint }) {
             {i < 3 ? ["🥇", "🥈", "🥉"][i] : r.position}
           </div>
           <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ fontSize: 14, fontWeight: 700, color: i === 0 ? id.text : "#222", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", fontFamily: "'Barlow Condensed',sans-serif" }}>{r.driver}</div>
+            <div className="result-driver" style={{ fontSize: 14, fontWeight: 700, color: i === 0 ? id.text : "#222", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", fontFamily: "'Barlow Condensed',sans-serif" }}>{r.driver}</div>
             {r.team && <div style={{ fontSize: 10, color: "#BBB" }}>{r.team}</div>}
           </div>
           <div style={{ textAlign: "right", flexShrink: 0 }}>
