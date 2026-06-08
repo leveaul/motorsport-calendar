@@ -195,41 +195,43 @@ export default function CircuitPanel({ race, id, sprintRace, useUTC, onClose }) 
 }
 
 function ResultsList({ results, id, seriesId, label, sprint }) {
-  // Grouper par catégorie si plusieurs catégories présentes
   const cats = [...new Set(results.map(r => r.category).filter(Boolean))];
-  const showCatHeaders = cats.length > 1;
+  const showCatBadge = cats.length > 1;
+
+  // Tri global par position (résultats déjà triés par position dans la catégorie)
+  // En mode "Tout", on garde l'ordre tel que retourné par la DB (position globale)
+  const sorted = [...results].sort((a, b) => (a.position || 99) - (b.position || 99));
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
       {label && <div style={{ fontSize: 10, fontWeight: 700, color: id.color, letterSpacing: 1 }}>{label}</div>}
-      {results.map((r, i) => {
+      {sorted.map((r, i) => {
         const cc = catColor(r.category, id.color);
-        // Afficher un header de catégorie si changement de cat
-        const showCatHeader = showCatHeaders && (i === 0 || results[i-1].category !== r.category);
-        // Position dans sa catégorie (pour les médailles)
-        const catPos = showCatHeaders ? results.filter((x, j) => j < i && x.category === r.category).length : i;
-        return (<>
-          {showCatHeader && (
-            <div key={`cat-${r.category}`} style={{ display: "flex", alignItems: "center", gap: 8, marginTop: i > 0 ? 6 : 0 }}>
-              <div style={{ height: 2, flex: 1, background: `${cc}40`, borderRadius: 1 }} />
-              <div style={{ fontSize: 10, fontWeight: 800, color: cc, letterSpacing: 1, padding: "2px 10px", background: `${cc}15`, borderRadius: 20 }}>{r.category}</div>
-              <div style={{ height: 2, flex: 1, background: `${cc}40`, borderRadius: 1 }} />
+        const isFirst = i === 0;
+        return (
+          <div key={i} style={{ display: "flex", alignItems: "center", gap: 8, padding: "7px 10px", background: isFirst ? id.bg : "#fff", border: `1px solid ${isFirst ? id.color + "30" : "#F0F0F0"}`, borderRadius: 9, flexShrink: 0 }}>
+            {/* Position */}
+            <div style={{ width: 26, height: 26, borderRadius: 7, background: isFirst ? id.color : i === 1 ? "#C0C0C0" : i === 2 ? "#CD7F32" : "#F5F5F5", display: "flex", alignItems: "center", justifyContent: "center", fontSize: i < 3 ? 11 : 10, fontWeight: 800, color: i < 3 ? "#fff" : "#AAA", flexShrink: 0 }}>
+              {i < 3 ? ["🥇", "🥈", "🥉"][i] : r.position}
             </div>
-          )}
-        <div key={i} style={{ display: "flex", alignItems: "center", gap: 8, padding: "7px 10px", background: catPos === 0 ? (showCatHeaders ? `${cc}10` : id.bg) : "#fff", border: `1px solid ${catPos === 0 ? (showCatHeaders ? cc + "40" : id.color + "30") : "#F0F0F0"}`, borderRadius: 9, flexShrink: 0 }}>
-          <div style={{ width: 26, height: 26, borderRadius: 7, background: catPos === 0 ? (showCatHeaders ? cc : id.color) : catPos === 1 ? "#C0C0C0" : catPos === 2 ? "#CD7F32" : "#F5F5F5", display: "flex", alignItems: "center", justifyContent: "center", fontSize: i < 3 ? 11 : 10, fontWeight: 800, color: i < 3 ? "#fff" : "#AAA", flexShrink: 0 }}>
-            {catPos < 3 ? ["🥇", "🥈", "🥉"][catPos] : r.position}
+            {/* Pilote + équipe */}
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
+                <div className="result-driver" style={{ fontSize: 14, fontWeight: 700, color: isFirst ? id.text : "#222", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", fontFamily: "'Barlow Condensed',sans-serif" }}>{r.driver}</div>
+                {showCatBadge && r.category && (
+                  <span style={{ fontSize: 9, fontWeight: 800, color: cc, background: `${cc}15`, border: `1px solid ${cc}40`, borderRadius: 4, padding: "1px 5px", letterSpacing: 0.3, flexShrink: 0 }}>{r.category}</span>
+                )}
+              </div>
+              {r.team && <div style={{ fontSize: 10, color: "#BBB" }}>{r.team}</div>}
+            </div>
+            {/* Points / Gap */}
+            <div style={{ textAlign: "right", flexShrink: 0 }}>
+              {seriesId !== "WRC" && r.points > 0 && <div style={{ fontSize: 13, fontWeight: 800, color: id.color, fontFamily: "'Barlow Condensed',sans-serif" }}>{r.points} pts</div>}
+              {r.gap && <div style={{ fontSize: seriesId === "WRC" ? 12 : 10, color: seriesId === "WRC" ? "#555" : "#CCC", fontFamily: "'Barlow Condensed',sans-serif" }}>{r.gap}</div>}
+            </div>
           </div>
-          <div style={{ flex: 1, minWidth: 0 }}>
-            <div className="result-driver" style={{ fontSize: 14, fontWeight: 700, color: catPos === 0 ? (showCatHeaders ? cc : id.text) : "#222", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", fontFamily: "'Barlow Condensed',sans-serif" }}>{r.driver}</div>
-            {r.team && <div style={{ fontSize: 10, color: "#BBB" }}>{r.team}</div>}
-          </div>
-          <div style={{ textAlign: "right", flexShrink: 0 }}>
-            {seriesId !== "WRC" && r.points > 0 && <div style={{ fontSize: 13, fontWeight: 800, color: id.color, fontFamily: "'Barlow Condensed',sans-serif" }}>{r.points} pts</div>}
-            {r.gap && <div style={{ fontSize: seriesId === "WRC" ? 12 : 10, color: seriesId === "WRC" ? "#555" : "#CCC", fontFamily: "'Barlow Condensed',sans-serif" }}>{r.gap}</div>}
-          </div>
-        </div>
-        </>) })}
+        );
+      })}
     </div>
   );
 }
