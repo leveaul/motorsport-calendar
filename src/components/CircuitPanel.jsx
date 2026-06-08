@@ -24,7 +24,7 @@ export default function CircuitPanel({ race, id, sprintRace, useUTC, onClose }) 
   const [sprintResults, setSprintResults] = useState([]);
   const [loadingR, setLoadingR] = useState(true);
   const [activeRace, setActiveRace] = useState(1);   // 1 ou 2 (Sprint Cup)
-  const [activeCat, setActiveCat] = useState(null);  // catégorie active
+  const [activeCat, setActiveCat] = useState(null);  // null = 'Tout'
   const [info, setInfo] = useState({
     lap_length: "--", turns: "--", laps: null, lap_record: "--",
     qual_record: null, first_year: "--", prev_winner: null,
@@ -160,17 +160,22 @@ export default function CircuitPanel({ race, id, sprintRace, useUTC, onClose }) 
           {/* Onglets catégories */}
           {hasCategories && !hasMultiRace && (
             <div style={{ display: "flex", gap: 6, padding: "12px 0 8px", flexWrap: "wrap" }}>
+              {/* Onglet "Tout" */}
+              <button onClick={() => setActiveCat(null)}
+                style={{ padding: "5px 14px", borderRadius: 20, border: `1.5px solid ${!activeCat ? '#333' : '#DDD'}`, background: !activeCat ? '#333' : '#fff', color: !activeCat ? '#fff' : '#AAA', fontSize: 12, fontWeight: 700, cursor: "pointer", fontFamily: "inherit" }}>
+                Tout
+              </button>
+              {/* Onglet par catégorie */}
               {categories.map(cat => {
                 const cc = catColor(cat, id.color);
-                const isActive = activeCat === cat || (!activeCat && categories[0] === cat);
+                const isActive = activeCat === cat;
                 return (
-                  <button key={cat} onClick={() => setActiveCat(isActive && activeCat ? null : cat)}
+                  <button key={cat} onClick={() => setActiveCat(cat)}
                     style={{ padding: "5px 14px", borderRadius: 20, border: `1.5px solid ${isActive ? cc : '#DDD'}`, background: isActive ? cc : '#fff', color: isActive ? '#fff' : '#888', fontSize: 12, fontWeight: 700, cursor: "pointer", fontFamily: "inherit" }}>
                     {cat}
                   </button>
                 );
               })}
-              {activeCat && <button onClick={() => setActiveCat(null)} style={{ padding: "5px 14px", borderRadius: 20, border: '1.5px solid #DDD', background: '#fff', color: '#BBB', fontSize: 12, cursor: "pointer", fontFamily: "inherit" }}>Tout</button>}
             </div>
           )}
 
