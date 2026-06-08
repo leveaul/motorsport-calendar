@@ -200,7 +200,13 @@ function ResultsList({ results, id, seriesId, label, sprint }) {
 
   // Tri global par position (résultats déjà triés par position dans la catégorie)
   // En mode "Tout", on garde l'ordre tel que retourné par la DB (position globale)
-  const sorted = [...results].sort((a, b) => (a.position || 99) - (b.position || 99));
+  const CAT_ORDER = ['Hypercar','GTP','LMP2','LMP3','Pro','Gold','Silver','Bronze','LMGT3','GT3'];
+  const catRank = cat => { const i = CAT_ORDER.indexOf(cat); return i === -1 ? 99 : i; };
+  const sorted = [...results].sort((a, b) => {
+    const cd = catRank(a.category) - catRank(b.category);
+    if (cd !== 0) return cd;
+    return (a.position || 99) - (b.position || 99);
+  });
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
@@ -208,11 +214,15 @@ function ResultsList({ results, id, seriesId, label, sprint }) {
       {sorted.map((r, i) => {
         const cc = catColor(r.category, id.color);
         const isFirst = i === 0;
+        // Position dans la catégorie pour les médailles
+        const catPos = showCatBadge
+          ? sorted.filter((x, j) => j < i && x.category === r.category).length
+          : i;
         return (
           <div key={i} style={{ display: "flex", alignItems: "center", gap: 8, padding: "7px 10px", background: isFirst ? id.bg : "#fff", border: `1px solid ${isFirst ? id.color + "30" : "#F0F0F0"}`, borderRadius: 9, flexShrink: 0 }}>
             {/* Position */}
-            <div style={{ width: 26, height: 26, borderRadius: 7, background: isFirst ? id.color : i === 1 ? "#C0C0C0" : i === 2 ? "#CD7F32" : "#F5F5F5", display: "flex", alignItems: "center", justifyContent: "center", fontSize: i < 3 ? 11 : 10, fontWeight: 800, color: i < 3 ? "#fff" : "#AAA", flexShrink: 0 }}>
-              {i < 3 ? ["🥇", "🥈", "🥉"][i] : r.position}
+            <div style={{ width: 26, height: 26, borderRadius: 7, background: catPos === 0 ? (showCatBadge ? catColor(r.category, id.color) : id.color) : catPos === 1 ? "#C0C0C0" : catPos === 2 ? "#CD7F32" : "#F5F5F5", display: "flex", alignItems: "center", justifyContent: "center", fontSize: i < 3 ? 11 : 10, fontWeight: 800, color: i < 3 ? "#fff" : "#AAA", flexShrink: 0 }}>
+              {catPos < 3 ? ["🥇", "🥈", "🥉"][catPos] : r.position}
             </div>
             {/* Pilote + équipe */}
             <div style={{ flex: 1, minWidth: 0 }}>
