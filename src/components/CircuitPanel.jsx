@@ -88,16 +88,26 @@ export default function CircuitPanel({ race, id, sprintRace, useUTC, onClose }) 
         <div style={{ padding: "0 16px 14px", borderTop: `1px solid ${id.color}15` }}>
           <div style={{ fontSize: 11, fontWeight: 700, color: "#BBB", letterSpacing: 1.5, padding: "14px 0 10px" }}>PROGRAMME</div>
           <div className="programme-grid" style={{ display: "grid", gridTemplateColumns: `repeat(${Math.min(sessions.length, 6)}, 1fr)`, gap: 10 }}>
-            {sessions.map((s, i) => (
-              <div key={i} style={{ background: `${id.color}08`, borderRadius: 10, padding: "10px 12px", border: `1px solid ${id.color}20` }}>
-                <div style={{ fontSize: 11, fontWeight: 800, color: id.color, letterSpacing: 0.5, marginBottom: 4 }}>{s.type.toUpperCase()}</div>
-                <div style={{ fontSize: 13, fontWeight: 700, color: "#333", fontFamily: "'Barlow Condensed',sans-serif" }}>
-                  {fmtSession(s.datetime_utc, useUTC)}
-                </div>
-                {useUTC && <div style={{ fontSize: 10, color: "#BBB" }}>UTC</div>}
-                {s.duration_min && <div style={{ fontSize: 10, color: "#AAA", marginTop: 2 }}>{s.duration_min} min</div>}
-              </div>
-            ))}
+            {sessions.map((s, i) => {
+                const t = s.type.toLowerCase();
+                const isPast = new Date(s.datetime_utc) < new Date();
+                const sessionColor =
+                  t.includes('course') || t.includes('race')       ? id.color :
+                  t.includes('sprint qualif') || t.includes('shootout') ? '#FF8C00' :
+                  t.includes('sprint')                              ? '#FF6B00' :
+                  t.includes('qualif') || t.includes('hyperpole')  ? '#0077CC' :
+                  '#888888';
+                return (
+                  <div key={i} style={{ background: isPast ? '#F8F8F8' : `${sessionColor}12`, borderRadius: 10, padding: "10px 12px", border: `1.5px solid ${isPast ? '#E8E8E8' : sessionColor + '50'}`, opacity: isPast ? 0.55 : 1 }}>
+                    <div style={{ fontSize: 10, fontWeight: 800, color: sessionColor, letterSpacing: 0.5, marginBottom: 4 }}>{s.type.toUpperCase()}</div>
+                    <div style={{ fontSize: 13, fontWeight: 700, color: isPast ? '#AAA' : '#333', fontFamily: "'Barlow Condensed',sans-serif" }}>
+                      {fmtSession(s.datetime_utc, useUTC)}
+                    </div>
+                    {useUTC && <div style={{ fontSize: 10, color: "#BBB" }}>UTC</div>}
+                    {s.duration_min && <div style={{ fontSize: 10, color: "#AAA", marginTop: 2 }}>{s.duration_min} min</div>}
+                  </div>
+                );
+              })}
           </div>
         </div>
       )}
