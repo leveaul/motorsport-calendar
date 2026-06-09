@@ -117,28 +117,31 @@ export default function CircuitPanel({ race, id, sprintRace, useUTC, onClose }) 
       {sessions.length > 0 && (
         <div style={{ padding: "0 16px 14px", borderTop: `1px solid ${id.color}15` }}>
           <div style={{ fontSize: 11, fontWeight: 700, color: "#BBB", letterSpacing: 1.5, padding: "14px 0 10px" }}>PROGRAMME</div>
-          <div className="programme-grid" style={{ display: "grid", gridTemplateColumns: `repeat(${Math.min(sessions.length, 6)}, 1fr)`, gap: 10 }}>
-            {sessions.map((s, i) => {
-              const t = s.type.toLowerCase();
-              const isPast = new Date(s.datetime_utc) < new Date();
-              const sessionColor =
-                t.includes('course') || t.includes('race')       ? id.color :
-                t.includes('sprint qualif') || t.includes('shootout') ? '#FF8C00' :
-                t.includes('sprint')                              ? '#FF6B00' :
-                t.includes('qualif') || t.includes('hyperpole')  ? '#0077CC' :
-                '#888888';
-              return (
-                <div key={i} style={{ background: isPast ? '#F8F8F8' : `${sessionColor}12`, borderRadius: 10, padding: "10px 12px", border: `1.5px solid ${isPast ? '#E8E8E8' : sessionColor + '50'}`, opacity: isPast ? 0.55 : 1 }}>
-                  <div style={{ fontSize: 10, fontWeight: 800, color: sessionColor, letterSpacing: 0.5, marginBottom: 4 }}>{s.type.toUpperCase()}</div>
-                  <div style={{ fontSize: 13, fontWeight: 700, color: isPast ? '#AAA' : '#333', fontFamily: "'Barlow Condensed',sans-serif" }}>
-                    {fmtSession(s.datetime_utc, useUTC)}
-                  </div>
-                  {useUTC && <div style={{ fontSize: 10, color: "#BBB" }}>UTC</div>}
-                  {s.duration_min && <div style={{ fontSize: 10, color: "#AAA", marginTop: 2 }}>{s.duration_min} min</div>}
-                </div>
-              );
-            })}
-          </div>
+          {race.series_id === 'WRC'
+            ? <WRCSessionList sessions={sessions} id={id} useUTC={useUTC} />
+            : <div className="programme-grid" style={{ display: "grid", gridTemplateColumns: `repeat(${Math.min(sessions.length, 6)}, 1fr)`, gap: 10 }}>
+                {sessions.map((s, i) => {
+                  const t = s.type.toLowerCase();
+                  const isPast = new Date(s.datetime_utc) < new Date();
+                  const sessionColor =
+                    t.includes('course') || t.includes('race')       ? id.color :
+                    t.includes('sprint qualif') || t.includes('shootout') ? '#FF8C00' :
+                    t.includes('sprint')                              ? '#FF6B00' :
+                    t.includes('qualif') || t.includes('hyperpole')  ? '#0077CC' :
+                    '#888888';
+                  return (
+                    <div key={i} style={{ background: isPast ? '#F8F8F8' : `${sessionColor}12`, borderRadius: 10, padding: "10px 12px", border: `1.5px solid ${isPast ? '#E8E8E8' : sessionColor + '50'}`, opacity: isPast ? 0.55 : 1 }}>
+                      <div style={{ fontSize: 10, fontWeight: 800, color: sessionColor, letterSpacing: 0.5, marginBottom: 4 }}>{s.type.toUpperCase()}</div>
+                      <div style={{ fontSize: 13, fontWeight: 700, color: isPast ? '#AAA' : '#333', fontFamily: "'Barlow Condensed',sans-serif" }}>
+                        {fmtSession(s.datetime_utc, useUTC)}
+                      </div>
+                      {useUTC && <div style={{ fontSize: 10, color: "#BBB" }}>UTC</div>}
+                      {s.duration_min && <div style={{ fontSize: 10, color: "#AAA", marginTop: 2 }}>{s.duration_min} min</div>}
+                    </div>
+                  );
+                })}
+              </div>
+          }
         </div>
       )}
 
@@ -193,6 +196,53 @@ export default function CircuitPanel({ race, id, sprintRace, useUTC, onClose }) 
     </div>
   );
 }
+
+function WRCSessionList({ sessions, id, useUTC }) {
+  // Grouper par jour
+  const byDay = sessions.reduce((acc, s) => {
+    const d = new Date(s.datetime_utc);
+    const dayKey = d.toLocaleDateString('fr-FR', { weekday:'long', day:'numeric', month:'long', timeZone: useUTC ? 'UTC' : undefined });
+    if (!acc[dayKey]) acc[dayKey] = [];
+    acc[dayKey].push(s);
+    return acc;
+  }, {});
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+      {Object.entries(byDay).map(([day, daySessions]) => (
+        <div key={day}>
+          <div style={{ fontSize: 10, fontWeight: 800, color: id.color, letterSpacing: 1, textTransform: 'uppercase', marginBottom: 6 }}>{day}</div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+            {daySessions.map((s, i) => {
+              const t = s.type.toLowerCase();
+              const isPast = new Date(s.datetime_utc) < new Date();
+              const isPS = t.includes('power stage');
+              const isSS = t.startsWith('ss');
+              const isShake = t.includes('shakedown');
+              const sessionColor = isPS ? id.color : isSS ? '#666' : isShake ? '#888' : '#444';
+              // Extraire SS num + nom + km depuis le type "SS1 - Nom (21.9 km)"
+              const ssMatch = s.type.match(/^(SS\d+|Shakedown[^-]*)\s*[-–]?\s*(.+?)(?:\s*\(([^)]+)\))?$/i);
+              const ssLabel  = ssMatch ? ssMatch[1] : s.type;
+              const ssName   = ssMatch ? ssMatch[2] || '' : '';
+              const ssDist   = ssMatch ? ssMatch[3] || '' : '';
+              return (
+                <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, padding: "7px 12px", background: isPast ? '#F8F8F8' : isPS ? `${id.color}10` : '#fff', border: `1px solid ${isPast ? '#EFEFEF' : isPS ? id.color+'40' : '#EFEFEF'}`, borderRadius: 8, opacity: isPast ? 0.6 : 1 }}>
+                  <div style={{ fontSize: 11, fontWeight: 800, color: sessionColor, minWidth: 38, letterSpacing: 0.3 }}>{ssLabel}</div>
+                  {ssName && <div style={{ flex: 1, fontSize: 13, fontWeight: 600, color: isPast ? '#AAA' : '#333', fontFamily: "'Barlow Condensed',sans-serif", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{ssName}</div>}
+                  {ssDist && <div style={{ fontSize: 11, color: "#AAA", flexShrink: 0 }}>{ssDist}</div>}
+                  <div style={{ fontSize: 12, fontWeight: 700, color: isPast ? '#CCC' : '#666', flexShrink: 0, fontFamily: "'Barlow Condensed',sans-serif" }}>
+                    {fmtSession(s.datetime_utc, useUTC)}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 
 function ResultsList({ results, id, seriesId, label, sprint, activeCat }) {
   const cats = [...new Set(results.map(r => r.category).filter(Boolean))];
