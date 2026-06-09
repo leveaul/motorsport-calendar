@@ -202,7 +202,11 @@ function ResultsList({ results, id, seriesId, label, sprint }) {
   // En mode "Tout", on garde l'ordre tel que retourné par la DB (position globale)
   const CAT_ORDER = ['Hypercar','GTP','LMP2','LMP3','Pro','Gold','Silver','Bronze','LMGT3','GT3'];
   const catRank = cat => { const i = CAT_ORDER.indexOf(cat); return i === -1 ? 99 : i; };
+  const hasOverall = results.some(r => r.overall_position != null);
   const sorted = [...results].sort((a, b) => {
+    // Si overall_position disponible → tri global réel
+    if (hasOverall) return (a.overall_position || 99) - (b.overall_position || 99);
+    // Sinon → tri par catégorie puis position dans la catégorie
     const cd = catRank(a.category) - catRank(b.category);
     if (cd !== 0) return cd;
     return (a.position || 99) - (b.position || 99);
