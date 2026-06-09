@@ -204,9 +204,9 @@ function ResultsList({ results, id, seriesId, label, sprint }) {
   const catRank = cat => { const i = CAT_ORDER.indexOf(cat); return i === -1 ? 99 : i; };
   const hasOverall = results.some(r => r.overall_position != null);
   const sorted = [...results].sort((a, b) => {
-    // Si overall_position disponible → tri global réel
-    if (hasOverall) return (a.overall_position || 99) - (b.overall_position || 99);
-    // Sinon → tri par catégorie puis position dans la catégorie
+    // Vue "Tout" avec overall_position → tri global réel
+    if (!activeCat && hasOverall) return (a.overall_position || 99) - (b.overall_position || 99);
+    // Vue filtrée par catégorie OU pas d'overall_position → tri par position dans la catégorie
     const cd = catRank(a.category) - catRank(b.category);
     if (cd !== 0) return cd;
     return (a.position || 99) - (b.position || 99);
