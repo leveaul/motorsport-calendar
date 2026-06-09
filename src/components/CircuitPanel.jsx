@@ -184,7 +184,7 @@ export default function CircuitPanel({ race, id, sprintRace, useUTC, onClose }) 
           {loadingR && <Spinner color={id.color} />}
           {!loadingR && (
             <div style={{ display: "grid", gridTemplateColumns: sprintResults.length > 0 ? "1fr 1fr" : "1fr", gap: 12 }}>
-              <ResultsList results={displayedResults} id={id} seriesId={race.series_id} label={null} />
+              <ResultsList results={displayedResults} id={id} seriesId={race.series_id} label={null} activeCat={activeCat} />
               {sprintResults.length > 0 && <ResultsList results={sprintResults} id={{ color: "#FF6B00", bg: "#FFF5EE", text: "#CC4400" }} seriesId={race.series_id} label="SPRINT" sprint />}
             </div>
           )}
@@ -194,7 +194,7 @@ export default function CircuitPanel({ race, id, sprintRace, useUTC, onClose }) 
   );
 }
 
-function ResultsList({ results, id, seriesId, label, sprint }) {
+function ResultsList({ results, id, seriesId, label, sprint, activeCat }) {
   const cats = [...new Set(results.map(r => r.category).filter(Boolean))];
   const showCatBadge = cats.length > 1;
 
